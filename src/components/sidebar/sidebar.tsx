@@ -1,0 +1,96 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
+import { PiFilmSlateFill } from 'react-icons/pi';
+import { useEffect } from 'react';
+import { FaHeart } from 'react-icons/fa';
+type TSidebarProps = {
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    useEffect(() => {
+        setIsSidebarOpen(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.pathname]);
+
+    return (
+        <div
+            className={`${
+                isSidebarOpen && 'w-full'
+            } absolute top-0 flex h-full min-[1080px]:w-[200px] min-[1080px]:relative`}
+        >
+            <nav
+                className={`flex flex-col w-[200px] max-[1080px]:pt-[100px] justify-between bg-[#131313] p-4 h-full z-9 transition-transform duration-300 ease-in-out 
+                ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+                min-[1080px]:relative min-[1080px]:translate-x-0 min-[1080px]:flex`}
+            >
+                <div className="flex flex-col gap-[10px]">
+                    <div
+                        onClick={() => {
+                            navigate('/search');
+                            setIsSidebarOpen(false);
+                        }}
+                        className={`flex items-center gap-[10px]  text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
+                            ${
+                                location.pathname === '/search'
+                                    ? 'text-[#FF1E9D]'
+                                    : 'text-white'
+                            }`}
+                    >
+                        <FaSearch /> 찾기
+                    </div>
+                    <div
+                        onClick={() => {
+                            navigate('/category');
+                            setIsSidebarOpen(false);
+                        }}
+                        className={`flex items-center gap-[10px]  text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
+                            ${
+                                location.pathname === '/category'
+                                    ? 'text-[#FF1E9D]'
+                                    : 'text-white'
+                            }`}
+                    >
+                        <PiFilmSlateFill /> 카테고리
+                    </div>
+                    <div
+                        onClick={() => {
+                            navigate('/favorite');
+                            setIsSidebarOpen(false);
+                        }}
+                        className={`flex items-center gap-[10px] text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
+                            ${
+                                location.pathname === '/favorite'
+                                    ? 'text-[#FF1E9D]'
+                                    : 'text-white'
+                            }`}
+                    >
+                        <FaHeart /> 관심 영화
+                    </div>
+                </div>
+
+                <div
+                    onClick={() => {
+                        navigate('/addMovie');
+                        setIsSidebarOpen(false);
+                    }}
+                    className={`flex text-center pt-[5px] pb-[5px] rounded-[5px] mb-[20px] justify-center pl-[7px] pr-[7px] gap-[10px] text-white text-[15px] mt-[10px] ml-[20px] w-[100px] bg-[#FF1E9D] hover:text-black hover:bg-[white] hover:cursor-pointer`}
+                >
+                    영화 등록하기
+                </div>
+            </nav>
+
+            {isSidebarOpen && (
+                <div
+                    className="w-screen h-screen z-8 bg-black/50 min-[1080px]:hidden absolute"
+                    onClick={() => setIsSidebarOpen(false)}
+                ></div>
+            )}
+        </div>
+    );
+};
+
+export default Sidebar;
