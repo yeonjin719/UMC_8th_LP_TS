@@ -8,8 +8,11 @@ const axiosMovieInstance = axios.create({
     },
     baseURL: import.meta.env.VITE_MOVIE_API_URL,
 });
-
+const accessToken = localStorage.getItem('accessToken');
 const axiosUserInstance = axios.create({
+    headers: {
+        Authorization: `Bearer ${accessToken}`,
+    },
     baseURL: import.meta.env.VITE_USER_API_URL,
 });
 let isRedirecting = false;

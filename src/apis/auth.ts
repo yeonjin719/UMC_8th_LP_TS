@@ -53,9 +53,14 @@ const Signup = async ({
     return data;
 };
 
+const GoogleLogin = async () => {
+    const { data } = await axiosUserInstance.get('/v1/auth/google/login');
+    return data;
+};
+
 const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
     const { data } = await axiosUserInstance.post<TRefreshResponse>(
-        '/auth/token/access',
+        '/v1/auth/refresh',
         {},
         {
             headers: {
@@ -66,4 +71,20 @@ const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
     return data;
 };
 
-export { Login, Signup, Refresh };
+const Logout = async (accessToken: string) => {
+    const { data } = await axiosUserInstance.post(
+        '/v1/auth/signout',
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+const Withdraw = async (id: number) => {
+    const { data } = await axiosUserInstance.delete(`/v1/users/${id}`);
+    return data;
+};
+export { Login, Signup, Withdraw, GoogleLogin, Refresh, Logout };

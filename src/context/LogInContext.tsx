@@ -9,11 +9,15 @@ import {
 interface IAuthContextValue {
     isLogin: boolean;
     setIsLogin: (isLogin: boolean) => void;
+    nickname: string;
+    setNickname: (nickname: string) => void;
 }
 
 const AuthContext = createContext<IAuthContextValue>({
     isLogin: false,
     setIsLogin: () => {},
+    nickname: '',
+    setNickname: () => {},
 });
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -21,12 +25,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         return localStorage.getItem('isLogin') === 'true';
     });
 
+    const [nickname, setNickname] = useState('');
+
     useEffect(() => {
         localStorage.setItem('isLogin', String(isLogin));
     }, [isLogin]);
 
     return (
-        <AuthContext.Provider value={{ isLogin, setIsLogin }}>
+        <AuthContext.Provider
+            value={{ isLogin, setIsLogin, nickname, setNickname }}
+        >
             {children}
         </AuthContext.Provider>
     );

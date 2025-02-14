@@ -1,13 +1,14 @@
 import { FaSearch } from 'react-icons/fa';
 import { FaXmark } from 'react-icons/fa6';
 import { CiMenuBurger } from 'react-icons/ci';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../context/LogInContext';
-import useGetMyInfo from '../../hooks/queries/useGetMyInfo';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, openModal, selectModal } from '../../slices/modalSlice';
 import { MODAL_TYPES } from '../modal/modalProvider';
+import useAuth from '../../hooks/queries/useAuth';
+import useUserInfo from '../../hooks/queries/useUserInfo';
 
 type TNavbarProps = {
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,44 +16,33 @@ type TNavbarProps = {
     setIsSearchBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSearchBoxOpen: boolean;
 };
-type TUserData = {
-    email: string;
-    id: string;
-};
+
 const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { isOpen, modalType } = useSelector(selectModal);
 
-    const [userData, setUserData] = useState<TUserData | null>(null);
-    const { isLogin, setIsLogin } = useAuthContext();
-    const accessToken = localStorage.getItem('accessToken');
+    const { setIsLogin } = useAuthContext();
+    const accessToken = localStorage.getItem('accessToken') || '';
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const { data, refetch } = useGetMyInfo(accessToken);
-
-    useEffect(() => {
-        if (isLogin) {
-            refetch();
-        }
-    }, [isLogin, refetch]);
-
-    useEffect(() => {
-        if (data) {
-            setUserData({ email: data.email, id: data.id });
-        }
-    }, [data, isLogin]);
-
-    const logout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        setIsLogin(false);
-        window.location.reload();
-    };
+    const { useLogout } = useAuth();
+    const { mutate: logoutMutate } = useLogout;
+    const { useGetMyInfo } = useUserInfo(accessToken);
+    const { data: userData } = useGetMyInfo;
 
     const handleLogout = () => {
-        logout();
-        localStorage.removeItem('isLogin');
+        logoutMutate(accessToken, {
+            onSuccess: () => {
+                localStorage.removeItem('isLogin');
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                setIsLogin(false);
+                alert('로그아웃 되었습니다');
+            },
+            onError: () => {
+                alert('로그아웃 과정에서 에러가 발생했습니다');
+            },
+        });
     };
 
     const handleModalOpen = () => {
@@ -65,7 +55,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
 
     return (
         <nav
-            className={`flex min-h-[80px] items-center px-[20px] sticky z-[10] w-[calc(100vw-40px)] bg-[#131313]`}
+            className={`flex min-h-[80px] items-center px-[20px] sticky z-[10] w-full bg-[#131313]`}
         >
             <CiMenuBurger
                 size={20}
@@ -97,12 +87,15 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
 
                 {userData ? (
                     <>
-                        <div className="text-white text-[15px] flex items-center">
-                            {userData.email.split('@')[0]}님 반갑습니다.
+                        <div
+                            className="text-white text-[15px] flex items-center"
+                            onClick={() => navigate('/mypage')}
+                        >
+                            {userData.name}님 반갑습니다.
                         </div>
                         <button
                             onClick={handleLogout}
-                            className="flex items-center justify-center text-white text-[15px] border-none bg-black rounded-[5px] w-[70px] h-[30px] hover:bg-white hover:text-black"
+                            className="flex items-center justify-center text-white text-[15px] border-none bg-[#131313] rounded-[5px] w-[70px] h-[30px] hover:bg-white hover:text-black"
                         >
                             로그아웃
                         </button>
@@ -111,7 +104,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                     <>
                         <div
                             onClick={() => navigate('/login')}
-                            className="flex items-center justify-center text-white text-[15px] border-none bg-black rounded-[5px] w-[70px] h-[30px] hover:bg-white hover:text-black"
+                            className="flex items-center justify-center text-white text-[15px] border-none bg-[#131313] rounded-[5px] w-[70px] h-[30px] hover:bg-white hover:text-black"
                         >
                             로그인
                         </div>

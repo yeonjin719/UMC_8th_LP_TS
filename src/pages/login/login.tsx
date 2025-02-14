@@ -13,7 +13,7 @@ type TLoginForm = {
 
 const LogIn = () => {
     const navigate = useNavigate();
-    const { setIsLogin } = useAuthContext();
+    const { setIsLogin, setNickname } = useAuthContext();
     const { useLogin } = useAuth();
     const { mutate: loginMutate, isPending } = useLogin;
 
@@ -33,6 +33,7 @@ const LogIn = () => {
                 localStorage.setItem('refreshToken', refreshToken);
                 localStorage.setItem('accessToken', accessToken);
                 setIsLogin(true);
+                setNickname(data.name);
                 console.log('로그인 성공');
                 navigate('/');
             },
@@ -86,6 +87,7 @@ const LogIn = () => {
                 <button
                     type="button"
                     className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[12px] relative"
+                    onClick={() => navigate('/loginRedirect')}
                 >
                     <img
                         src={googleLogo}

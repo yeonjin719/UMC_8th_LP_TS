@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaXmark } from 'react-icons/fa6';
 
 import { FaSearch } from 'react-icons/fa';
-import Portal from '../../components/portal/portal';
+import Portal from '../portal/portal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addSearchRecord,
@@ -11,10 +11,10 @@ import {
     removeSearchRecord,
     selectSearch,
 } from '../../slices/searchSlice';
-type TSearchBoxProps = {
+type TSearchModalProps = {
     onClose: () => void;
 };
-const SearchBox = ({ onClose }: TSearchBoxProps) => {
+const SearchModal = ({ onClose }: TSearchModalProps) => {
     const urlParams = new URLSearchParams(location.search);
     const keyword = urlParams.get('keyword') || '';
     const initialValue = keyword;
@@ -122,7 +122,7 @@ const SearchBox = ({ onClose }: TSearchBoxProps) => {
                     </div>
 
                     <div
-                        className="absolute w-screen h-full bg-black/50 z-6 left-0 top-0"
+                        className="absolute w-screen h-full bg-black opacity-10 z-6 left-0 top-0"
                         onClick={onClose}
                     ></div>
                 </div>
@@ -131,4 +131,4 @@ const SearchBox = ({ onClose }: TSearchBoxProps) => {
     );
 };
 
-export default SearchBox;
+export default SearchModal;

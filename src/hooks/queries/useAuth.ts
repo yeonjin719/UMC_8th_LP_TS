@@ -1,8 +1,11 @@
-import { Login, Signup } from '../../apis/auth';
-import { useCoreMutation } from '../common/customQuery';
+import { GoogleLogin, Login, Logout, Signup, Withdraw } from '../../apis/auth';
+import { useCoreMutation, useCoreQuery } from '../common/customQuery';
 
 export default function useAuth() {
     const useSignup = useCoreMutation(Signup);
     const useLogin = useCoreMutation(Login);
-    return { useSignup, useLogin };
+    const useGoogleLogin = useCoreQuery(['googleAuth'], () => GoogleLogin);
+    const useLogout = useCoreMutation(Logout);
+    const useWithdraw = useCoreMutation(Withdraw);
+    return { useSignup, useWithdraw, useLogout, useLogin, useGoogleLogin };
 }
