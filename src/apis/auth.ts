@@ -8,11 +8,16 @@ type TLogin = {
 type TSignup = {
     email: string;
     password: string;
-    passwordCheck: string;
+    name: string;
+    role: string;
+    profileImageUrl: string | null;
 };
 type TLoginResponse = {
     accessToken: string;
     refreshToken: string;
+    id: number;
+    name: string;
+    role: string;
 };
 
 type TSignupResponse = {
@@ -28,7 +33,7 @@ type TRefreshResponse = {
 
 const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
     const { data } = await axiosUserInstance.post<TLoginResponse>(
-        '/auth/login',
+        '/v1/auth/signin',
         { email, password }
     );
     return data;
@@ -37,11 +42,13 @@ const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
 const Signup = async ({
     email,
     password,
-    passwordCheck,
+    name,
+    profileImageUrl,
+    role,
 }: TSignup): Promise<TSignupResponse> => {
     const { data } = await axiosUserInstance.post<TSignupResponse>(
-        '/auth/register',
-        { email, password, passwordCheck }
+        '/v1/auth/signup',
+        { email, password, name, role, profileImageUrl }
     );
     return data;
 };
