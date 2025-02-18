@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useUserInfo from '../../hooks/queries/useUserInfo';
 import defaultImage from '../../images/default_profile.png';
-import LikeMovies from '../../components/likeMovies/likeMovies';
+import LikeLps from '../../components/likeLps/likeLps';
 import MadeByMeMovies from '../../components/madeByMeMovies/madeByMeMovies';
 function MyPage() {
     const accessToken = localStorage.getItem('accessToken') || '';
@@ -31,7 +31,7 @@ function MyPage() {
                         info === 0 ? 'underline' : ''
                     } text-white bg-black py-2 px-4 text-[17px]`}
                 >
-                    내가 좋아요 한 영화
+                    내가 좋아요 한 LP
                 </button>
                 <button
                     onClick={() => setInfo(1)}
@@ -39,10 +39,10 @@ function MyPage() {
                         info === 1 ? 'underline' : ''
                     } text-white bg-black py-2 px-4 text-[17px]`}
                 >
-                    내가 만든 영화
+                    내가 북마크 한 LP
                 </button>
             </div>
-            {info === 0 ? <LikeMovies /> : <MadeByMeMovies />}
+            {info === 0 ? <LikeLps /> : <MadeByMeMovies />}
         </div>
     );
 }

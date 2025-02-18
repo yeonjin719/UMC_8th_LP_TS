@@ -2,12 +2,6 @@ import axios from 'axios';
 import { Refresh } from '../apis/auth';
 import { queryClient } from '../main';
 
-const axiosMovieInstance = axios.create({
-    headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
-    },
-    baseURL: import.meta.env.VITE_MOVIE_API_URL,
-});
 const accessToken = localStorage.getItem('accessToken');
 const axiosUserInstance = axios.create({
     headers: {
@@ -53,4 +47,4 @@ axiosUserInstance.interceptors.response.use(
     }
 );
 
-export { axiosMovieInstance, axiosUserInstance };
+export { axiosUserInstance };

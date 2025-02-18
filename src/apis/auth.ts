@@ -31,6 +31,12 @@ type TRefreshResponse = {
     accessToken: string;
 };
 
+type TGoogleLoginResponse = {
+    isSuccess: boolean;
+    code: string;
+    message: string;
+};
+
 const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
     const { data } = await axiosUserInstance.post<TLoginResponse>(
         '/v1/auth/signin',
@@ -53,7 +59,7 @@ const Signup = async ({
     return data;
 };
 
-const GoogleLogin = async () => {
+const GoogleLogin = async (): Promise<TGoogleLoginResponse> => {
     const { data } = await axiosUserInstance.get('/v1/auth/google/login');
     return data;
 };

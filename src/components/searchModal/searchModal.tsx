@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaXmark } from 'react-icons/fa6';
-
+import { IoIosArrowDown } from 'react-icons/io';
 import { FaSearch } from 'react-icons/fa';
 import Portal from '../portal/portal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,25 +14,52 @@ import {
 type TSearchModalProps = {
     onClose: () => void;
 };
+
+enum TSearchEnum {
+    TITLE = '제목',
+    TAG = '태그',
+}
+const englishType = {
+    [TSearchEnum.TITLE]: 'title',
+    [TSearchEnum.TAG]: 'tag',
+} as const;
+
 const SearchModal = ({ onClose }: TSearchModalProps) => {
-    const urlParams = new URLSearchParams(location.search);
-    const keyword = urlParams.get('keyword') || '';
+    const location = useLocation();
+    const searchParams = useMemo(
+        () => new URLSearchParams(location.search),
+        [location.search]
+    );
+    const keyword = searchParams.get('keyword') || '';
     const initialValue = keyword;
+    const type = localStorage.getItem('type') || TSearchEnum.TITLE;
     const [searchValue, setSearchValue] = useState(initialValue);
+    const [toggleOpen, setToggleOpen] = useState(false);
+    const [searchType, setSearchType] = useState<TSearchEnum>(
+        type as TSearchEnum
+    );
     const { searchRecord } = useSelector(selectSearch);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     useEffect(() => {
+        const type = englishType[searchType];
+        if (type === 'title') {
+            localStorage.setItem('type', '제목');
+        } else {
+            localStorage.setItem('type', '태그');
+        }
+
         const handler = setTimeout(() => {
             if (!searchValue.trim() || keyword === searchValue) return;
-            navigate(`/search?keyword=${searchValue}`);
+            navigate(`/search/?type=${type}&keyword=${searchValue}`);
             dispatch(addSearchRecord(searchValue));
         }, 1500);
 
         return () => {
             clearTimeout(handler);
         };
-    }, [searchValue, navigate, keyword, dispatch]);
+    }, [searchValue, navigate, keyword, searchType, dispatch]);
 
     const onChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
@@ -40,7 +67,9 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
 
     const handleSearchMovie = () => {
         if (keyword === searchValue) return;
-        navigate(`/search?keyword=${searchValue}`);
+        const type = englishType[searchType];
+        localStorage.setItem('type', searchType);
+        navigate(`/search?type=${type}&keyword=${searchValue}`);
         onClose();
     };
 
@@ -75,6 +104,48 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
                                 type="text"
                                 autoFocus
                             ></input>
+                            <div
+                                onClick={() => setToggleOpen(!toggleOpen)}
+                                className="text-white flex ml-[5px] relative self-end items-center w-[100px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]"
+                            >
+                                {searchType}
+                                <IoIosArrowDown
+                                    color="white"
+                                    className="absolute right-[4px]"
+                                />
+                                {toggleOpen && (
+                                    <div className="absolute top-[30px]">
+                                        <div
+                                            onClick={() =>
+                                                setSearchType(TSearchEnum.TITLE)
+                                            }
+                                            className={`bg-black w-[80px] justify-center flex items-center
+                                            ${
+                                                searchType === '제목'
+                                                    ? 'bg-pink-500'
+                                                    : 'bg-black'
+                                            }
+                                            `}
+                                        >
+                                            제목
+                                        </div>
+                                        <div
+                                            onClick={() =>
+                                                setSearchType(TSearchEnum.TAG)
+                                            }
+                                            className={`bg-black w-[80px] justify-center flex items-center
+                                            ${
+                                                searchType === '태그'
+                                                    ? 'bg-pink-500'
+                                                    : 'bg-black'
+                                            }
+                                            `}
+                                        >
+                                            태그
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="w-[50%] flex-1 pt-[20px]">
                             <div className="flex pb-[10px] gap-[10px] items-end">

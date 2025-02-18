@@ -1,25 +1,28 @@
-import MovieCard from '../../components/movieCard/movieCard';
-import Error from '../../components/error/error';
-import { TMovieSingleResponse } from '../../apis/movie';
-import useGetSearchMovies from '../../hooks/queries/useGetSearchMovies';
+// import Error from '../../components/error/error';
+
 import { FaSearch } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal, selectModal } from '../../slices/modalSlice';
-import CardListSkeleton from '../../components/movieCard/Skeleton/card-list-skeleton';
+
 import { MODAL_TYPES } from '../../components/modal/modalProvider';
+import { useLocation } from 'react-router-dom';
+import { useMemo } from 'react';
 
 const Search = () => {
-    const urlParams = new URLSearchParams(location.search);
-    const keyword = urlParams.get('keyword') || '';
-
+    const location = useLocation();
+    const searchParams = useMemo(
+        () => new URLSearchParams(location.search),
+        [location.search]
+    );
+    const keyword = searchParams.get('keyword') || '';
+    const type = localStorage.getItem('type') || '제목';
     const dispatch = useDispatch();
     const { isOpen } = useSelector(selectModal);
-    const { data, error, isLoading, isPending } = useGetSearchMovies(keyword);
 
-    if (error && keyword) {
-        console.log('데이터가 없습니다');
-        return <Error />;
-    }
+    // if (keyword) {
+    //     console.log('데이터가 없습니다');
+    //     return <Error />;
+    // }
 
     return (
         <div className="flex flex-col w-full items-center relative">
@@ -39,6 +42,9 @@ const Search = () => {
                         <div className="border-b-white border-b-[1px] w-full h-[50px] flex items-center text-white pl-[30px] outline-none text-[20px]">
                             {keyword}
                         </div>
+                        <div className="text-white flex ml-[5px] relative self-end items-center w-[100px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]">
+                            {type}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,12 +54,12 @@ const Search = () => {
                     isOpen ? 'mt-[50px]' : 'mt-0'
                 }`}
             >
-                {(isLoading || isPending) && keyword && (
+                {/* {(isLoading || isPending) && keyword && (
                     <CardListSkeleton number={20}></CardListSkeleton>
                 )}
                 {data?.results.map((movie: TMovieSingleResponse) => (
                     <MovieCard key={movie.id} {...movie} />
-                ))}
+                ))} */}
             </div>
         </div>
     );
