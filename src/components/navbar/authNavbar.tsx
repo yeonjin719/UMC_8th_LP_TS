@@ -12,7 +12,7 @@ const AuthNavbar = () => {
     // }, [isLogin, navigate]);
 
     return (
-        <nav className="flex min-h-[80px] items-center bg-black px-[40px] fixed z-[10] w-[100%]">
+        <nav className="flex min-h-[80px] items-center bg-[#131313] px-[40px] fixed z-[10] w-[100%]">
             <div
                 onClick={() => navigate('/')}
                 className="flex max-w-[100px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"
