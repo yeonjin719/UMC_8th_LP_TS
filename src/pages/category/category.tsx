@@ -10,11 +10,18 @@ import { useParams } from 'react-router-dom';
 const Movie = () => {
     const { category } = useParams();
     const { data } = useGetCategory();
-    const { data: LpData, isLoading } = useGetLps({
+    const {
+        data: LpData,
+        isLoading,
+        isError,
+    } = useGetLps({
         categoryId: Number(category),
     });
     if (isLoading) {
         return <Loading></Loading>;
+    }
+    if (isError) {
+        return <div>에러</div>;
     }
     return (
         <div className="flex flex-col justify-center items-center w-full">
@@ -22,15 +29,16 @@ const Movie = () => {
                 카테고리
             </div>
             <div className="flex flex-wrap justify-center gap-5 mt-5 items-center">
-                {data?.map((item, idx) => {
-                    return (
-                        <CategoryCard
-                            key={idx}
-                            id={Number(item.id)}
-                            text={item.name}
-                        />
-                    );
-                })}
+                {Array.isArray(data) &&
+                    data.map((item, idx) => {
+                        return (
+                            <CategoryCard
+                                key={idx}
+                                id={Number(item.id)}
+                                text={item.name}
+                            />
+                        );
+                    })}
                 <IoAddCircleOutline color="white" size={25} />
             </div>
             <div className="flex mt-[30px] gap-[10px]">

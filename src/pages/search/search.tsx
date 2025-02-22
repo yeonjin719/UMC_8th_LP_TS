@@ -25,7 +25,7 @@ const Search = () => {
     // }
 
     return (
-        <div className="flex flex-col w-full items-center relative">
+        <div className="flex flex-col w-full items-center relative mt-[16px]">
             <div className={`w-screen flex justify-center relative h-[50px]`}>
                 <div
                     className={`w-full flex justify-center h-[50px] relative`}

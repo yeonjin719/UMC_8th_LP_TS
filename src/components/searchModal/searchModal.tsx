@@ -85,12 +85,12 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
 
     return (
         <Portal>
-            <div className="flex flex-col w-full items-center absolute left-0 top-0 h-full ">
-                <div className={`w-screen flex justify-center h-full`}>
+            <div className="flex flex-col w-full items-center absolute left-0 top-4 h-full">
+                <div className={`w-[100%] flex justify-center h-full`}>
                     <div
-                        className={`w-full flex flex-col items-center z-7 h-[50vh] bg-[#131313] absolute left-0 top-0`}
+                        className={`w-[100%] flex flex-col items-center z-7 h-[50vh] bg-[#131313] absolute left-0 top-0 `}
                     >
-                        <div className="w-[50%] relative flex pt-[80px] ">
+                        <div className="w-[50%] relative flex pt-[80px] min-[1080px]:ml-[200px]">
                             <FaSearch
                                 color="white"
                                 className="absolute left-0 top-23.5"
@@ -147,7 +147,7 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
                                 )}
                             </div>
                         </div>
-                        <div className="w-[50%] flex-1 pt-[20px]">
+                        <div className="w-[50%] flex-1 pt-[20px]  min-[1080px]:ml-[200px]">
                             <div className="flex pb-[10px] gap-[10px] items-end">
                                 <div className="text-white text-[20px] ">
                                     최근 검색어
