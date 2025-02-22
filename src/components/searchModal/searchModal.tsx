@@ -106,7 +106,13 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
                             ></input>
                             <div
                                 onClick={() => setToggleOpen(!toggleOpen)}
-                                className="text-white flex ml-[5px] relative self-end items-center w-[100px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]"
+                                className={`text-white flex ml-[5px] relative self-end items-center w-[120px] justify-center border-gray-300 border-[1px] h-[35px] pt-[3px] pb-[3px] hover:cursor-pointer
+                                    ${
+                                        toggleOpen
+                                            ? 'rounded-b-0 rounded-t-[8px]'
+                                            : 'rounded-[8px]'
+                                    }
+                                    `}
                             >
                                 {searchType}
                                 <IoIosArrowDown
@@ -114,12 +120,12 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
                                     className="absolute right-[4px]"
                                 />
                                 {toggleOpen && (
-                                    <div className="absolute top-[30px]">
+                                    <div className="absolute top-[30px] rounded-[8px] left-0">
                                         <div
                                             onClick={() =>
                                                 setSearchType(TSearchEnum.TITLE)
                                             }
-                                            className={`bg-black w-[80px] justify-center flex items-center
+                                            className={`bg-black w-[92px] justify-center flex items-center rounded-t-[4px] py-1 hover:bg-white hover:text-black hover:cursor-pointer
                                             ${
                                                 searchType === '제목'
                                                     ? 'bg-pink-500'
@@ -133,7 +139,7 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
                                             onClick={() =>
                                                 setSearchType(TSearchEnum.TAG)
                                             }
-                                            className={`bg-black w-[80px] justify-center flex items-center
+                                            className={`bg-black w-[92px] justify-center flex items-center rounded-b-[4px] py-1 hover:bg-white hover:text-black hover:cursor-pointer
                                             ${
                                                 searchType === '태그'
                                                     ? 'bg-pink-500'

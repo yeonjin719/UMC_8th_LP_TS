@@ -42,7 +42,7 @@ const Search = () => {
                         <div className="border-b-white border-b-[1px] w-full h-[50px] flex items-center text-white pl-[30px] outline-none text-[20px]">
                             {keyword}
                         </div>
-                        <div className="text-white flex ml-[5px] relative self-end items-center w-[100px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]">
+                        <div className="text-white flex ml-[5px] relative self-end items-center w-[120px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]">
                             {type}
                         </div>
                     </div>
