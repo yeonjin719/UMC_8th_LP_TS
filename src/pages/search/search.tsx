@@ -36,7 +36,7 @@ const Search = () => {
                     <div className="w-[50%] relative flex ">
                         <FaSearch
                             color="white"
-                            className="absolute left-0 top-3.5"
+                            className="absolute left-0 top-4"
                             size={20}
                         />
                         <div className="border-b-white border-b-[1px] w-full h-[50px] flex items-center text-white pl-[30px] outline-none text-[20px]">

@@ -85,15 +85,15 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
 
     return (
         <Portal>
-            <div className="flex flex-col w-full items-center absolute left-0 top-4 h-full">
+            <div className="flex flex-col w-full items-center absolute left-0 top-0 h-[100%] overflow-hidden">
                 <div className={`w-[100%] flex justify-center h-full`}>
                     <div
                         className={`w-[100%] flex flex-col items-center z-7 h-[50vh] bg-[#131313] absolute left-0 top-0 `}
                     >
-                        <div className="w-[50%] relative flex pt-[80px] min-[1080px]:ml-[200px]">
+                        <div className="w-[50%] relative flex pt-[95px] min-[1080px]:ml-[200px]">
                             <FaSearch
                                 color="white"
-                                className="absolute left-0 top-23.5"
+                                className="absolute left-0 top-28"
                                 size={20}
                             />
                             <input

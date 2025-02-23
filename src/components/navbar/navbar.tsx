@@ -13,8 +13,6 @@ import useUserInfo from '../../hooks/queries/useUserInfo';
 type TNavbarProps = {
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
     isSidebarOpen: boolean;
-    setIsSearchBoxOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    isSearchBoxOpen: boolean;
 };
 
 const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
