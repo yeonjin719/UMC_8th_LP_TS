@@ -8,7 +8,7 @@ interface CategoryCardProps {
 function CategoryCard({ id, text }: CategoryCardProps) {
     const navigate = useNavigate();
     const { category } = useParams();
-    console.log(category);
+
     const handleClickCategory = (id: number) => {
         navigate(`/category/${id}`);
     };

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Portal from '../portal/portal';
-import LP from '../../../public/lp.png';
 import LPComponents from '../LPComponents/LPComponents';
 
 type TSearchModalProps = {
@@ -10,7 +9,7 @@ type TSearchModalProps = {
 const AddLPModal = ({ onClose }: TSearchModalProps) => {
     const [addTag, setAddTag] = useState<string[]>([]);
     const [tagInput, setTagInput] = useState('');
-    const [imageSrc, setImageSrc] = useState(LP);
+    const [imageSrc, setImageSrc] = useState('');
 
     const handleAddTag = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -43,7 +42,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                     className="flex flex-col items-center justify-center w-full h-full "
                     onSubmit={handleFormSubmit}
                 >
-                    <div className="flex flex-col w-[400px] bg-gray-800 rounded-2xl p-5 gap-2 items-center z-8">
+                    <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl p-5 gap-2 items-center z-8">
                         <input
                             type="file"
                             id="imageInput"
@@ -51,19 +50,21 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                             accept="image/*"
                             onChange={handleImageChange}
                         />
-                        <LPComponents imageSrc={imageSrc}></LPComponents>
+                        <div className="h-[230px] w-full">
+                            <LPComponents imageSrc={imageSrc}></LPComponents>
+                        </div>
 
                         <input
-                            className="w-full h-10 bg-gray-700 rounded-md p-2 mb-2 mt-5"
+                            className="w-full h-10 border-gray-500 border-1 rounded-md p-2 mb-2 mt-5"
                             placeholder="LP Name"
                         />
                         <input
-                            className="w-full h-10 bg-gray-700 rounded-md p-2 mb-2"
+                            className="w-full h-10 border-gray-500 border-1 rounded-md p-2 mb-2"
                             placeholder="LP Content"
                         />
                         <div className="flex gap-2 w-full items-center mb-2">
                             <input
-                                className="w-full h-[40px] bg-gray-700 rounded-md p-2"
+                                className="w-full h-[40px] border-gray-500 border-1 rounded-md p-2"
                                 placeholder="LP Tag"
                                 value={tagInput}
                                 onChange={(e) => setTagInput(e.target.value)}

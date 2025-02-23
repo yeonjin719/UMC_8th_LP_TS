@@ -5,45 +5,59 @@ import { formatRelativeTime } from '../../utils/transformDate';
 import { FaBookmark } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import Comments from '../comments/comments';
+import { useState } from 'react';
+import { GoPencil } from 'react-icons/go';
+
 const LpDetail = () => {
     const { lpId } = useParams();
     const { data } = useGetLPDetails({ lpId: Number(lpId) });
+    const [edit, setEdit] = useState(false);
+    console.log(edit);
     return (
-        <div className="flex w-full h-full items-center flex-col p-[30px]">
-            <div className="flex flex-col w-[80%] gap-[15px] justify-center items-center bg-gray-900 rounded-[15px] p-[30px]">
-                <div className="flex gap-[40px] w-full justify-between">
-                    <Profile
-                        profile_path={data?.author.profileImageUrl}
-                        id={data?.author.id}
-                        name={data?.author.name}
-                    ></Profile>
-                    <div className="text-white">
-                        {formatRelativeTime(data?.createdAt)}
+        <div className="flex flex-col h-full items-center w-full p-[30px] gap-[30px] ">
+            <div className="flex w-full items-center flex-col ">
+                <div className="flex flex-col w-full  gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+                    <div className="flex gap-[40px] w-full justify-between">
+                        <Profile
+                            profile_path={data?.author?.profileImageUrl}
+                            id={data?.author?.id}
+                            name={data?.author?.name}
+                        ></Profile>
+                        <div className="text-white">
+                            {formatRelativeTime(data?.createdAt)}
+                        </div>
                     </div>
-                </div>
-                <div className="relative w-full">
-                    <div className="text-white text-[25px]">
-                        제목: {data?.title}
+                    <div className="relative w-full">
+                        <div className="text-white text-[25px]">
+                            {data?.title}
+                        </div>
+                        <div className="absolute flex gap-[15px] right-0 top-[10px]">
+                            <FaBookmark color="white" size={20} />
+                            <GoPencil
+                                color="white"
+                                size={20}
+                                onClick={() => setEdit(true)}
+                            />
+                            <FaRegTrashAlt color="white" size={20} />
+                        </div>
                     </div>
-                    <div className="absolute flex gap-[15px] right-0 top-[10px]">
-                        <FaBookmark color="white" size={20} />
-                        <FaRegTrashAlt color="white" size={20} />
-                    </div>
-                </div>
 
-                <img
-                    src="https://pbs.twimg.com/media/GAkrg_oa0AAtFsu.jpg:large"
-                    alt=""
-                    className="w-full"
-                />
-                <div className="text-white ">{data?.description}</div>
-                <div className="flex items-center gap-[10px]">
-                    <FaHeart color="white" size={30} />
-                    <div className="text-white text-[25px]">
-                        {data?.totalLikes}
+                    <img
+                        src="https://pbs.twimg.com/media/GAkrg_oa0AAtFsu.jpg:large"
+                        alt=""
+                        className="w-full"
+                    />
+                    <div className="text-white ">{data?.description}</div>
+                    <div className="flex items-center gap-[10px]">
+                        <FaHeart color="white" size={30} />
+                        <div className="text-white text-[25px]">
+                            {data?.totalLikes}
+                        </div>
                     </div>
                 </div>
             </div>
+            <Comments></Comments>
         </div>
     );
 };

@@ -41,10 +41,11 @@ const Movie = () => {
                     })}
                 <IoAddCircleOutline color="white" size={25} />
             </div>
-            <div className="flex mt-[30px] gap-[10px]">
-                {LpData?.map((data) => {
-                    return <LpCard {...data} key={data.id} />;
-                })}
+            <div className="flex mt-[30px] gap-[10px] flex-col w-full justify-center items-center">
+                {Array.isArray(LpData) &&
+                    LpData?.map((data) => {
+                        return <LpCard {...data} key={data.id} />;
+                    })}
             </div>
         </div>
     );

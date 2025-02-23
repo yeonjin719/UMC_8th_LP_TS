@@ -25,6 +25,7 @@ export type TLp = {
     updatedAt: string;
     author: TAuthor;
     category: TCategory;
+    image: string;
 };
 
 type TBookmark = {
