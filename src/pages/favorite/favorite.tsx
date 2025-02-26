@@ -1,17 +1,7 @@
-// import MovieCard from '../../components/movieCard/movieCard';
-// import CardListSkeleton from '../../components/movieCard/Skeleton/card-list-skeleton';
-
-const Favorite = () => {
+export default function LikeLps() {
     return (
-        <div className="flex flex-col w-full h-full">
-            {/* {(isLoading || isPending) && (
-                <CardListSkeleton number={20}></CardListSkeleton>
-            )}
-            {data?.results.map((movie: TMovieSingleResponse) => (
-                <MovieCard key={movie.id} {...movie} />
-            ))} */}
+        <div className="w-full h-[100%] flex flex-wrap justify-center">
+            <h1 className="text-white">좋아요 한 글</h1>
         </div>
     );
-};
-
-export default Favorite;
+}

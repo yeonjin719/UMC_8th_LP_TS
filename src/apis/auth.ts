@@ -8,11 +8,16 @@ type TLogin = {
 type TSignup = {
     email: string;
     password: string;
-    passwordCheck: string;
+    name: string;
+    role: string;
+    profileImageUrl: string | null;
 };
 type TLoginResponse = {
     accessToken: string;
     refreshToken: string;
+    id: number;
+    name: string;
+    role: string;
 };
 
 type TSignupResponse = {
@@ -26,9 +31,15 @@ type TRefreshResponse = {
     accessToken: string;
 };
 
+type TGoogleLoginResponse = {
+    isSuccess: boolean;
+    code: string;
+    message: string;
+};
+
 const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
     const { data } = await axiosUserInstance.post<TLoginResponse>(
-        '/auth/login',
+        '/v1/auth/signin',
         { email, password }
     );
     return data;
@@ -37,18 +48,25 @@ const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
 const Signup = async ({
     email,
     password,
-    passwordCheck,
+    name,
+    profileImageUrl,
+    role,
 }: TSignup): Promise<TSignupResponse> => {
     const { data } = await axiosUserInstance.post<TSignupResponse>(
-        '/auth/register',
-        { email, password, passwordCheck }
+        '/v1/auth/signup',
+        { email, password, name, role, profileImageUrl }
     );
+    return data;
+};
+
+const GoogleLogin = async (): Promise<TGoogleLoginResponse> => {
+    const { data } = await axiosUserInstance.get('/v1/auth/google/login');
     return data;
 };
 
 const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
     const { data } = await axiosUserInstance.post<TRefreshResponse>(
-        '/auth/token/access',
+        '/v1/auth/refresh',
         {},
         {
             headers: {
@@ -59,4 +77,20 @@ const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
     return data;
 };
 
-export { Login, Signup, Refresh };
+const Logout = async (accessToken: string) => {
+    const { data } = await axiosUserInstance.post(
+        '/v1/auth/signout',
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+const Withdraw = async (id: number) => {
+    const { data } = await axiosUserInstance.delete(`/v1/users/${id}`);
+    return data;
+};
+export { Login, Signup, Withdraw, GoogleLogin, Refresh, Logout };

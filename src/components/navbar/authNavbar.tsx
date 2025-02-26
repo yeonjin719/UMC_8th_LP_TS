@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../context/LogInContext';
+// import { useAuthContext } from '../../context/LogInContext';
 
 const AuthNavbar = () => {
-    const { isLogin } = useAuthContext();
+    // const { isLogin } = useAuthContext();
     const navigate = useNavigate();
-    useEffect(() => {
-        if (isLogin) {
-            navigate('/');
-        }
-    }, [isLogin, navigate]);
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         navigate('/');
+    //     }
+    // }, [isLogin, navigate]);
 
     return (
-        <nav className="flex min-h-[80px] items-center bg-black px-[20px] fixed z-[10] w-[calc(100vw-40px)]">
+        <nav className="flex min-h-[80px] items-center bg-[#131313] px-[40px] fixed z-[10] w-[100%]">
             <div
                 onClick={() => navigate('/')}
                 className="flex max-w-[100px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"

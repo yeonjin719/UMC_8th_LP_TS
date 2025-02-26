@@ -1,133 +1,146 @@
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import { Signup } from '../../apis/auth';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import googleLogo from '../../images/googleLogo.svg';
+import Step1 from '../../components/signupSteps/signupStep1';
+import Step2 from '../../components/signupSteps/signupStep2';
+import {
+    FormProvider,
+    SubmitHandler,
+    useForm,
+    useWatch,
+} from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IoIosArrowBack } from 'react-icons/io';
+import { signUpSchema } from '../../utils/validate';
+import { z } from 'zod';
+import useAuth from '../../hooks/queries/useAuth';
+import { useNavigate } from 'react-router-dom';
 
-interface SignupForm {
+export interface SignupForm {
     email: string;
-    password: string;
-    passwordCheck: string;
+    passwordGroup: {
+        password: string;
+        passwordCheck: string;
+    };
+    profileImage: string | null;
+    role: string;
+    name: string;
 }
 
-const SignUp = () => {
+type TField = z.infer<typeof signUpSchema>;
+
+const MainSignup = () => {
     const navigate = useNavigate();
-    const schema = yup.object().shape({
-        email: yup.string().email().required('이메일을 반드시 입력해주세요.'),
-        password: yup
-            .string()
-            .min(8, '비밀번호는 8자 이상이어야 합니다.')
-            .max(16, '비밀번호는 16자 이하여야 합니다.')
-            .required('비밀번호를 입력해주세요.'),
-        passwordCheck: yup
-            .string()
-            .oneOf([yup.ref('password')], '비밀번호가 일치하지 않습니다')
-            .required('비밀번호 검증 또한 필수 입력 요소입니다.'),
+    const [step, setStep] = useState(1);
+    const { useSignup } = useAuth();
+    const { mutate: signupMutate } = useSignup;
+    const [errorMessage, setErrorMessage] = useState('');
+    const methods = useForm<SignupForm>({
+        mode: 'onChange',
+        resolver: zodResolver(signUpSchema),
+        defaultValues: { role: 'USER', profileImage: null },
     });
+
+    const nextStep = () => setStep(2);
 
     const {
-        register,
         handleSubmit,
-        formState: { errors, isValid },
-    } = useForm({
-        resolver: yupResolver(schema),
-        mode: 'onChange',
+        control,
+        formState: { errors },
+    } = methods;
+
+    const watchedName = useWatch({
+        control,
+        name: 'name',
     });
 
-    const { mutate: signupMutation, isPending } = useMutation({
-        mutationFn: Signup,
-        onSuccess: () => {
-            console.log('회원가입 성공');
-            navigate('/login');
-        },
-        onError: (error) => {
-            console.error('Error signup:', error);
-        },
-    });
+    const onSubmit: SubmitHandler<TField> = (data) => {
+        signupMutate(
+            {
+                email: data.email,
+                password: data.passwordGroup.password,
+                name: data.name,
+                role: data.role,
+                profileImageUrl: data.profileImage,
+            },
+            {
+                onSuccess: () => {
+                    navigate('/login');
+                },
+                onError: (error) => {
+                    setErrorMessage(
+                        error.response?.data?.message ||
+                            '알 수 없는 에러가 발생했습니다'
+                    );
+                },
+            }
+        );
+    };
 
-    const onSubmit = (data: SignupForm) => {
-        signupMutation(data);
+    const handleBack = () => {
+        if (step == 2) {
+            setStep(1);
+        } else {
+            navigate('/');
+        }
     };
 
     return (
-        <div className="flex flex-col items-center gap-2 mt-36 w-full">
-            <div className="w-[300px] items-center flex flex-col">
-                <div className="text-white text-2xl mb-4 w-full">회원가입</div>
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col w-full gap-3"
-                >
-                    <input
-                        type="email"
-                        placeholder="이메일을 입력해주세요!"
-                        {...register('email')}
-                        className="w-full h-10 rounded-md border-none pl-2 box-border bg-white"
-                    />
-                    {errors.email?.message && (
-                        <div className="text-red-500 text-sm ml-1">
-                            {errors.email?.message}
-                        </div>
-                    )}
-
-                    <input
-                        type="password"
-                        placeholder="비밀번호를 입력해주세요!"
-                        {...register('password')}
-                        className="w-full h-10 rounded-md border-none pl-2 box-border bg-white"
-                    />
-                    {errors.password?.message && (
-                        <div className="text-red-500 text-sm ml-1">
-                            {errors.password?.message}
-                        </div>
-                    )}
-
-                    <input
-                        type="password"
-                        placeholder="비밀번호를 다시 입력해주세요!"
-                        {...register('passwordCheck')}
-                        className="w-full h-10 rounded-md border-none pl-2 box-border bg-white"
-                    />
-                    {errors.passwordCheck?.message && (
-                        <div className="text-red-500 text-sm ml-1">
-                            {errors.passwordCheck?.message}
-                        </div>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={!isValid || isPending}
-                        className={`w-full h-11 rounded-md text-white text-sm ${
-                            !isValid || isPending
-                                ? 'bg-gray-500 opacity-60 cursor-not-allowed'
-                                : 'bg-pink-600'
-                        }`}
+        <FormProvider {...methods}>
+            <div className="w-full h-full flex flex-col items-center ">
+                <div className="w-[340px] mt-[10%] h-fit relative p-[20px] rounded-[20px]">
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="flex flex-col items-center w-full"
                     >
-                        {isPending ? '로딩 중...' : '회원가입'}
+                        <IoIosArrowBack
+                            size={25}
+                            color="white"
+                            className="absolute left-[20px] top-[25px]"
+                            onClick={handleBack}
+                        />
+                        <div className="text-white text-2xl w-full mb-[50px] text-center">
+                            회원가입
+                        </div>
+                        {errorMessage && (
+                            <div className="text-red-500 text-sm absolute right-[22px] top-[75px]">
+                                {errorMessage}
+                            </div>
+                        )}
+                        {step === 1 ? <Step1 nextStep={nextStep} /> : <Step2 />}
+                    </form>
+
+                    {step === 2 && (
+                        <button
+                            onClick={handleSubmit(onSubmit)}
+                            type="submit"
+                            className="mt-4 w-[300px] bg-pink-500 text-white p-2 rounded-md disabled:cursor-not-allowed disabled:bg-gray-400"
+                            disabled={!!errors.name?.message || !watchedName}
+                        >
+                            회원가입 완료
+                        </button>
+                    )}
+                    <button
+                        type="button"
+                        className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[12px] relative"
+                    >
+                        <img
+                            src={googleLogo}
+                            alt=""
+                            className="absolute left-4 bottom-2.5 w-[25px] h-[25px]"
+                        />
+                        구글 로그인
                     </button>
-                </form>
-                <button
-                    type="button"
-                    className="bg-[white] w-full h-[45px] text-[#000000]/85 mt-[20px] rounded-[12px] relative"
-                >
-                    <img
-                        src={googleLogo}
-                        alt=""
-                        className="absolute left-4 bottom-2.5 w-[25px] h-[25px]"
-                    />
-                    구글 회원가입
-                </button>
-                <button
-                    type="button"
-                    className="text-gray-300 mt-[20px]"
-                    onClick={() => navigate('/login')}
-                >
-                    로그인 하러 가기
-                </button>
+                    <button
+                        type="button"
+                        className="text-gray-300 mt-[20px] w-full"
+                        onClick={() => navigate('/login')}
+                    >
+                        로그인
+                    </button>
+                </div>
             </div>
-        </div>
+        </FormProvider>
     );
 };
 
-export default SignUp;
+export default MainSignup;

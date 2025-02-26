@@ -3,6 +3,11 @@ import { FaSearch } from 'react-icons/fa';
 import { PiFilmSlateFill } from 'react-icons/pi';
 import { useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import { FaBookmark } from 'react-icons/fa6';
+import { useDispatch } from 'react-redux';
+import { MODAL_TYPES } from '../modal/modalProvider';
+import { openModal } from '../../slices/modalSlice';
+import { useAuthContext } from '../../context/LogInContext';
 type TSidebarProps = {
     isSidebarOpen: boolean;
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,11 +16,16 @@ type TSidebarProps = {
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
     const navigate = useNavigate();
     const location = useLocation();
+    const dispatch = useDispatch();
+    const { isLogin } = useAuthContext();
+
     useEffect(() => {
         setIsSidebarOpen(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname]);
-
+    const handleWithdraw = () => {
+        dispatch(openModal(MODAL_TYPES.WithdrawModal));
+    };
     return (
         <div
             className={`${
@@ -40,7 +50,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                                     : 'text-white'
                             }`}
                     >
-                        <FaSearch /> 찾기
+                        <FaSearch />
+                        찾기
                     </div>
                     <div
                         onClick={() => {
@@ -54,7 +65,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                                     : 'text-white'
                             }`}
                     >
-                        <PiFilmSlateFill /> 카테고리
+                        <PiFilmSlateFill />
+                        카테고리
                     </div>
                     <div
                         onClick={() => {
@@ -68,18 +80,36 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                                     : 'text-white'
                             }`}
                     >
-                        <FaHeart /> 관심 영화
+                        <FaHeart />
+                        좋아요한 글
+                    </div>
+                    <div
+                        onClick={() => {
+                            navigate('/bookmarked');
+                            setIsSidebarOpen(false);
+                        }}
+                        className={`flex items-center gap-[10px] text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
+                            ${
+                                location.pathname === '/bookmarked'
+                                    ? 'text-[#FF1E9D]'
+                                    : 'text-white'
+                            }`}
+                    >
+                        <FaBookmark />
+                        북마크한 글
                     </div>
                 </div>
-
                 <div
-                    onClick={() => {
-                        navigate('/addMovie');
-                        setIsSidebarOpen(false);
-                    }}
-                    className={`flex text-center pt-[5px] pb-[5px] rounded-[5px] mb-[20px] justify-center pl-[7px] pr-[7px] gap-[10px] text-white text-[15px] mt-[10px] ml-[20px] w-[100px] bg-[#FF1E9D] hover:text-black hover:bg-[white] hover:cursor-pointer`}
+                    className={`flex flex-col w-full mb-[20px] justify-center gap-[10px] items-center`}
                 >
-                    영화 등록하기
+                    {isLogin && (
+                        <div
+                            onClick={handleWithdraw}
+                            className={`flex text-center pt-[5px] pb-[5px] rounded-[5px]  justify-center pl-[7px] pr-[7px] gap-[10px] text-gray-300 text-[15px] w-[100px] hover:cursor-pointer`}
+                        >
+                            탈퇴하기
+                        </div>
+                    )}
                 </div>
             </nav>
 

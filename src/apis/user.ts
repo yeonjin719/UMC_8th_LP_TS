@@ -4,13 +4,17 @@ export type TMyInfo = {
 };
 
 export type TMyInfoResponse = {
-    id: string;
+    id: number;
     email: string;
+    name: string;
+    profileImageUrl: string | null;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
 };
-const getMyInfo = async ({
-    accessToken,
-}: TMyInfo): Promise<TMyInfoResponse> => {
-    const { data } = await axiosUserInstance.get<TMyInfoResponse>('/user/me', {
+
+const getMyInfo = async (accessToken: string): Promise<TMyInfoResponse> => {
+    const { data } = await axiosUserInstance.get('/v1/users/me', {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
