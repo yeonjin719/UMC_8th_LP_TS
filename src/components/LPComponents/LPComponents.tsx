@@ -4,7 +4,7 @@ type TLPComponents = {
     isHasInput?: boolean;
 };
 
-const LPComponents = ({ imageSrc, isHasInput }: TLPComponents) => {
+const LPComponents = ({ imageSrc }: TLPComponents) => {
     return (
         <div className="relative w-full flex justify-center h-full">
             <img
@@ -13,11 +13,6 @@ const LPComponents = ({ imageSrc, isHasInput }: TLPComponents) => {
                 className={`w-[65%] object-cover cursor-pointer z-1 aspect-square
                   ${imageSrc && 'absolute left-[10px] shadow-2xs'}
                 `}
-                onClick={() => {
-                    if (isHasInput) {
-                        document.getElementById('imageInput')?.click();
-                    }
-                }}
             />
             {imageSrc && (
                 <img

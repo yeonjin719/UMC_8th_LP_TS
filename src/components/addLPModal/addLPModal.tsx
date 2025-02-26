@@ -39,10 +39,10 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
         <Portal>
             <div className="flex flex-col w-full items-center absolute left-0 top-0 h-full overflow-hidden text-white">
                 <form
-                    className="flex flex-col items-center justify-center w-full h-full "
+                    className="flex flex-col items-center justify-center w-full h-full"
                     onSubmit={handleFormSubmit}
                 >
-                    <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl p-5 gap-2 items-center z-8">
+                    <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl px-5 py-10 gap-2 items-center z-8">
                         <input
                             type="file"
                             id="imageInput"
@@ -50,7 +50,12 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                             accept="image/*"
                             onChange={handleImageChange}
                         />
-                        <div className="h-[230px] w-full">
+                        <div
+                            className="h-[230px] w-full"
+                            onClick={() =>
+                                document.getElementById('imageInput')?.click()
+                            }
+                        >
                             <LPComponents imageSrc={imageSrc}></LPComponents>
                         </div>
 

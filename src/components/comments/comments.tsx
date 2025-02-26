@@ -3,6 +3,9 @@ import Comment from '../comment/comment';
 import { GoPencil } from 'react-icons/go';
 const Comments = () => {
     const [comment, setComment] = useState('');
+    const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setComment(e.target.value);
+    };
     return (
         <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-full h-auto">
             <div className="flex flex-col text-white h-full w-full p-5 gap-4">
@@ -12,7 +15,7 @@ const Comments = () => {
                     <input
                         type="text"
                         value={comment}
-                        onChange={(e) => setComment(e.target.value)}
+                        onChange={handleChangeComment}
                         placeholder="댓글을 입력해주세요"
                         className="bg-[rgba(40,41,46)] text-white flex-1"
                     />
