@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { Refresh } from './auth';
 import { queryClient } from '../main';
-// import { Refresh } from '../apis/auth';
-// import { queryClient } from '../main';
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_USER_API_URL,
