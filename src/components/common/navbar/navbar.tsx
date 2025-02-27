@@ -18,14 +18,14 @@ type TNavbarProps = {
 const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { isOpen, modalType } = useSelector(selectModal);
 
-    const { setIsLogin } = useAuthContext();
+    const { setIsLogin, isLogin } = useAuthContext();
     const accessToken = localStorage.getItem('accessToken') || '';
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { useLogout } = useAuth();
     const { mutate: logoutMutate } = useLogout;
-    const { useGetMyInfo } = useUserInfo();
+    const { useGetMyInfo } = useUserInfo(isLogin);
     const { data: userData } = useGetMyInfo;
 
     const handleLogout = () => {
