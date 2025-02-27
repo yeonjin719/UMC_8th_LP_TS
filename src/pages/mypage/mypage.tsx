@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import useUserInfo from '../../hooks/queries/useUserInfo';
 import defaultImage from '../../images/default_profile.png';
 import LikeLps from '../../components/likeLps/likeLps';
@@ -8,27 +8,79 @@ import WriteByMeComment from '../../components/writeByMeComment/writeByMeComment
 import { useAuthContext } from '../../context/LogInContext';
 function MyPage() {
     const { isLogin } = useAuthContext();
-
+    const [isEdit, setIsEdit] = useState(false);
     const { useGetMyInfo } = useUserInfo(isLogin);
     const { data: userData } = useGetMyInfo;
     const [info, setInfo] = useState(0);
+    const [userName, setUserName] = useState(userData?.name);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [imageSrc, setImageSrc] = useState(
+        userData?.profileImageUrl || defaultImage
+    );
+
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUserName(e.target.value);
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (event.target?.result) {
+                    setImageSrc(event.target.result as string);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return (
         <div className="w-full h-full flex flex-col p-[20px] items-center">
-            <div className="flex gap-5 justify-center items-center mt-[30px] ">
-                <img
-                    src={userData?.profileImageUrl || defaultImage}
-                    alt="임시 이미지"
-                    className="w-[100px] h-[100px] rounded-[50%] object-cover"
-                />
-                <div className="flex flex-col ">
-                    <div className="text-white text-[30px]">
-                        {userData?.name}
+            {isEdit ? (
+                <div className="flex gap-5 justify-center items-center mt-[30px] ">
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
+                    <img
+                        src={imageSrc}
+                        onClick={() => fileInputRef.current?.click()}
+                        alt="임시 이미지"
+                        className="w-[100px] h-[100px] rounded-[50%] object-cover hover:cursor-pointer"
+                    />
+                    <div className="flex flex-col ">
+                        <input
+                            type="text"
+                            placeholder="닉네임을 입력해주세요"
+                            className="text-white px-2 py-1 text-[25px]"
+                            value={userName}
+                            onChange={handleChangeInput}
+                        />
+                        <div className="text-white">{userData?.email}</div>
+                        <div>{userData?.profileImageUrl}</div>
                     </div>
-                    <div className="text-white">{userData?.email}</div>
-                    <div>{userData?.profileImageUrl}</div>
                 </div>
-            </div>
-            <div className="mt-5 flex w-full items-center justify-center">
+            ) : (
+                <div className="flex gap-5 justify-center items-center mt-[30px] ">
+                    <img
+                        src={imageSrc}
+                        alt="임시 이미지"
+                        className="w-[100px] h-[100px] rounded-[50%] object-cover"
+                    />
+                    <div className="flex flex-col ">
+                        <div className="text-white text-[30px]">
+                            {userData?.name}
+                        </div>
+                        <div className="text-white">{userData?.email}</div>
+                        <div>{userData?.profileImageUrl}</div>
+                    </div>
+                </div>
+            )}
+
+            <div className="mt-5 flex w-full items-center justify-center relative">
                 <button
                     onClick={() => setInfo(0)}
                     className={`${
@@ -53,6 +105,21 @@ function MyPage() {
                 >
                     내가 작성한 댓글
                 </button>
+                {isEdit ? (
+                    <button
+                        className="absolute right-8 text-white hover:underline"
+                        onClick={() => setIsEdit(false)}
+                    >
+                        수정 완료
+                    </button>
+                ) : (
+                    <button
+                        className="absolute right-8 text-white hover:underline"
+                        onClick={() => setIsEdit(true)}
+                    >
+                        프로필 수정
+                    </button>
+                )}
             </div>
             {info === 0 ? (
                 <LikeLps />
