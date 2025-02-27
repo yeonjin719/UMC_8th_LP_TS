@@ -5,6 +5,7 @@ import googleLogo from '../../images/googleLogo.svg';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../utils/validate';
 import useAuth from '../../hooks/queries/useAuth';
+import { IoIosArrowBack } from 'react-icons/io';
 
 type TLoginForm = {
     email: string;
@@ -44,9 +45,17 @@ const LogIn = () => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-2 mt-36 w-full">
-            <div className="w-[300px] items-center flex flex-col">
-                <div className="text-white text-2xl mb-4 w-full">로그인</div>
+        <div className="flex flex-col items-center gap-2 mt-36 w-full ">
+            <div className="w-[300px] items-center flex flex-col relative">
+                <IoIosArrowBack
+                    size={25}
+                    color="white"
+                    className="absolute left-[4px] top-[4px]"
+                    onClick={() => navigate('/')}
+                />
+                <div className="text-white text-2xl mb-4 w-full text-center">
+                    로그인
+                </div>
 
                 <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -86,7 +95,7 @@ const LogIn = () => {
                 </form>
                 <button
                     type="button"
-                    className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[12px] relative"
+                    className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[10px] relative"
                     onClick={() => navigate('/loginRedirect')}
                 >
                     <img
@@ -98,7 +107,7 @@ const LogIn = () => {
                 </button>
                 <button
                     type="button"
-                    className="text-gray-300 mt-[20px]"
+                    className="text-white bg-pink-500 w-full rounded-[10px] py-2 mt-[20px]"
                     onClick={() => navigate('/signup')}
                 >
                     회원가입

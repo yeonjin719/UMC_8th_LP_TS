@@ -2,13 +2,13 @@ import { FaSearch } from 'react-icons/fa';
 import { FaXmark } from 'react-icons/fa6';
 import { CiMenuBurger } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../context/LogInContext';
+import { useAuthContext } from '../../../context/LogInContext';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal, openModal, selectModal } from '../../slices/modalSlice';
+import { closeModal, openModal, selectModal } from '../../../slices/modalSlice';
 import { MODAL_TYPES } from '../modal/modalProvider';
-import useAuth from '../../hooks/queries/useAuth';
-import useUserInfo from '../../hooks/queries/useUserInfo';
+import useAuth from '../../../hooks/queries/useAuth';
+import useUserInfo from '../../../hooks/queries/useUserInfo';
 
 type TNavbarProps = {
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +36,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                 localStorage.removeItem('refreshToken');
                 setIsLogin(false);
                 alert('로그아웃 되었습니다');
+                navigate('/');
             },
             onError: () => {
                 alert('로그아웃 과정에서 에러가 발생했습니다');
@@ -66,9 +67,9 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                     navigate('/');
                     setIsSidebarOpen(false);
                 }}
-                className="flex hover:cursor-pointer max-w-[100px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"
+                className="flex hover:cursor-pointer max-w-[300px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center "
             >
-                CATFLIX
+                이름추천...
             </div>
 
             <div className="flex gap-[10px] ml-auto">
@@ -83,13 +84,13 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                     )}
                 </div>
 
-                {userData ? (
+                {accessToken ? (
                     <>
                         <div
                             className="text-white text-[15px] flex items-center"
                             onClick={() => navigate('/mypage')}
                         >
-                            {userData.name}님 반갑습니다.
+                            {userData?.name}님 반갑습니다.
                         </div>
                         <button
                             onClick={handleLogout}

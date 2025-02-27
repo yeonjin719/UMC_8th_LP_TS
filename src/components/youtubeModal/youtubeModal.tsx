@@ -1,4 +1,4 @@
-import Portal from '../portal/portal';
+import Portal from '../common/portal/portal';
 import YouTube from 'react-youtube';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';

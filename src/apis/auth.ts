@@ -40,7 +40,12 @@ type TGoogleLoginResponse = {
 const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
     const { data } = await axiosUserInstance.post<TLoginResponse>(
         '/v1/auth/signin',
-        { email, password }
+        { email, password },
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        }
     );
     return data;
 };
@@ -54,13 +59,22 @@ const Signup = async ({
 }: TSignup): Promise<TSignupResponse> => {
     const { data } = await axiosUserInstance.post<TSignupResponse>(
         '/v1/auth/signup',
-        { email, password, name, role, profileImageUrl }
+        { email, password, name, role, profileImageUrl },
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        }
     );
     return data;
 };
 
 const GoogleLogin = async (): Promise<TGoogleLoginResponse> => {
-    const { data } = await axiosUserInstance.get('/v1/auth/google/login');
+    const { data } = await axiosUserInstance.get('/v1/auth/google/login', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+    });
     return data;
 };
 
@@ -90,7 +104,11 @@ const Logout = async (accessToken: string) => {
     return data;
 };
 const Withdraw = async (id: number) => {
-    const { data } = await axiosUserInstance.delete(`/v1/users/${id}`);
+    const { data } = await axiosUserInstance.delete(`/v1/users/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+    });
     return data;
 };
 export { Login, Signup, Withdraw, GoogleLogin, Refresh, Logout };

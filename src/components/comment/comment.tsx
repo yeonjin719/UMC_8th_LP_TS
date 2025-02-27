@@ -1,4 +1,4 @@
-import Profile from '../profile/profile';
+import Profile from '../common/profile/profile';
 
 const Comment = () => {
     return (

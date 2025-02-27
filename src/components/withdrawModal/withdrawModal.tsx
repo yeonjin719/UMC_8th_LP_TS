@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FaXmark } from 'react-icons/fa6';
-import Portal from '../portal/portal';
+import Portal from '../common/portal/portal';
 import { useDispatch } from 'react-redux';
 import { useAuthContext } from '../../context/LogInContext';
 import useAuth from '../../hooks/queries/useAuth';
@@ -39,8 +39,8 @@ const WithdrawModal = ({ onClose }: TWithdrawModalProps) => {
     };
     return (
         <Portal>
-            <div className="flex flex-col w-full items-center justify-center absolute left-0 top-0 h-full z-10">
-                <div className="w-[50%] h-[50%] relative gap-[40px] justify-center items-center text-white bg-black z-10 rounded-[10px] flex flex-col p-[20px]">
+            <div className="flex flex-col w-full items-center justify-center absolute left-0 top-0 h-full z-10 bg-[rgba(0,0,0,0.5)]">
+                <div className="w-[500px] h-[350px] relative gap-[40px] justify-center items-center text-white bg-[rgba(40,41,46)] z-10 rounded-[10px] flex flex-col p-[20px]">
                     <FaXmark
                         size={20}
                         color="white"

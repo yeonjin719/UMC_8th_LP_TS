@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import useGetLPDetails from '../../hooks/queries/useGetLPDetails';
-import Profile from '../profile/profile';
+import Profile from '../common/profile/profile';
 import { formatRelativeTime } from '../../utils/transformDate';
-import { FaBookmark } from 'react-icons/fa6';
+
 import { FaHeart } from 'react-icons/fa';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Comments from '../comments/comments';
@@ -28,10 +28,10 @@ const LpDetail = () => {
         }
     };
     return (
-        <div className="flex flex-col h-full items-center w-full p-[30px] gap-[30px] ">
+        <div className="flex flex-col items-center w-full p-[30px] gap-[30px]">
             <div className="flex w-full items-center flex-col ">
                 {edit ? (
-                    <div className="flex flex-col w-full  gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+                    <div className="flex flex-col w-[80%] gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                         <div className="flex gap-[40px] w-full justify-between">
                             <Profile
                                 profile_path={data?.author?.profileImageUrl}
@@ -49,7 +49,6 @@ const LpDetail = () => {
                                 className="text-white text-[25px] border-1 border-white w-[80%] rounded-md px-5"
                             />
                             <div className="absolute flex gap-[15px] right-0 top-[10px]">
-                                <FaBookmark color="white" size={20} />
                                 <FaCheck
                                     color="white"
                                     size={20}
@@ -80,7 +79,7 @@ const LpDetail = () => {
                         />
                     </div>
                 ) : (
-                    <div className="flex flex-col w-full  gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+                    <div className="flex flex-col w-[80%] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                         <div className="flex gap-[40px] w-full justify-between">
                             <Profile
                                 profile_path={data?.author?.profileImageUrl}
@@ -96,7 +95,6 @@ const LpDetail = () => {
                                 {data?.title}
                             </div>
                             <div className="absolute flex gap-[15px] right-0 top-[10px]">
-                                <FaBookmark color="white" size={20} />
                                 <GoPencil
                                     color="white"
                                     size={20}
@@ -106,7 +104,7 @@ const LpDetail = () => {
                             </div>
                         </div>
 
-                        <img src={image} alt="" className="w-full" />
+                        <img src={image} alt="" className="w-[80%] mt-4" />
                         <div className="text-white w-full">
                             {data?.description}
                         </div>
@@ -119,7 +117,7 @@ const LpDetail = () => {
                     </div>
                 )}
             </div>
-            <Comments></Comments>
+            <Comments />
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import Profile from '../profile/profile.jsx';
+import Profile from '../common/profile/profile.js';
 import Error from '../error/error.jsx';
 
 import { Link } from 'react-router-dom';

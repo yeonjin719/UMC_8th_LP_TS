@@ -1,6 +1,6 @@
 import PaginationBar from '../common/paginationBar/paginationBar';
 import LpCard from '../LpCard/LpCard';
-const LikeLps = () => {
+export default function MadeByMeLP() {
     return (
         <div className="flex flex-col items-center border-t border-gray-800 py-5 w-full">
             <div className="flex flex-col w-full gap-2 items-center min-h-[75vh] h-fit-content">
@@ -115,6 +115,4 @@ const LikeLps = () => {
             </div>
         </div>
     );
-};
-
-export default LikeLps;
+}

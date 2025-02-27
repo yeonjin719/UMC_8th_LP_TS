@@ -7,7 +7,11 @@ type TCategory = {
 };
 type TGetCategories = TCategory[];
 const GetCategories = async (): Promise<TGetCategories> => {
-    const { data } = await axiosUserInstance.get('/v1/categories');
+    const { data } = await axiosUserInstance.get('/v1/categories', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+    });
     return data;
 };
 

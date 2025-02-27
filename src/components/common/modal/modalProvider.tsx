@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import SearchBox from '../searchModal/searchModal';
-import { closeModal, selectModal } from '../../slices/modalSlice';
-import YoutubeModal from '../youtubeModal/youtubeModal';
-import WithdrawModal from '../withdrawModal/withdrawModal';
-import AddLPModal from '../addLPModal/addLPModal';
+import SearchBox from '../../searchModal/searchModal';
+import { closeModal, selectModal } from '../../../slices/modalSlice';
+import YoutubeModal from '../../youtubeModal/youtubeModal';
+import WithdrawModal from '../../withdrawModal/withdrawModal';
+import AddLPModal from '../../addLPModal/addLPModal';
 
 export const MODAL_TYPES = {
     YoutubeModal: 'YoutubeModal',

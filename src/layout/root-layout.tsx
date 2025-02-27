@@ -1,10 +1,10 @@
-import Navbar from '../components/navbar/navbar';
+import Navbar from '../components/common/navbar/navbar';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/sidebar/sidebar';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal, selectModal } from '../slices/modalSlice';
-import { MODAL_TYPES } from '../components/modal/modalProvider';
+import { MODAL_TYPES } from '../components/common/modal/modalProvider';
 
 const RootLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

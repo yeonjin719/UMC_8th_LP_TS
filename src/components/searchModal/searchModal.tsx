@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaXmark } from 'react-icons/fa6';
 import { IoIosArrowDown } from 'react-icons/io';
 import { FaSearch } from 'react-icons/fa';
-import Portal from '../portal/portal';
+import Portal from '../common/portal/portal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addSearchRecord,
@@ -11,14 +11,12 @@ import {
     removeSearchRecord,
     selectSearch,
 } from '../../slices/searchSlice';
+import { TSearchEnum } from '../../constants/enum';
+
 type TSearchModalProps = {
     onClose: () => void;
 };
 
-enum TSearchEnum {
-    TITLE = '제목',
-    TAG = '태그',
-}
 const englishType = {
     [TSearchEnum.TITLE]: 'title',
     [TSearchEnum.TAG]: 'tag',

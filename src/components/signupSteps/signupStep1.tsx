@@ -27,7 +27,7 @@ export default function Step1({ nextStep }: Step1Props) {
     });
 
     return (
-        <div className="w-full flex flex-col items-center gap-3">
+        <div className="w-full flex flex-col items-center gap-3 justify-center h-fit">
             <input
                 type="email"
                 placeholder="이메일을 입력해주세요!"

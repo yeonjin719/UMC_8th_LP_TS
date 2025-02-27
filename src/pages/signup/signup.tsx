@@ -86,8 +86,8 @@ const MainSignup = () => {
 
     return (
         <FormProvider {...methods}>
-            <div className="w-full h-full flex flex-col items-center ">
-                <div className="w-[340px] mt-[10%] h-fit relative p-[20px] rounded-[20px]">
+            <div className="w-full h-full flex flex-col items-center">
+                <div className="w-[340px] h-fit justify-center relative p-[20px] rounded-[20px] mt-[70px]">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="flex flex-col items-center w-full"
@@ -121,7 +121,7 @@ const MainSignup = () => {
                     )}
                     <button
                         type="button"
-                        className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[12px] relative"
+                        className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[10px] relative"
                     >
                         <img
                             src={googleLogo}
@@ -132,7 +132,7 @@ const MainSignup = () => {
                     </button>
                     <button
                         type="button"
-                        className="text-gray-300 mt-[20px] w-full"
+                        className="text-white mt-[20px] w-full bg-pink-500 rounded-[10px] py-2"
                         onClick={() => navigate('/login')}
                     >
                         로그인

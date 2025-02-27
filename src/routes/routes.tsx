@@ -10,7 +10,7 @@ import LogIn from '../pages/login/login.jsx';
 import Category from '../pages/category/category.jsx';
 
 import AuthLayout from '../layout/auth-layout.tsx';
-import ModalProvider from '../components/modal/modalProvider.tsx';
+import ModalProvider from '../components/common/modal/modalProvider.tsx';
 import Favorite from '../pages/favorite/favorite.tsx';
 import MyPage from '../pages/mypage/mypage.tsx';
 import LoginRedirect from '../pages/loginRedirect/loginRedirect.tsx';

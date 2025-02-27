@@ -3,9 +3,8 @@ import { FaSearch } from 'react-icons/fa';
 import { PiFilmSlateFill } from 'react-icons/pi';
 import { useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
-import { FaBookmark } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
-import { MODAL_TYPES } from '../modal/modalProvider';
+import { MODAL_TYPES } from '../common/modal/modalProvider';
 import { openModal } from '../../slices/modalSlice';
 import { useAuthContext } from '../../context/LogInContext';
 type TSidebarProps = {
@@ -81,22 +80,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                             }`}
                     >
                         <FaHeart />
-                        좋아요한 글
-                    </div>
-                    <div
-                        onClick={() => {
-                            navigate('/bookmarked');
-                            setIsSidebarOpen(false);
-                        }}
-                        className={`flex items-center gap-[10px] text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
-                            ${
-                                location.pathname === '/bookmarked'
-                                    ? 'text-[#FF1E9D]'
-                                    : 'text-white'
-                            }`}
-                    >
-                        <FaBookmark />
-                        북마크한 글
+                        좋아요한 LP
                     </div>
                 </div>
                 <div

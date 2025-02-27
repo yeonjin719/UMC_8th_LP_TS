@@ -4,7 +4,7 @@ import { FaSearch } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal, selectModal } from '../../slices/modalSlice';
 
-import { MODAL_TYPES } from '../../components/modal/modalProvider';
+import { MODAL_TYPES } from '../../components/common/modal/modalProvider';
 import { useLocation } from 'react-router-dom';
 import { useMemo } from 'react';
 

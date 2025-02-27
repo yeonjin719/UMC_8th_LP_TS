@@ -15,9 +15,9 @@ const AuthNavbar = () => {
         <nav className="flex min-h-[80px] items-center bg-[#131313] px-[40px] fixed z-[10] w-[100%]">
             <div
                 onClick={() => navigate('/')}
-                className="flex max-w-[100px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"
+                className="flex max-w-[300px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"
             >
-                CATFLIX
+                이름추천..
             </div>
 
             <div className="flex gap-[10px] ml-auto">

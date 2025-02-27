@@ -2,7 +2,9 @@ import { useState } from 'react';
 import useUserInfo from '../../hooks/queries/useUserInfo';
 import defaultImage from '../../images/default_profile.png';
 import LikeLps from '../../components/likeLps/likeLps';
-import MadeByMeMovies from '../../components/madeByMeMovies/madeByMeMovies';
+
+import MadeByMeLP from '../../components/madeByMeLP/madeByMeLP';
+import WriteByMeComment from '../../components/writeByMeComment/writeByMeComment';
 function MyPage() {
     const accessToken = localStorage.getItem('accessToken') || '';
     const { useGetMyInfo } = useUserInfo(accessToken);
@@ -10,7 +12,7 @@ function MyPage() {
     const [info, setInfo] = useState(0);
     return (
         <div className="w-full h-full flex flex-col p-[20px] items-center">
-            <div className="flex gap-5 justify-center items-center mt-[30px]">
+            <div className="flex gap-5 justify-center items-center mt-[30px] ">
                 <img
                     src={userData?.profileImageUrl || defaultImage}
                     alt="임시 이미지"
@@ -39,10 +41,24 @@ function MyPage() {
                         info === 1 ? 'underline' : ''
                     } text-white bg-black py-2 px-4 text-[17px]`}
                 >
-                    내가 북마크 한 LP
+                    내가 작성한 LP
+                </button>
+                <button
+                    onClick={() => setInfo(2)}
+                    className={`${
+                        info === 2 ? 'underline' : ''
+                    } text-white bg-black py-2 px-4 text-[17px]`}
+                >
+                    내가 작성한 댓글
                 </button>
             </div>
-            {info === 0 ? <LikeLps /> : <MadeByMeMovies />}
+            {info === 0 ? (
+                <LikeLps />
+            ) : info === 1 ? (
+                <MadeByMeLP />
+            ) : (
+                <WriteByMeComment />
+            )}
         </div>
     );
 }

@@ -26,6 +26,7 @@ export type TLp = {
     author: TAuthor;
     category: TCategory;
     image: string;
+    comment?: string;
 };
 
 type TBookmark = {
@@ -74,13 +75,22 @@ const GetAllLps = async ({
     categoryId: number;
 }): Promise<TGetAllLpsResponse> => {
     const { data } = await axiosUserInstance.get(
-        `/v1/lps?categoryId=${categoryId}`
+        `/v1/lps?categoryId=${categoryId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        }
     );
     return data;
 };
 
 const GetLpDetails = async ({ id }: { id: number }): Promise<TLpDetail> => {
-    const { data } = await axiosUserInstance.get(`/v1/lps/${id}`);
+    const { data } = await axiosUserInstance.get(`/v1/lps/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+    });
     return data;
 };
 
