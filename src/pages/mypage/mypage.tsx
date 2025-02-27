@@ -51,16 +51,17 @@ function MyPage() {
                         alt="임시 이미지"
                         className="w-[100px] h-[100px] rounded-[50%] object-cover hover:cursor-pointer"
                     />
-                    <div className="flex flex-col ">
+                    <div className="flex flex-col relative h-[100px] w-[144px]">
                         <input
                             type="text"
                             placeholder="닉네임을 입력해주세요"
-                            className="text-white px-2 py-1 text-[25px]"
+                            className="text-white absolute top-3 w-[250px] px-2 py-1 text-[20px] border-1 border-white rounded-md"
                             value={userName}
                             onChange={handleChangeInput}
                         />
-                        <div className="text-white">{userData?.email}</div>
-                        <div>{userData?.profileImageUrl}</div>
+                        <div className="text-white absolute bottom-4">
+                            {userData?.email}
+                        </div>
                     </div>
                 </div>
             ) : (
