@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import { PiFilmSlateFill } from 'react-icons/pi';
 import { useEffect } from 'react';
-import { FaHeart } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { MODAL_TYPES } from '../common/modal/modalProvider';
 import { openModal } from '../../slices/modalSlice';
@@ -66,21 +65,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                     >
                         <PiFilmSlateFill />
                         카테고리
-                    </div>
-                    <div
-                        onClick={() => {
-                            navigate('/favorite');
-                            setIsSidebarOpen(false);
-                        }}
-                        className={`flex items-center gap-[10px] text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
-                            ${
-                                location.pathname === '/favorite'
-                                    ? 'text-[#FF1E9D]'
-                                    : 'text-white'
-                            }`}
-                    >
-                        <FaHeart />
-                        좋아요한 LP
                     </div>
                 </div>
                 <div

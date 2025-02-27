@@ -11,12 +11,10 @@ import Category from '../pages/category/category.jsx';
 
 import AuthLayout from '../layout/auth-layout.tsx';
 import ModalProvider from '../components/common/modal/modalProvider.tsx';
-import Favorite from '../pages/favorite/favorite.tsx';
 import MyPage from '../pages/mypage/mypage.tsx';
 import LoginRedirect from '../pages/loginRedirect/loginRedirect.tsx';
 import Search from '../pages/search/search.tsx';
 import ProtectedPage from '../pages/protectedPage/protectedPage.tsx';
-import Bookmakred from '../pages/bookmaked/bookmarked';
 import LpDetail from '../components/lpDetail/lpDetail.tsx';
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
@@ -59,26 +57,10 @@ const router = createBrowserRouter([
                 element: <Search />,
             },
             {
-                path: 'favorite',
-                element: (
-                    <ProtectedRoute>
-                        <Favorite />
-                    </ProtectedRoute>
-                ),
-            },
-            {
                 path: 'mypage',
                 element: (
                     <ProtectedRoute>
                         <MyPage />
-                    </ProtectedRoute>
-                ),
-            },
-            {
-                path: 'bookmarked',
-                element: (
-                    <ProtectedRoute>
-                        <Bookmakred />
                     </ProtectedRoute>
                 ),
             },

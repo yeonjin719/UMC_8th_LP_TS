@@ -17,7 +17,7 @@ const AuthNavbar = () => {
                 onClick={() => navigate('/')}
                 className="flex max-w-[300px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center"
             >
-                이름추천..
+                돌려돌려LP판
             </div>
 
             <div className="flex gap-[10px] ml-auto">

@@ -9,6 +9,8 @@ import Comments from '../comments/comments';
 import { useRef, useState } from 'react';
 import { GoPencil } from 'react-icons/go';
 import { FaCheck } from 'react-icons/fa';
+import { IoMdClose } from 'react-icons/io';
+
 const LpDetail = () => {
     const { lpId } = useParams();
     const { data } = useGetLPDetails({ lpId: Number(lpId) });
@@ -32,7 +34,7 @@ const LpDetail = () => {
             <div className="flex w-full items-center flex-col ">
                 {edit ? (
                     <div className="flex flex-col w-[80%] gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
-                        <div className="flex gap-[40px] w-full justify-between">
+                        <div className="flex gap-[40px] w-[80%] justify-between">
                             <Profile
                                 profile_path={data?.author?.profileImageUrl}
                                 id={data?.author?.id}
@@ -42,7 +44,7 @@ const LpDetail = () => {
                                 {formatRelativeTime(data?.createdAt)}
                             </div>
                         </div>
-                        <div className="relative w-full">
+                        <div className="relative w-[80%]">
                             <input
                                 type="text"
                                 value={data?.title}
@@ -69,18 +71,36 @@ const LpDetail = () => {
                             src={image}
                             alt=""
                             onClick={handleImageClick}
-                            className="w-full hover:cursor-pointer hover:opacity-70"
+                            className="w-[80%] hover:cursor-pointer hover:opacity-70"
                         />
 
                         <input
                             type="text"
-                            className="text-white w-full border-white border-1 rounded-md p-5"
+                            className="text-white w-[80%] border-white border-1 rounded-md p-5"
                             value={data?.description}
                         />
+                        <div className="flex flex-wrap gap-[10px] mt-4">
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full flex items-center gap-2">
+                                #고구마
+                                <IoMdClose />
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full flex items-center gap-2">
+                                #겨울간식
+                                <IoMdClose />
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full flex items-center gap-2">
+                                #붕어빵
+                                <IoMdClose />
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full flex items-center gap-2">
+                                #망곰이
+                                <IoMdClose />
+                            </div>
+                        </div>
                     </div>
                 ) : (
                     <div className="flex flex-col w-[80%] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
-                        <div className="flex gap-[40px] w-full justify-between">
+                        <div className="flex gap-[40px] w-[80%] justify-between">
                             <Profile
                                 profile_path={data?.author?.profileImageUrl}
                                 id={data?.author?.id}
@@ -90,7 +110,7 @@ const LpDetail = () => {
                                 {formatRelativeTime(data?.createdAt)}
                             </div>
                         </div>
-                        <div className="relative w-full">
+                        <div className="relative w-[80%]">
                             <div className="text-white text-[25px]">
                                 {data?.title}
                             </div>
@@ -105,8 +125,22 @@ const LpDetail = () => {
                         </div>
 
                         <img src={image} alt="" className="w-[80%] mt-4" />
-                        <div className="text-white w-full">
+                        <div className="text-white w-[80%]">
                             {data?.description}
+                        </div>
+                        <div className="flex flex-wrap gap-[10px] mt-4">
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full">
+                                #고구마
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full">
+                                #겨울간식
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full">
+                                #붕어빵
+                            </div>
+                            <div className="bg-gray-700 text-white px-3 py-1 rounded-full">
+                                #망곰이
+                            </div>
                         </div>
                         <div className="flex items-center gap-[10px]">
                             <FaHeart color="white" size={30} />
