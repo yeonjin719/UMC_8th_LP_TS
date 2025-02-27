@@ -7,7 +7,7 @@ interface CreditMember {
 
 function Profile({ profile_path, name }: CreditMember) {
     return (
-        <div className="flex items-center gap-[10px] relative ">
+        <div className="flex items-center gap-[10px] relative min-w-fit">
             {profile_path ? (
                 <img
                     src={profile_path}
@@ -22,7 +22,7 @@ function Profile({ profile_path, name }: CreditMember) {
                 />
             )}
             <div className="flex flex-col">
-                <div className="flex items-center text-white text-sm font-bold">
+                <div className="flex items-center text-white text-sm font-bold ">
                     {name}
                 </div>
             </div>

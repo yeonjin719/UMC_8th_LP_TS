@@ -9,7 +9,7 @@ const LpCard = (data: TLp | undefined) => {
     const navigate = useNavigate();
     return (
         <div
-            className="flex relative w-[800px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] p-[15px] justify-between"
+            className="flex relative max-w-[800px] w-[70%] min-w-[400px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] py-[15px] px-[20px] justify-between gap-2"
             onClick={() => navigate(`/lp/${data?.id}`)}
         >
             {!data?.image ? (
@@ -31,7 +31,7 @@ const LpCard = (data: TLp | undefined) => {
                 <img src={data?.image || LP} alt="" className="h-full" />
             )}
 
-            <div className="flex-1 flex flex-col ml-2 ">
+            <div className="flex min-w-[60%] w-[80%] flex-col">
                 <div className="flex justify-between">
                     <div className="text-white font-bold text-[20px]">
                         {data?.title}
@@ -44,10 +44,10 @@ const LpCard = (data: TLp | undefined) => {
                     <div className="text-white">{data?.description}</div>
                 </div>
                 {data?.comment ? (
-                    <div className="flex text-white justify-between pt-2 max-w-[600px]">
-                        <div className="text-white flex ">
+                    <div className="flex text-white pt-2 w-full justify-between ">
+                        <div className="text-white flex w-[80%] min-w-[60%]">
                             "
-                            <span className=" w-full overflow-hidden text-ellipsis whitespace-nowrap max-w-[450px]">
+                            <span className="overflow-hidden w-[90%] text-ellipsis whitespace-nowrap">
                                 {data.comment}
                             </span>
                             "
@@ -60,7 +60,7 @@ const LpCard = (data: TLp | undefined) => {
                         ></Profile>
                     </div>
                 ) : (
-                    <div className="flex text-white justify-end">
+                    <div className="flex text-white pt-2 justify-end ">
                         <Profile
                             profile_path={data?.author.profileImageUrl}
                             name={data?.author.name}

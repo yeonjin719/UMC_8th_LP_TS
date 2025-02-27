@@ -7,9 +7,14 @@ import useGetLps from '../../hooks/queries/useGetLps';
 import Loading from '../Loading/Loading';
 import LpCard from '../../components/LpCard/LpCard';
 import { useParams } from 'react-router-dom';
+import Error from '../error/error';
 const Movie = () => {
     const { category } = useParams();
-    const { data } = useGetCategory();
+    const {
+        data,
+        isError: categoryError,
+        isLoading: categoryLoading,
+    } = useGetCategory();
     const {
         data: LpData,
         isLoading,
@@ -17,11 +22,11 @@ const Movie = () => {
     } = useGetLps({
         categoryId: Number(category),
     });
-    if (isLoading) {
-        return <Loading></Loading>;
+    if (isLoading || categoryLoading) {
+        return <Loading />;
     }
-    if (isError) {
-        return <div>에러</div>;
+    if (isError || categoryError) {
+        return <Error />;
     }
     return (
         <div className="flex flex-col justify-center items-center w-full">

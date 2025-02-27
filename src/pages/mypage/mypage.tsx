@@ -5,8 +5,11 @@ import LikeLps from '../../components/likeLps/likeLps';
 
 import MadeByMeLP from '../../components/madeByMeLP/madeByMeLP';
 import WriteByMeComment from '../../components/writeByMeComment/writeByMeComment';
+import { useAuthContext } from '../../context/LogInContext';
 function MyPage() {
-    const { useGetMyInfo } = useUserInfo();
+    const { isLogin } = useAuthContext();
+
+    const { useGetMyInfo } = useUserInfo(isLogin);
     const { data: userData } = useGetMyInfo;
     const [info, setInfo] = useState(0);
     return (
