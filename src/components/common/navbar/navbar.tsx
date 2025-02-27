@@ -25,7 +25,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const navigate = useNavigate();
     const { useLogout } = useAuth();
     const { mutate: logoutMutate } = useLogout;
-    const { useGetMyInfo } = useUserInfo(accessToken);
+    const { useGetMyInfo } = useUserInfo();
     const { data: userData } = useGetMyInfo;
 
     const handleLogout = () => {

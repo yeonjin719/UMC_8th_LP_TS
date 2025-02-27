@@ -1,4 +1,4 @@
-import { axiosUserInstance } from './axios-instance';
+import { axiosInstance } from './axios-instance';
 type TCategory = {
     id: number;
     name: string;
@@ -7,9 +7,10 @@ type TCategory = {
 };
 type TGetCategories = TCategory[];
 const GetCategories = async (): Promise<TGetCategories> => {
-    const { data } = await axiosUserInstance.get('/v1/categories', {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get('/v1/categories', {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     });
     return data;

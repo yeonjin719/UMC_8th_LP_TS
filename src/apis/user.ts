@@ -1,4 +1,4 @@
-import { axiosUserInstance } from './axios-instance';
+import { axiosInstance } from './axios-instance';
 export type TMyInfo = {
     accessToken: string;
 };
@@ -13,8 +13,10 @@ export type TMyInfoResponse = {
     updatedAt: string;
 };
 
-const getMyInfo = async (accessToken: string): Promise<TMyInfoResponse> => {
-    const { data } = await axiosUserInstance.get('/v1/users/me', {
+const getMyInfo = async (): Promise<TMyInfoResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+
+    const { data } = await axiosInstance.get('/v1/users/me', {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

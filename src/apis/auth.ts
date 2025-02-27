@@ -1,4 +1,4 @@
-import { axiosUserInstance } from './axios-instance';
+import { axiosInstance } from './axios-instance';
 
 type TLogin = {
     email: string;
@@ -38,14 +38,9 @@ type TGoogleLoginResponse = {
 };
 
 const Login = async ({ email, password }: TLogin): Promise<TLoginResponse> => {
-    const { data } = await axiosUserInstance.post<TLoginResponse>(
+    const { data } = await axiosInstance.post<TLoginResponse>(
         '/v1/auth/signin',
-        { email, password },
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-        }
+        { email, password }
     );
     return data;
 };
@@ -57,34 +52,27 @@ const Signup = async ({
     profileImageUrl,
     role,
 }: TSignup): Promise<TSignupResponse> => {
-    const { data } = await axiosUserInstance.post<TSignupResponse>(
+    const { data } = await axiosInstance.post<TSignupResponse>(
         '/v1/auth/signup',
-        { email, password, name, role, profileImageUrl },
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-        }
+        { email, password, name, role, profileImageUrl }
     );
     return data;
 };
 
 const GoogleLogin = async (): Promise<TGoogleLoginResponse> => {
-    const { data } = await axiosUserInstance.get('/v1/auth/google/login', {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-    });
+    const { data } = await axiosInstance.get('/v1/auth/google/login');
     return data;
 };
 
-const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
-    const { data } = await axiosUserInstance.post<TRefreshResponse>(
+const Refresh = async (): Promise<TRefreshResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const refreshToken = localStorage.getItem('refreshToken') || '';
+    const { data } = await axiosInstance.post<TRefreshResponse>(
         '/v1/auth/refresh',
-        {},
+        { refresh: refreshToken },
         {
             headers: {
-                Authorization: `Bearer ${refreshToken}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         }
     );
@@ -92,7 +80,7 @@ const Refresh = async (refreshToken: string): Promise<TRefreshResponse> => {
 };
 
 const Logout = async (accessToken: string) => {
-    const { data } = await axiosUserInstance.post(
+    const { data } = await axiosInstance.post(
         '/v1/auth/signout',
         {},
         {
@@ -104,9 +92,10 @@ const Logout = async (accessToken: string) => {
     return data;
 };
 const Withdraw = async (id: number) => {
-    const { data } = await axiosUserInstance.delete(`/v1/users/${id}`, {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.delete(`/v1/users/${id}`, {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     });
     return data;

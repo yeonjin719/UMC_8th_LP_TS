@@ -17,9 +17,8 @@ const WithdrawModal = ({ onClose }: TWithdrawModalProps) => {
     const dispatch = useDispatch();
     const { useWithdraw } = useAuth();
     const { mutate: withdrawMutate } = useWithdraw;
-    const accessToken = localStorage.getItem('accessToken') || '';
 
-    const { useGetMyInfo } = useUserInfo(accessToken);
+    const { useGetMyInfo } = useUserInfo();
     const { data: userData } = useGetMyInfo;
 
     const handleWithdraw = () => {

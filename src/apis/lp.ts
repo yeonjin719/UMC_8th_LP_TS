@@ -1,4 +1,4 @@
-import { axiosUserInstance } from './axios-instance';
+import { axiosInstance } from './axios-instance';
 type TCreateLp = {
     title: string;
     description: string;
@@ -61,11 +61,21 @@ const CreateLp = async ({
     code: string;
     message: string;
 }> => {
-    const { data } = await axiosUserInstance.post('/v1/lps', {
-        title: title,
-        description: description,
-        categoryId: categoryId,
-    });
+    const accessToken = localStorage.getItem('accessToken') || '';
+
+    const { data } = await axiosInstance.post(
+        '/v1/lps',
+        {
+            title: title,
+            description: description,
+            categoryId: categoryId,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
     return data;
 };
 
@@ -74,11 +84,12 @@ const GetAllLps = async ({
 }: {
     categoryId: number;
 }): Promise<TGetAllLpsResponse> => {
-    const { data } = await axiosUserInstance.get(
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(
         `/v1/lps?categoryId=${categoryId}`,
         {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         }
     );
@@ -86,9 +97,11 @@ const GetAllLps = async ({
 };
 
 const GetLpDetails = async ({ id }: { id: number }): Promise<TLpDetail> => {
-    const { data } = await axiosUserInstance.get(`/v1/lps/${id}`, {
+    const accessToken = localStorage.getItem('accessToken') || '';
+
+    const { data } = await axiosInstance.get(`/v1/lps/${id}`, {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer ${accessToken}`,
         },
     });
     return data;
