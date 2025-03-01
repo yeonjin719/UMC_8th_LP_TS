@@ -6,9 +6,6 @@ import HomePage from '../pages/home/home.jsx';
 import NotFound from '../pages/notFound/notFound.js';
 import SignUp from '../pages/signup/signup.jsx';
 import LogIn from '../pages/login/login.jsx';
-
-import Category from '../pages/category/category.jsx';
-
 import AuthLayout from '../layout/auth-layout.tsx';
 import ModalProvider from '../components/common/modal/modalProvider.tsx';
 import MyPage from '../pages/mypage/mypage.tsx';
@@ -43,14 +40,6 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <HomePage />,
-            },
-            {
-                path: 'category',
-                element: <Category />,
-            },
-            {
-                path: 'category/:category',
-                element: <Category />,
             },
             {
                 path: 'search',

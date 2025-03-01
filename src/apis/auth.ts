@@ -62,9 +62,9 @@ const Logout = async (accessToken: string) => {
     );
     return data;
 };
-const Withdraw = async (id: number) => {
+const Withdraw = async () => {
     const accessToken = localStorage.getItem('accessToken') || '';
-    const { data } = await axiosInstance.delete(`/v1/users/${id}`, {
+    const { data } = await axiosInstance.delete(`/v1/users`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

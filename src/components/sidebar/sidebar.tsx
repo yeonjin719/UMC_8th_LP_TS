@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
-import { PiFilmSlateFill } from 'react-icons/pi';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { MODAL_TYPES } from '../common/modal/modalProvider';
 import { openModal } from '../../slices/modalSlice';
 import { useAuthContext } from '../../context/LogInContext';
+import { IoPerson } from 'react-icons/io5';
 type TSidebarProps = {
     isSidebarOpen: boolean;
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,7 +53,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                     </div>
                     <div
                         onClick={() => {
-                            navigate('/category');
+                            navigate('/mypage');
                             setIsSidebarOpen(false);
                         }}
                         className={`flex items-center gap-[10px]  text-[15px] mt-[10px] ml-[20px] w-[100px] hover:cursor-pointer
@@ -63,8 +63,8 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: TSidebarProps) => {
                                     : 'text-white'
                             }`}
                     >
-                        <PiFilmSlateFill />
-                        카테고리
+                        <IoPerson />
+                        마이페이지
                     </div>
                 </div>
                 <div

@@ -51,23 +51,38 @@ const getLPs = async ({
     });
     return data;
 };
+const getLPWithTag = async ({
+    cursor,
+    tagName,
+    limit,
+    search,
+    order,
+}: TGetLPsRequest): Promise<TGetLPsResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`v1/lps/tag/${tagName}`, {
+        params: { cursor, limit, search, order },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
 
-// const GetAllLps = async ({
-//     categoryId,
-// }: {
-//     categoryId: number;
-// }): Promise<TGetAllLpsResponse> => {
-//     const accessToken = localStorage.getItem('accessToken') || '';
-//     const { data } = await axiosInstance.get(
-//         `/v1/lps?categoryId=${categoryId}`,
-//         {
-//             headers: {
-//                 Authorization: `Bearer ${accessToken}`,
-//             },
-//         }
-//     );
-//     return data;
-// };
+const getLikesMeLPs = async ({
+    cursor,
+    limit,
+    search,
+    order,
+}: TGetLPsRequest): Promise<TGetLPsResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`v1/lps/likes/me`, {
+        params: { cursor, limit, search, order },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
 
 const GetLpDetails = async ({ id }: { id: number }): Promise<TLpDetail> => {
     const accessToken = localStorage.getItem('accessToken') || '';
@@ -130,4 +145,13 @@ const postLP = async ({
     );
     return data;
 };
-export { CreateLp, postLP, GetLpDetails, getLPs, deleteLP, getComments };
+export {
+    CreateLp,
+    getLikesMeLPs,
+    postLP,
+    GetLpDetails,
+    getLPs,
+    deleteLP,
+    getComments,
+    getLPWithTag,
+};

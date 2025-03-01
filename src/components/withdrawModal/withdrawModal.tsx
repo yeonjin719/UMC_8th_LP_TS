@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { useAuthContext } from '../../context/LogInContext';
 import useAuth from '../../hooks/queries/useAuth';
 import { closeModal } from '../../slices/modalSlice';
-import useUserInfo from '../../hooks/queries/useUserInfo';
 import { queryClient } from '../../main';
 
 type TWithdrawModalProps = {
@@ -13,27 +12,27 @@ type TWithdrawModalProps = {
 };
 const WithdrawModal = ({ onClose }: TWithdrawModalProps) => {
     const navigate = useNavigate();
-    const { setIsLogin } = useAuthContext();
+    const { setIsLogin, isLogin } = useAuthContext();
     const dispatch = useDispatch();
     const { useWithdraw } = useAuth();
     const { mutate: withdrawMutate } = useWithdraw;
 
-    const { useGetMyInfo } = useUserInfo();
-    const { data: userData } = useGetMyInfo;
-
     const handleWithdraw = () => {
         queryClient.invalidateQueries({ queryKey: ['myInfo'] });
-        if (userData?.id) {
-            withdrawMutate(userData.id, {
-                onSuccess: () => {
-                    localStorage.removeItem('accessToken');
-                    localStorage.removeItem('refreshToken');
-                    setIsLogin(false);
-                    queryClient.invalidateQueries({ queryKey: ['myInfo'] });
-                    navigate('/');
-                    alert('성공적으로 탈퇴되었습니다');
-                },
-            });
+        if (isLogin) {
+            withdrawMutate(
+                {},
+                {
+                    onSuccess: () => {
+                        localStorage.removeItem('accessToken');
+                        localStorage.removeItem('refreshToken');
+                        setIsLogin(false);
+                        queryClient.invalidateQueries({ queryKey: ['myInfo'] });
+                        navigate('/');
+                        alert('성공적으로 탈퇴되었습니다');
+                    },
+                }
+            );
         }
     };
     return (

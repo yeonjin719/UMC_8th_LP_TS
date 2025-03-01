@@ -1,4 +1,4 @@
-import { TOrder } from '../constants/enum';
+import { TOrder, TSearchEnum } from '../constants/enum';
 import { TCommonResponse } from './common';
 
 export type TLp = {
@@ -13,10 +13,12 @@ export type TLp = {
 };
 
 export type TGetLPsRequest = {
-    cursor?: number;
+    cursor?: number | null;
     limit?: number;
     search?: string;
     order: TOrder;
+    type?: TSearchEnum;
+    tagName?: string;
 };
 
 export type TGetLPsResponse = TCommonResponse<{

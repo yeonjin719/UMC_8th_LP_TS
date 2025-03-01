@@ -12,10 +12,10 @@ function MyPage() {
     const { useGetMyInfo } = useUserInfo(isLogin);
     const { data: userData } = useGetMyInfo;
     const [info, setInfo] = useState(0);
-    const [userName, setUserName] = useState(userData?.name);
+    const [userName, setUserName] = useState(userData?.data.name);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [imageSrc, setImageSrc] = useState(
-        userData?.profileImageUrl || defaultImage
+        userData?.data.avatar || defaultImage
     );
 
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,7 @@ function MyPage() {
                             onChange={handleChangeInput}
                         />
                         <div className="text-white absolute bottom-4">
-                            {userData?.email}
+                            {userData?.data.email}
                         </div>
                     </div>
                 </div>
@@ -73,10 +73,10 @@ function MyPage() {
                     />
                     <div className="flex flex-col ">
                         <div className="text-white text-[30px]">
-                            {userData?.name}
+                            {userData?.data.name}
                         </div>
-                        <div className="text-white">{userData?.email}</div>
-                        <div>{userData?.profileImageUrl}</div>
+                        <div className="text-white">{userData?.data.email}</div>
+                        <div>{userData?.data.avatar}</div>
                     </div>
                 </div>
             )}
