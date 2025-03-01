@@ -7,11 +7,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TPostLP } from '../../types/lp';
 import { addLpSchema } from '../../utils/validate';
+import useGetTags from '../../hooks/queries/useGetTags';
+import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
+import useDebounce from '../../hooks/common/useDebounce';
+
 type TSearchModalProps = {
     onClose: () => void;
 };
 
 const AddLPModal = ({ onClose }: TSearchModalProps) => {
+    const navigate = useNavigate();
     const [addTag, setAddTag] = useState<string[]>([]);
     const [tagInput, setTagInput] = useState('');
     const [imageSrc, setImageSrc] = useState('');
@@ -19,6 +25,12 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const tagListRef = useRef<HTMLDivElement | null>(null);
     const { mutate: postMutate } = usePostLP();
+    const debouncedTagInput = useDebounce(tagInput, 5000);
+
+    const { data, fetchNextPage, hasNextPage, isFetching } = useGetTags({
+        search: debouncedTagInput,
+        limit: 5,
+    });
     const { register, handleSubmit } = useForm<TPostLP>({
         mode: 'onChange',
         resolver: zodResolver(addLpSchema),
@@ -45,7 +57,6 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
         if (newTag && !addTag.includes(newTag)) {
             setAddTag([...addTag, newTag]);
         }
-
         setTagInput('');
         setShowTagList(false);
     };
@@ -66,14 +77,43 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
             reader.readAsDataURL(file);
         }
     };
+
+    const onChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTagInput(e.target.value);
+        setShowTagList(true);
+    };
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    });
+
+    useEffect(() => {
+        if (inView) {
+            if (!isFetching && hasNextPage) {
+                fetchNextPage();
+            }
+        }
+    }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
     const onSubmit: SubmitHandler<TPostLP> = (submitData) => {
-        postMutate({
-            title: submitData.title,
-            content: submitData.content,
-            thumnail: imageSrc,
-            tags: addTag,
-            published: true,
-        });
+        postMutate(
+            {
+                title: submitData.title,
+                content: submitData.content,
+                thumnail: imageSrc,
+                tags: addTag,
+                published: true,
+            },
+            {
+                onSuccess: () => {
+                    onClose();
+                    navigate('/');
+                },
+                onError: () => {
+                    alert('에러발생!');
+                },
+            }
+        );
     };
 
     return (
@@ -121,42 +161,30 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                                 placeholder="LP Tag"
                                 value={tagInput}
                                 onClick={() => setShowTagList(true)}
-                                onChange={(e) => {
-                                    setTagInput(e.target.value);
-                                    setShowTagList(true);
-                                }}
+                                onChange={onChangeSearchValue}
                             />
                             {showTagList && (
                                 <div
                                     className="flex absolute flex-wrap border-gray-500 border-[0.1px] left-0 top-[40px] w-[79%] max-h-[140px] overflow-y-scroll rounded-md z-2"
                                     ref={tagListRef}
                                 >
-                                    <span
-                                        className="border-gray-500 bg-[rgba(40,41,46)] h-[40px] border-[0.1px] w-full px-2 py-1 text-sm flex items-center hover:cursor-pointer "
-                                        onClick={() => handleAddTag('고양이')}
-                                    >
-                                        #고양이
-                                    </span>
-                                    <span
-                                        className="border-gray-500 bg-[rgba(40,41,46)] h-[40px] border-[0.1px] w-full px-2 py-1  text-sm flex items-center hover:cursor-pointer"
-                                        onClick={() => handleAddTag('강아지')}
-                                    >
-                                        #강아지
-                                    </span>
-                                    <span
-                                        className="border-gray-500 bg-[rgba(40,41,46)] h-[40px] border-[0.1px] w-full px-2 py-1  text-sm flex items-center hover:cursor-pointer"
-                                        onClick={() => handleAddTag('UMC')}
-                                    >
-                                        #UMC
-                                    </span>
-                                    <span
-                                        className="border-gray-500 bg-[rgba(40,41,46)] h-[40px] border-[0.1px] w-full px-2 py-1 text-sm flex items-center hover:cursor-pointer"
-                                        onClick={() =>
-                                            handleAddTag('웹파트_짱짱')
-                                        }
-                                    >
-                                        #웹파트_짱짱
-                                    </span>
+                                    {data?.pages.map((page) =>
+                                        page.data.data.map((tag) => (
+                                            <span
+                                                key={tag.id}
+                                                className="border-gray-500 bg-[rgba(40,41,46)] h-[40px] border-[0.1px] w-full px-2 py-1 text-sm flex items-center hover:cursor-pointer "
+                                                onClick={() =>
+                                                    handleAddTag(tag.name)
+                                                }
+                                            >
+                                                #{tag.name}
+                                            </span>
+                                        ))
+                                    )}
+                                    <div
+                                        ref={ref}
+                                        className="flex w-full justify-center h-auto"
+                                    ></div>
                                 </div>
                             )}
 

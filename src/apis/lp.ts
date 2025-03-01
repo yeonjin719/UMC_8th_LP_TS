@@ -7,6 +7,8 @@ import {
     TLpDelete,
     TLpDetail,
     TPostLP,
+    TTagList,
+    TTagsListResponse,
 } from '../types/lp';
 import { axiosInstance } from './axios-instance';
 
@@ -145,6 +147,22 @@ const postLP = async ({
     );
     return data;
 };
+
+const getTags = async ({
+    search,
+    order,
+    cursor,
+    limit,
+}: TTagList): Promise<TTagsListResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`/v1/tags`, {
+        params: { cursor, limit, order, search },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
 export {
     CreateLp,
     getLikesMeLPs,
@@ -154,4 +172,5 @@ export {
     deleteLP,
     getComments,
     getLPWithTag,
+    getTags,
 };

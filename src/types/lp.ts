@@ -53,6 +53,13 @@ export type TLpDelete = {
     data: null;
 };
 
+export type TTagList = {
+    cursor?: number;
+    limit?: number;
+    search?: string;
+    order?: TOrder;
+};
+
 export type TLPComments = TCommonResponse<{
     data: TComment[];
     nextCursor: number;
@@ -92,6 +99,13 @@ type TAuthor = {
     createdAt: string;
     updatedAt: string;
 };
+
+export type TTagsListResponse = TCommonResponse<{
+    data: TTags[];
+    nextCursor: number;
+    hasNext: boolean;
+}>;
+
 type TTags = {
     id: number;
     name: string;

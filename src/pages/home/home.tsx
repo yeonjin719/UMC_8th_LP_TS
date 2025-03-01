@@ -2,13 +2,17 @@ import { useState } from 'react';
 import Order from '../../components/common/order/order';
 import PaginationBar from '../../components/common/paginationBar/paginationBar';
 import LpCard from '../../components/LpCard/LpCard';
-import { TOrder } from '../../constants/enum';
+import { TOrder, TSearchEnum } from '../../constants/enum';
 import useGetLps from '../../hooks/queries/useGetLps';
 
 const HomePage = () => {
     const [order, setOrder] = useState<TOrder>(TOrder.오래된순);
     const [currentPage, setCurrentPage] = useState(0);
-    const { data } = useGetLps({ cursor: currentPage * 10, order });
+    const { data } = useGetLps({
+        cursor: currentPage * 10,
+        order,
+        type: TSearchEnum.TITLE,
+    });
     return (
         <div className="flex flex-col items-center border-t border-gray-800 py-5">
             <div className="flex w-[80%] justify-end">
