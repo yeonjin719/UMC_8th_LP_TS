@@ -15,8 +15,8 @@ const passwordSchema = z
     .min(8, '비밀번호는 8자 이상이어야 합니다.')
     .max(16, '비밀번호는 16자 이하여야 합니다.');
 
-const profileImageSchema = z.string().nullable();
-const roleSchema = z.string().nonempty();
+const avartarSchema = z.string().nullable();
+const bioSchema = z.string().nullable();
 
 // 비밀번호와 비밀번호 확인을 비교하는 스키마
 const passwordGroupSchema = z
@@ -34,8 +34,8 @@ const signUpSchema = z.object({
     name: nameSchema,
     email: emailSchema,
     passwordGroup: passwordGroupSchema,
-    profileImage: profileImageSchema,
-    role: roleSchema,
+    avatar: avartarSchema,
+    bio: bioSchema,
 });
 
 const loginSchema = z.object({
@@ -43,4 +43,9 @@ const loginSchema = z.object({
     password: passwordSchema,
 });
 
-export { signUpSchema, loginSchema };
+const addLpSchema = z.object({
+    title: z.string().nonempty(),
+    content: z.string().nonempty(),
+});
+
+export { signUpSchema, addLpSchema, loginSchema };

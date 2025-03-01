@@ -4,6 +4,6 @@ export enum TSearchEnum {
 }
 
 export enum TOrder {
-    LATEST = '최신순',
-    POPULAR = '인기순',
+    '오래된순' = 'asc',
+    '최신순' = 'desc',
 }

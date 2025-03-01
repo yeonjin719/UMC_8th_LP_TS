@@ -2,6 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import Portal from '../common/portal/portal';
 import LPComponents from '../LPComponents/LPComponents';
 import { IoMdClose } from 'react-icons/io';
+import usePostLP from '../../hooks/queries/usePostLP';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TPostLP } from '../../types/lp';
+import { addLpSchema } from '../../utils/validate';
 type TSearchModalProps = {
     onClose: () => void;
 };
@@ -13,7 +18,11 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
     const [showTagList, setShowTagList] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const tagListRef = useRef<HTMLDivElement | null>(null);
-
+    const { mutate: postMutate } = usePostLP();
+    const { register, handleSubmit } = useForm<TPostLP>({
+        mode: 'onChange',
+        resolver: zodResolver(addLpSchema),
+    });
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -57,9 +66,14 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
             reader.readAsDataURL(file);
         }
     };
-
-    const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const onSubmit: SubmitHandler<TPostLP> = (submitData) => {
+        postMutate({
+            title: submitData.title,
+            content: submitData.content,
+            thumnail: imageSrc,
+            tags: addTag,
+            published: true,
+        });
     };
 
     return (
@@ -67,7 +81,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
             <div className="flex flex-col w-full items-center absolute left-0 top-0 h-full overflow-hidden text-white">
                 <form
                     className="flex flex-col items-center justify-center w-full h-full "
-                    onSubmit={handleFormSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl px-5 py-10 gap-2 items-center z-8 relative">
                         {/* 이미지 업로드 */}
@@ -90,17 +104,17 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                             <LPComponents imageSrc={imageSrc} />
                         </div>
 
-                        {/* LP 정보 입력 */}
                         <input
                             className="w-full h-10 border-gray-500 border rounded-md p-2 mb-2 mt-5"
                             placeholder="LP Name"
+                            {...register('title')}
                         />
                         <input
                             className="w-full h-10 border-gray-500 border rounded-md p-2 mb-2"
                             placeholder="LP Content"
+                            {...register('content')}
                         />
 
-                        {/* 태그 입력 */}
                         <div className="flex gap-2 w-full items-center mb-2 relative">
                             <input
                                 className="w-full h-[40px] border-gray-500 border rounded-md p-2"

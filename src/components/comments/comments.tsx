@@ -1,15 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Comment from '../comment/comment';
 import { GoPencil } from 'react-icons/go';
+import { useInView } from 'react-intersection-observer';
 import Order from '../common/order/order';
 import { TOrder } from '../../constants/enum';
-const Comments = () => {
+import ClipLoader from 'react-spinners/ClipLoader';
+import useGetComments from '../../hooks/queries/useGetComments';
+const Comments = ({ lpsId }: { lpsId: number }) => {
     const [comment, setComment] = useState('');
-    const [order, setOrder] = useState<TOrder>(TOrder.LATEST);
+    const [order, setOrder] = useState<TOrder>(TOrder.최신순);
+    const { data, fetchNextPage, hasNextPage, isFetching } = useGetComments({
+        lpsId,
+        cursor: 0,
+        limit: 10,
+    });
 
     const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
     };
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+    });
+
+    useEffect(() => {
+        if (inView) {
+            if (!isFetching && hasNextPage) {
+                fetchNextPage();
+            }
+        }
+    }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
     return (
         <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-[80%] h-auto ">
             <div className="flex flex-col text-white h-full w-full p-5 gap-4">
@@ -34,10 +55,15 @@ const Comments = () => {
                         작성
                     </button>
                 </div>
-                <Comment></Comment>
-                <Comment></Comment>
-                <Comment></Comment>
-                <Comment></Comment>
+                {data?.pages.map((datalist) =>
+                    datalist.data.data.map((comment) => (
+                        <Comment key={comment.id} {...comment}></Comment>
+                    ))
+                )}
+
+                <div ref={ref} className="flex w-full justify-center h-auto">
+                    {isFetching && <ClipLoader color={'#fff'} />}
+                </div>
             </div>
         </div>
     );

@@ -6,10 +6,10 @@ import type {
 import type { AxiosError } from 'axios';
 
 export type TCommonResponse<T> = {
-    isSuccess: boolean;
-    code: string;
+    status: boolean;
+    statusCode: number;
     message: string;
-    result: T;
+    data: T;
 };
 
 export type TResponseError = AxiosError<{

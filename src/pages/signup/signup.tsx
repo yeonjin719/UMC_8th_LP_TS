@@ -21,8 +21,8 @@ export interface SignupForm {
         password: string;
         passwordCheck: string;
     };
-    profileImage: string | null;
-    role: string;
+    avatar: string | null;
+    bio: string | null;
     name: string;
 }
 
@@ -37,7 +37,7 @@ const MainSignup = () => {
     const methods = useForm<SignupForm>({
         mode: 'onChange',
         resolver: zodResolver(signUpSchema),
-        defaultValues: { role: 'USER', profileImage: null },
+        defaultValues: { bio: null, avatar: null },
     });
 
     const nextStep = () => setStep(2);
@@ -59,8 +59,8 @@ const MainSignup = () => {
                 email: data.email,
                 password: data.passwordGroup.password,
                 name: data.name,
-                role: data.role,
-                profileImageUrl: data.profileImage,
+                bio: data.bio,
+                avatar: data.avatar,
             },
             {
                 onSuccess: () => {

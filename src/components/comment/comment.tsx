@@ -1,18 +1,13 @@
+import { TComment } from '../../types/lp';
 import Profile from '../common/profile/profile';
 
-const Comment = () => {
+const Comment = ({ id, author, content }: TComment) => {
     return (
         <div className="flex items-center">
-            <Profile
-                id={undefined}
-                profile_path={undefined}
-                name={undefined}
-            ></Profile>
+            <Profile id={id} profile_path={author.avatar}></Profile>
             <div className="flex flex-col">
-                <div className="text-white text-[18px]">연진</div>
-                <div className="text-white">
-                    이 작업 도대체 언제 끝나는 거에요?
-                </div>
+                <div className="text-white text-[18px]">{author.name}</div>
+                <div className="text-white">{content}</div>
             </div>
         </div>
     );

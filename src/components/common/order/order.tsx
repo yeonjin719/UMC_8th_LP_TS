@@ -10,26 +10,26 @@ const Order = ({ order, setOrder }: TOrderComponentProps) => {
             <div
                 className={`border-r-white border-r-[0.1px] px-4 py-1
                   ${
-                      order === TOrder.LATEST
+                      order === TOrder.오래된순
                           ? 'bg-white text-black rounded-tl-md rounded-bl-md'
                           : 'text-white'
                   }
                   `}
-                onClick={() => setOrder(TOrder.LATEST)}
+                onClick={() => setOrder(TOrder.오래된순)}
             >
-                {TOrder.LATEST}
+                오래된순
             </div>
             <div
                 className={`px-4 py-1
               ${
-                  order === TOrder.POPULAR
+                  order === TOrder.최신순
                       ? 'bg-white text-black rounded-tr-md rounded-br-md'
                       : 'text-white'
               }
               `}
-                onClick={() => setOrder(TOrder.POPULAR)}
+                onClick={() => setOrder(TOrder.최신순)}
             >
-                {TOrder.POPULAR}
+                최신순
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import defaultProfile from '../../../images/default_profile.png';
 interface CreditMember {
     id: number | undefined;
     profile_path: string | null | undefined;
-    name: string | undefined;
+    name?: string | undefined;
 }
 
 function Profile({ profile_path, name }: CreditMember) {

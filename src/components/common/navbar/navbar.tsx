@@ -90,7 +90,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                             className="text-white text-[15px] flex items-center"
                             onClick={() => navigate('/mypage')}
                         >
-                            {userData?.name}님 반갑습니다.
+                            {userData?.data.name}님 반갑습니다.
                         </div>
                         <button
                             onClick={handleLogout}

@@ -30,11 +30,11 @@ const LogIn = () => {
     const onSubmit = (data: TLoginForm) => {
         loginMutate(data, {
             onSuccess: (data) => {
-                const { accessToken, refreshToken } = data;
+                const { accessToken, refreshToken } = data.data;
                 localStorage.setItem('refreshToken', refreshToken);
                 localStorage.setItem('accessToken', accessToken);
                 setIsLogin(true);
-                setNickname(data.name);
+                setNickname(data.data.name);
                 console.log('로그인 성공');
                 navigate('/');
             },

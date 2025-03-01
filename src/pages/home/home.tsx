@@ -3,123 +3,28 @@ import Order from '../../components/common/order/order';
 import PaginationBar from '../../components/common/paginationBar/paginationBar';
 import LpCard from '../../components/LpCard/LpCard';
 import { TOrder } from '../../constants/enum';
+import useGetLps from '../../hooks/queries/useGetLps';
 
 const HomePage = () => {
-    const [order, setOrder] = useState<TOrder>(TOrder.LATEST);
+    const [order, setOrder] = useState<TOrder>(TOrder.오래된순);
+    const [currentPage, setCurrentPage] = useState(0);
+    const { data } = useGetLps({ cursor: currentPage * 10, order });
     return (
         <div className="flex flex-col items-center border-t border-gray-800 py-5">
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
-            <div className="flex flex-col w-full gap-2 items-center min-h-[75vh] h-fit-content justify-center">
-                <LpCard
-                    id={0}
-                    title={'rosie'}
-                    description={'로제의 솔로앨범'}
-                    authorId={0}
-                    categoryId={0}
-                    createdAt={'2025-02-25'}
-                    updatedAt={''}
-                    author={{
-                        id: 0,
-                        email: 'kyj0719@gmail.com',
-                        name: '코튼',
-                        role: 'USER',
-                        profileImageUrl: null,
-                    }}
-                    category={{
-                        id: 0,
-                        name: '',
-                    }}
-                    image={''}
-                ></LpCard>
-                <LpCard
-                    id={0}
-                    title={'rosie'}
-                    description={'로제의 솔로앨범'}
-                    authorId={0}
-                    categoryId={0}
-                    createdAt={'2025-02-25'}
-                    updatedAt={''}
-                    author={{
-                        id: 0,
-                        email: 'kyj0719@gmail.com',
-                        name: '코튼',
-                        role: 'USER',
-                        profileImageUrl: null,
-                    }}
-                    category={{
-                        id: 0,
-                        name: '',
-                    }}
-                    image={''}
-                ></LpCard>
-                <LpCard
-                    id={0}
-                    title={'rosie'}
-                    description={'로제의 솔로앨범'}
-                    authorId={0}
-                    categoryId={0}
-                    createdAt={'2025-02-25'}
-                    updatedAt={''}
-                    author={{
-                        id: 0,
-                        email: 'kyj0719@gmail.com',
-                        name: '코튼',
-                        role: 'USER',
-                        profileImageUrl: null,
-                    }}
-                    category={{
-                        id: 0,
-                        name: '',
-                    }}
-                    image={''}
-                ></LpCard>
-                <LpCard
-                    id={0}
-                    title={'rosie'}
-                    description={'로제의 솔로앨범'}
-                    authorId={0}
-                    categoryId={0}
-                    createdAt={'2025-02-25'}
-                    updatedAt={''}
-                    author={{
-                        id: 0,
-                        email: 'kyj0719@gmail.com',
-                        name: '코튼',
-                        role: 'USER',
-                        profileImageUrl: null,
-                    }}
-                    category={{
-                        id: 0,
-                        name: '',
-                    }}
-                    image={''}
-                ></LpCard>
-                <LpCard
-                    id={0}
-                    title={'rosie'}
-                    description={'로제의 솔로앨범'}
-                    authorId={0}
-                    categoryId={0}
-                    createdAt={'2025-02-25'}
-                    updatedAt={''}
-                    author={{
-                        id: 0,
-                        email: 'kyj0719@gmail.com',
-                        name: '코튼',
-                        role: 'USER',
-                        profileImageUrl: null,
-                    }}
-                    category={{
-                        id: 0,
-                        name: '',
-                    }}
-                    image={''}
-                ></LpCard>
+            <div className="flex flex-col w-full gap-2 mt-4 items-center min-h-[75vh] h-fit-content justify-center">
+                {data?.data.data?.map((lp) => {
+                    return <LpCard {...lp} key={lp.id}></LpCard>;
+                })}
             </div>
             <div className="w-full flex justify-center">
-                <PaginationBar />
+                <PaginationBar
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    hasNextPage={data?.data.hasNext}
+                />
             </div>
         </div>
     );

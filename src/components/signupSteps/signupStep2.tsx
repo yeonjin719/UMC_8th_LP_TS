@@ -26,12 +26,12 @@ export default function Step2() {
                 id="profile-image-input"
                 type="file"
                 accept="image/*"
-                {...register('profileImage')}
+                {...register('avatar')}
                 className="w-full h-10 rounded-md pl-2 bg-white hidden"
             />
-            {errors.profileImage && (
+            {errors.avatar && (
                 <div className="text-red-500 text-sm">
-                    {errors.profileImage.message}
+                    {errors.avatar.message}
                 </div>
             )}
 
