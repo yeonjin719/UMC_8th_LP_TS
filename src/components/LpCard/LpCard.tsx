@@ -1,48 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 
 import LP from '../../../public/lp.png';
-
+import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 // import Profile from '../common/profile/profile';
 import { TLp } from '../../types/lp';
-import { useState } from 'react';
 
 const LpCard = (data: TLp | undefined) => {
     console.log(data);
     const navigate = useNavigate();
-    const [hasError, setHasError] = useState(false);
 
-    const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        (e.target as HTMLImageElement).src = LP;
-        setHasError(true);
-    };
     return (
         <div
             className="flex relative max-w-[800px] w-[70%] min-w-[400px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] py-[15px] px-[20px] justify-between gap-2"
             onClick={() => navigate(`/lp/${data?.id}`)}
         >
             {data?.thumbnail ? (
-                <div
-                    className={`relative h-[90px] 
-                        ${hasError ? 'w-[90px]' : 'min-w-[130px]'}
-                    `}
-                >
+                <div className={`relative h-[90px] min-w-[130px]`}>
                     <img
                         src={data?.thumbnail}
                         alt="lp 커버 이미지"
                         className="absolute h-full object-cover z-1 max-w-[90px] min-w-[90px]"
-                        onError={handleError}
+                        onError={(e) =>
+                            ((e.target as HTMLImageElement).src = LPCover)
+                        }
                     />
                     <img
                         src={LP}
                         alt="lp 이미지"
-                        className={`
-                            ${
-                                hasError
-                                    ? 'hidden'
-                                    : 'absolute h-full w-[90px] right-[0px]'
-                            }
-                            `}
+                        className={`absolute h-full w-[90px] right-[0px]`}
                     />
                 </div>
             ) : (

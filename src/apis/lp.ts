@@ -1,5 +1,7 @@
 import {
+    TCommentResponse,
     TCreateLp,
+    TDeleteCommentResponse,
     TGetCommentsRequest,
     TGetLPsRequest,
     TGetLPsResponse,
@@ -163,8 +165,73 @@ const getTags = async ({
     });
     return data;
 };
+
+const postComment = async ({
+    lpId,
+    content,
+}: {
+    lpId: number;
+    content: string;
+}): Promise<TCommentResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.post(
+        `/v1/lps/${lpId}/comments`,
+        {
+            content,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+
+const deleteComment = async ({
+    lpsId,
+    commentId,
+}: {
+    lpsId: number;
+    commentId: number;
+}): Promise<TDeleteCommentResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.delete(
+        `/v1/lps/${lpsId}/comments/${commentId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+
+const patchComment = async ({
+    lpsId,
+    commentId,
+    content,
+}: {
+    lpsId: number;
+    commentId: number;
+    content: string;
+}): Promise<TDeleteCommentResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.patch(
+        `/v1/lps/${lpsId}/comments/${commentId}`,
+        { content },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+
 export {
     CreateLp,
+    patchComment,
     getLikesMeLPs,
     postLP,
     GetLpDetails,
@@ -173,4 +240,6 @@ export {
     getComments,
     getLPWithTag,
     getTags,
+    postComment,
+    deleteComment,
 };

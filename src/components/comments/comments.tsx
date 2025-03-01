@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Comment from '../comment/comment';
-import { GoPencil } from 'react-icons/go';
 import { useInView } from 'react-intersection-observer';
 import Order from '../common/order/order';
 import { TOrder } from '../../constants/enum';
 import ClipLoader from 'react-spinners/ClipLoader';
 import useGetComments from '../../hooks/queries/useGetComments';
+import usePostComment from '../../hooks/queries/usePostComment';
+import { queryClient } from '../../main';
 const Comments = ({ lpsId }: { lpsId: number }) => {
     const [comment, setComment] = useState('');
     const [order, setOrder] = useState<TOrder>(TOrder.최신순);
@@ -14,6 +15,7 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
         cursor: 0,
         limit: 10,
     });
+    const { mutate: commentMutate } = usePostComment();
 
     const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
@@ -31,6 +33,23 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
         }
     }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
+    const handleSubmitComment = () => {
+        commentMutate(
+            {
+                content: comment,
+                lpId: lpsId,
+            },
+            {
+                onSuccess: () => {
+                    setComment('');
+                    queryClient.invalidateQueries({
+                        queryKey: ['getComments', lpsId],
+                    });
+                },
+            }
+        );
+    };
+
     return (
         <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-[80%] h-auto ">
             <div className="flex flex-col text-white h-full w-full p-5 gap-4">
@@ -40,7 +59,6 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
                 </div>
 
                 <div className="flex gap-2 items-center">
-                    <GoPencil size={20} color="white"></GoPencil>
                     <input
                         type="text"
                         value={comment}
@@ -51,6 +69,7 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
                     <button
                         className="bg-pink-500 w-[60px] py-[5px] rounded-md disabled:bg-gray-400"
                         disabled={!comment}
+                        onClick={handleSubmitComment}
                     >
                         작성
                     </button>

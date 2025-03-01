@@ -114,3 +114,17 @@ type TTags = {
 export type TBookmark = {
     userId: number;
 };
+export type TPostComment = {
+    id: number;
+    content: string;
+    lpId: number;
+    authorId: number;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type TCommentResponse = TCommonResponse<TPostComment>;
+
+export type TDeleteCommentResponse = TCommonResponse<{
+    message: string;
+}>;
