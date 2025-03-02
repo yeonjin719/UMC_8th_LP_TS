@@ -11,6 +11,8 @@ interface IAuthContextValue {
     setIsLogin: (isLogin: boolean) => void;
     nickname: string;
     setNickname: (nickname: string) => void;
+    userId: number;
+    setUserId: (userId: number) => void;
 }
 
 const AuthContext = createContext<IAuthContextValue>({
@@ -18,6 +20,8 @@ const AuthContext = createContext<IAuthContextValue>({
     setIsLogin: () => {},
     nickname: '',
     setNickname: () => {},
+    userId: -1,
+    setUserId: () => {},
 });
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -26,6 +30,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     });
 
     const [nickname, setNickname] = useState('');
+    const [userId, setUserId] = useState(-1);
 
     useEffect(() => {
         localStorage.setItem('isLogin', String(isLogin));
@@ -33,7 +38,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     return (
         <AuthContext.Provider
-            value={{ isLogin, setIsLogin, nickname, setNickname }}
+            value={{
+                isLogin,
+                setIsLogin,
+                nickname,
+                setNickname,
+                userId,
+                setUserId,
+            }}
         >
             {children}
         </AuthContext.Provider>

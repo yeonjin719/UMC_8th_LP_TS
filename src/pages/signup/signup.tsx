@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import googleLogo from '../../images/googleLogo.svg';
+
 import Step1 from '../../components/signupSteps/signupStep1';
 import Step2 from '../../components/signupSteps/signupStep2';
 import {
@@ -14,6 +14,7 @@ import { signUpSchema } from '../../utils/validate';
 import { z } from 'zod';
 import useAuth from '../../hooks/queries/useAuth';
 import { useNavigate } from 'react-router-dom';
+import Step3 from '../../components/signupSteps/signupStep3';
 
 export interface SignupForm {
     email: string;
@@ -40,7 +41,8 @@ const MainSignup = () => {
         defaultValues: { bio: null, avatar: null },
     });
 
-    const nextStep = () => setStep(2);
+    const nextStep1 = () => setStep(2);
+    const nextStep2 = () => setStep(3);
 
     const {
         handleSubmit,
@@ -79,15 +81,19 @@ const MainSignup = () => {
     const handleBack = () => {
         if (step == 2) {
             setStep(1);
-        } else {
-            navigate('/');
+            return;
         }
+        if (step == 3) {
+            setStep(2);
+            return;
+        }
+        navigate('/');
     };
 
     return (
         <FormProvider {...methods}>
-            <div className="w-full h-full flex flex-col items-center">
-                <div className="w-[340px] h-fit justify-center relative p-[20px] rounded-[20px] mt-[70px]">
+            <div className="flex flex-col items-center gap-2 mt-36 w-full">
+                <div className="w-[340px] h-fit justify-center relative p-[20px] rounded-[20px]">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="flex flex-col items-center w-full"
@@ -98,45 +104,40 @@ const MainSignup = () => {
                             className="absolute left-[20px] top-[25px]"
                             onClick={handleBack}
                         />
-                        <div className="text-white text-2xl w-full mb-[50px] text-center">
+                        <div className="text-white text-2xl w-full mb-[20px] text-center">
                             회원가입
                         </div>
-                        {errorMessage && (
-                            <div className="text-red-500 text-sm absolute right-[22px] top-[75px]">
-                                {errorMessage}
-                            </div>
+
+                        {step === 1 ? (
+                            <Step1 nextStep={nextStep1} />
+                        ) : step === 2 ? (
+                            <Step2 nextStep={nextStep2} />
+                        ) : (
+                            <>
+                                <Step3 />
+                                {errorMessage && (
+                                    <div className="text-red-500 text-sm w-full mt-2">
+                                        {errorMessage}
+                                    </div>
+                                )}
+                            </>
                         )}
-                        {step === 1 ? <Step1 nextStep={nextStep} /> : <Step2 />}
                     </form>
 
-                    {step === 2 && (
+                    {step === 3 && (
                         <button
                             onClick={handleSubmit(onSubmit)}
                             type="submit"
-                            className="mt-4 w-[300px] bg-pink-500 text-white p-2 rounded-md disabled:cursor-not-allowed disabled:bg-gray-400"
-                            disabled={!!errors.name?.message || !watchedName}
+                            className="mt-4 w-[300px] bg-pink-500 text-white p-2 rounded-md disabled:bg-[#161616] disabled:text-[#959595] disabled:hover:cursor-not-allowed"
+                            disabled={
+                                !!errors.name?.message ||
+                                !watchedName ||
+                                !!errorMessage
+                            }
                         >
                             회원가입 완료
                         </button>
                     )}
-                    <button
-                        type="button"
-                        className="bg-[white] w-full h-[45px] text-[#000000] mt-[20px] rounded-[10px] relative"
-                    >
-                        <img
-                            src={googleLogo}
-                            alt=""
-                            className="absolute left-4 bottom-2.5 w-[25px] h-[25px]"
-                        />
-                        구글 로그인
-                    </button>
-                    <button
-                        type="button"
-                        className="text-white mt-[20px] w-full bg-pink-500 rounded-[10px] py-2"
-                        onClick={() => navigate('/login')}
-                    >
-                        로그인
-                    </button>
                 </div>
             </div>
         </FormProvider>

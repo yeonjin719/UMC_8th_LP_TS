@@ -7,6 +7,7 @@ import {
     TGetLPsResponse,
     TGetOtherUserLikeLPRequest,
     TGetPageWithUserId,
+    TLikesResponse,
     TLPComments,
     TLpDelete,
     TLpDetail,
@@ -265,8 +266,34 @@ const patchComment = async ({
     return data;
 };
 
+const postLikeLP = async (lpId: number): Promise<TLikesResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.post(
+        `/v1/lps/${lpId}/likes`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+
+const deleteLikeLP = async (lpId: number): Promise<TLikesResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/likes`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
+
 export {
     CreateLp,
+    deleteLikeLP,
+    postLikeLP,
     patchComment,
     getLikesMeLPs,
     postLP,

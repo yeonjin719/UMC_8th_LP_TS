@@ -97,14 +97,7 @@ function MyPage() {
                 >
                     내가 작성한 LP
                 </button>
-                <button
-                    onClick={() => setInfo(2)}
-                    className={`${
-                        info === 2 ? 'underline' : ''
-                    } text-white bg-black py-2 px-4 text-[17px]`}
-                >
-                    내가 작성한 댓글
-                </button>
+
                 {isEdit ? (
                     <button
                         className="absolute right-8 text-white hover:underline"

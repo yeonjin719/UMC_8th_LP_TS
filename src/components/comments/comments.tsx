@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import Comment from '../comment/comment';
 import { useInView } from 'react-intersection-observer';
 import Order from '../common/order/order';
-import { TOrder } from '../../constants/enum';
+import { TOrder, TOrderLabel } from '../../constants/enum';
 import ClipLoader from 'react-spinners/ClipLoader';
 import useGetComments from '../../hooks/queries/useGetComments';
 import usePostComment from '../../hooks/queries/usePostComment';
 import { queryClient } from '../../main';
 const Comments = ({ lpsId }: { lpsId: number }) => {
     const [comment, setComment] = useState('');
-    const [order, setOrder] = useState<TOrder>(TOrder.최신순);
+    const [order, setOrder] = useState<keyof typeof TOrderLabel>(
+        TOrder.NEWEST_FIRST
+    );
     const { data, fetchNextPage, hasNextPage, isFetching } = useGetComments({
         lpsId,
         cursor: 0,

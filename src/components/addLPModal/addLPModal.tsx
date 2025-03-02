@@ -11,6 +11,7 @@ import useGetTags from '../../hooks/queries/useGetTags';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 import useDebounce from '../../hooks/common/useDebounce';
+import { queryClient } from '../../main';
 
 type TSearchModalProps = {
     onClose: () => void;
@@ -107,6 +108,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
             {
                 onSuccess: () => {
                     onClose();
+                    queryClient.invalidateQueries({ queryKey: ['getLps'] });
                     navigate('/');
                 },
                 onError: () => {

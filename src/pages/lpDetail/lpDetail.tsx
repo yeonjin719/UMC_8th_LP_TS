@@ -5,20 +5,39 @@ import { formatRelativeTime } from '../../utils/transformDate';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import Comments from '../../components/comments/comments';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GoPencil } from 'react-icons/go';
 import { FaCheck } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import useDeleteLP from '../../hooks/queries/useDeleteLP';
+import { hasLiked } from '../../utils/hasLiked';
+import { useAuthContext } from '../../context/LogInContext';
+import useLikeLP from '../../hooks/queries/useLikeLP';
+import { FaRegHeart } from 'react-icons/fa';
+import useDeleteLikeLP from '../../hooks/queries/useDeleteLikeLP';
+import { queryClient } from '../../main';
+import { isWriter } from '../../utils/isWriter';
 
 const LpDetail = () => {
     const { lpId } = useParams();
     const navigate = useNavigate();
+    const { userId } = useAuthContext();
+
     const { data } = useGetLPDetails({ lpId: Number(lpId) });
+    const [like, setLike] = useState(false);
+
     const [edit, setEdit] = useState(false);
     const [image, setImage] = useState('');
     const { mutate: deleteMutate } = useDeleteLP();
+    const { mutate: likeMutate } = useLikeLP();
+    const { mutate: deleteLikeMutate } = useDeleteLikeLP();
+
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setLike(hasLiked(data?.data.likes, userId));
+    }, [data, userId]);
+
     const handleImageClick = () => {
         fileInputRef.current?.click();
     };
@@ -39,6 +58,26 @@ const LpDetail = () => {
                 },
             }
         );
+    };
+
+    const handlePostLikeLP = () => {
+        likeMutate(Number(lpId), {
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['getLps', Number(lpId)],
+                });
+            },
+        });
+    };
+
+    const handleDeleteLikeLP = () => {
+        deleteLikeMutate(Number(lpId), {
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    queryKey: ['getLps', Number(lpId)],
+                });
+            },
+        });
     };
 
     return (
@@ -124,18 +163,20 @@ const LpDetail = () => {
                             <div className="text-white text-[25px] max-w-[85%]">
                                 {data?.data.title}
                             </div>
-                            <div className="absolute flex gap-[15px] right-0 top-[10px]">
-                                <GoPencil
-                                    color="white"
-                                    size={20}
-                                    onClick={() => setEdit(true)}
-                                />
-                                <FaRegTrashAlt
-                                    color="white"
-                                    size={20}
-                                    onClick={handleDeleteLP}
-                                />
-                            </div>
+                            {isWriter(data?.data.author.id, userId) && (
+                                <div className="absolute flex gap-[15px] right-0 top-[10px]">
+                                    <GoPencil
+                                        color="white"
+                                        size={20}
+                                        onClick={() => setEdit(true)}
+                                    />
+                                    <FaRegTrashAlt
+                                        color="white"
+                                        size={20}
+                                        onClick={handleDeleteLP}
+                                    />
+                                </div>
+                            )}
                         </div>
                         {data?.data.thumbnail && (
                             <img
@@ -158,10 +199,23 @@ const LpDetail = () => {
                             })}
                         </div>
                         <div className="flex items-center gap-[10px]">
-                            <FaHeart color="white" size={30} />
-                            {/* <div className="text-white text-[25px]">
-                                {data?.totalLikes}
-                            </div> */}
+                            {like ? (
+                                <FaHeart
+                                    color="white"
+                                    size={30}
+                                    onClick={handleDeleteLikeLP}
+                                />
+                            ) : (
+                                <FaRegHeart
+                                    color="white"
+                                    size={30}
+                                    onClick={handlePostLikeLP}
+                                />
+                            )}
+
+                            <div className="text-white text-[25px]">
+                                {data?.data.likes.length}
+                            </div>
                         </div>
                     </div>
                 )}

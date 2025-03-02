@@ -46,8 +46,13 @@ export type TLpDetail = TCommonResponse<{
     updatedAt: string;
     author: TAuthor;
     tags: TTags[];
+    likes: TLikes[];
 }>;
-
+type TLikes = {
+    id: number;
+    userId: number;
+    lpId: number;
+};
 export type TCreateLp = {
     title: string;
     description: string;
@@ -135,4 +140,10 @@ export type TCommentResponse = TCommonResponse<TPostComment>;
 
 export type TDeleteCommentResponse = TCommonResponse<{
     message: string;
+}>;
+
+export type TLikesResponse = TCommonResponse<{
+    id: number;
+    userId: number;
+    lpId: number;
 }>;

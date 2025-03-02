@@ -9,6 +9,7 @@ import { closeModal, openModal, selectModal } from '../../../slices/modalSlice';
 import { MODAL_TYPES } from '../modal/modalProvider';
 import useAuth from '../../../hooks/queries/useAuth';
 import useUserInfo from '../../../hooks/queries/useUserInfo';
+import { useEffect } from 'react';
 
 type TNavbarProps = {
     setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,7 @@ type TNavbarProps = {
 const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { isOpen, modalType } = useSelector(selectModal);
 
-    const { setIsLogin, isLogin } = useAuthContext();
+    const { setIsLogin, isLogin, setUserId } = useAuthContext();
     const accessToken = localStorage.getItem('accessToken') || '';
 
     const dispatch = useDispatch();
@@ -28,6 +29,11 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { useGetMyInfo } = useUserInfo(isLogin);
     const { data: userData } = useGetMyInfo;
 
+    useEffect(() => {
+        setUserId(userData?.data.id as number);
+        setIsLogin(true);
+    }, [userData]);
+
     const handleLogout = () => {
         logoutMutate(accessToken, {
             onSuccess: () => {
@@ -35,6 +41,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 setIsLogin(false);
+                setUserId(-1);
                 alert('로그아웃 되었습니다');
                 navigate('/');
             },
