@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { useLocation } from 'react-router';
-import useAuth from '../../hooks/queries/useAuth';
+import useGoogleAuth from '../../hooks/queries/useGoogleAuth';
 
 const LoginRedirect: React.FC = () => {
     const location = useLocation();
-    const { useGoogleLogin } = useAuth();
-    const { data } = useGoogleLogin;
+    const { data } = useGoogleAuth();
     console.log(data);
     useEffect(() => {
         const params = new URLSearchParams(location.search);
