@@ -123,6 +123,7 @@ export type TGetCommentsRequest = {
     lpsId: number;
     cursor?: number;
     limit?: number;
+    order?: TOrder;
 };
 
 export type TPostComment = Omit<TComment, 'author'>;

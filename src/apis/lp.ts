@@ -150,10 +150,11 @@ const getComments = async ({
     lpsId,
     cursor,
     limit,
+    order,
 }: TGetCommentsRequest): Promise<TLPComments> => {
     const accessToken = localStorage.getItem('accessToken') || '';
     const { data } = await axiosInstance.get(`/v1/lps/${lpsId}/comments`, {
-        params: { cursor, limit },
+        params: { cursor, limit, order },
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

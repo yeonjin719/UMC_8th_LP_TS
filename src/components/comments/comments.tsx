@@ -14,7 +14,7 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
     );
     const { data, fetchNextPage, hasNextPage, isFetching } = useGetComments({
         lpsId,
-        cursor: 0,
+        order,
         limit: 10,
     });
     const { mutate: commentMutate } = usePostComment();
