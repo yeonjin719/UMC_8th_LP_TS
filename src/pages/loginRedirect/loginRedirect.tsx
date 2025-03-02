@@ -10,9 +10,11 @@ const LoginRedirect: React.FC = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const accessToken = urlParams.get('accessToken');
+        const refreshToken = urlParams.get('refreshToken');
 
-        if (accessToken) {
+        if (accessToken && refreshToken) {
             localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
             setIsLogin(true);
             // 로그인 성공 후 메인 페이지로 이동
             navigate('/');
