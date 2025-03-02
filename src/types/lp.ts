@@ -35,6 +35,10 @@ export type TGetLPsResponse = TCommonResponse<{
     hasNext: boolean;
 }>;
 
+export type TPatchLPRequest = Omit<TPostLP, 'lpsId'> & {
+    lpsId: number;
+};
+
 export type TLpDetail = TCommonResponse<{
     id: number;
     title: string;

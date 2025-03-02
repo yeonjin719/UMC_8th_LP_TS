@@ -7,7 +7,6 @@ import { formatRelativeTime } from '../../utils/transformDate';
 import { TLp } from '../../types/lp';
 
 const LpCard = (data: TLp | undefined) => {
-    console.log(data);
     const navigate = useNavigate();
 
     return (

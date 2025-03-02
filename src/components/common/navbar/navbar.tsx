@@ -19,19 +19,21 @@ type TNavbarProps = {
 const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { isOpen, modalType } = useSelector(selectModal);
 
-    const { setIsLogin, isLogin, setUserId } = useAuthContext();
+    const { setIsLogin, isLogin, setUserId, setNickname, userId } =
+        useAuthContext();
     const accessToken = localStorage.getItem('accessToken') || '';
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { useLogout } = useAuth();
     const { mutate: logoutMutate } = useLogout;
-    const { useGetMyInfo } = useUserInfo(isLogin);
+    const { useGetMyInfo } = useUserInfo(isLogin, userId);
     const { data: userData } = useGetMyInfo;
 
     useEffect(() => {
         setUserId(userData?.data.id as number);
         setIsLogin(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData]);
 
     const handleLogout = () => {
@@ -42,6 +44,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                 localStorage.removeItem('refreshToken');
                 setIsLogin(false);
                 setUserId(-1);
+                setNickname('');
                 alert('로그아웃 되었습니다');
                 navigate('/');
             },

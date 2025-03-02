@@ -11,6 +11,7 @@ import {
     TLPComments,
     TLpDelete,
     TLpDetail,
+    TPatchLPRequest,
     TPostLP,
     TTagList,
     TTagsListResponse,
@@ -290,8 +291,30 @@ const deleteLikeLP = async (lpId: number): Promise<TLikesResponse> => {
     return data;
 };
 
+const patchLP = async ({
+    lpsId,
+    title,
+    content,
+    thumnail,
+    tags,
+    published,
+}: TPatchLPRequest): Promise<TLikesResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.patch(
+        `/v1/lps/${lpsId}`,
+        { title, content, thumnail, tags, published },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+
 export {
     CreateLp,
+    patchLP,
     deleteLikeLP,
     postLikeLP,
     patchComment,
