@@ -1,7 +1,8 @@
-import { TOrder } from '../../../constants/enum';
+import { TOrder, TOrderLabel } from '../../../constants/enum';
+
 type TOrderComponentProps = {
-    order: string;
-    setOrder: (order: TOrder) => void;
+    order: TOrder; // order는 이제 TOrder 타입으로 사용됩니다.
+    setOrder: (order: TOrder) => void; // setOrder는 TOrder 값을 설정합니다.
 };
 
 const Order = ({ order, setOrder }: TOrderComponentProps) => {
@@ -10,28 +11,29 @@ const Order = ({ order, setOrder }: TOrderComponentProps) => {
             <div
                 className={`border-r-white border-r-[0.1px] px-4 py-1
                   ${
-                      order === TOrder.오래된순
+                      order === TOrder.OLDEST_FIRST // TOrder 값으로 비교
                           ? 'bg-white text-black rounded-tl-md rounded-bl-md'
                           : 'text-white'
                   }
                   `}
-                onClick={() => setOrder(TOrder.오래된순)}
+                onClick={() => setOrder(TOrder.OLDEST_FIRST)} // '오래된순'에 해당하는 TOrder 값 설정
             >
-                오래된순
+                {TOrderLabel[TOrder.OLDEST_FIRST]} {/* 한글로 표시 */}
             </div>
             <div
                 className={`px-4 py-1
               ${
-                  order === TOrder.최신순
+                  order === TOrder.NEWEST_FIRST // TOrder 값으로 비교
                       ? 'bg-white text-black rounded-tr-md rounded-br-md'
                       : 'text-white'
               }
               `}
-                onClick={() => setOrder(TOrder.최신순)}
+                onClick={() => setOrder(TOrder.NEWEST_FIRST)} // '최신순'에 해당하는 TOrder 값 설정
             >
-                최신순
+                {TOrderLabel[TOrder.NEWEST_FIRST]} {/* 한글로 표시 */}
             </div>
         </div>
     );
 };
+
 export default Order;

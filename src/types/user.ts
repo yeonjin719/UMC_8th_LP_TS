@@ -21,9 +21,19 @@ export type TLoginResponse = TCommonResponse<{
     name: string;
 }>;
 
-export type TSignupResponse = TCommonResponse<TUserInfo>;
+export type TSignupResponse = TCommonResponse<TSignupUserInfo>;
 
 export type TUserInfo = {
+    id: number;
+    email: string;
+    name: string;
+    bio: string | null;
+    avatar: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type TSignupUserInfo = {
     id: number;
     email: string;
     password: string;
@@ -44,3 +54,5 @@ export type TGoogleLoginResponse = {
     code: string;
     message: string;
 };
+
+export type TUserInfoResponse = TCommonResponse<TUserInfo>;

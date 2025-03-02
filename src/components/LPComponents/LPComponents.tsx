@@ -1,4 +1,4 @@
-import LP from '../../../public/lp.png';
+import LP from '../../images/lp.png';
 type TLPComponents = {
     imageSrc?: string;
     isHasInput?: boolean;

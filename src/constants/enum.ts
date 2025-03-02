@@ -1,9 +1,15 @@
 export enum TSearchEnum {
-    TITLE = '제목',
-    TAG = '태그',
+    TITLE = 'title',
+    TAG = 'tag',
 }
 
 export enum TOrder {
-    '오래된순' = 'asc',
-    '최신순' = 'desc',
+    OLDEST_FIRST = 'asc',
+    NEWEST_FIRST = 'desc',
 }
+
+// 한글 매핑 객체 (UI에서 사용)
+export const TOrderLabel: Record<TOrder, string> = {
+    [TOrder.OLDEST_FIRST]: '오래된순',
+    [TOrder.NEWEST_FIRST]: '최신순',
+};

@@ -12,7 +12,8 @@ import MyPage from '../pages/mypage/mypage.tsx';
 import LoginRedirect from '../pages/loginRedirect/loginRedirect.tsx';
 import Search from '../pages/search/search.tsx';
 import ProtectedPage from '../pages/protectedPage/protectedPage.tsx';
-import LpDetail from '../components/lpDetail/lpDetail.tsx';
+import LpDetail from '../pages/lpDetail/lpDetail.tsx';
+import User from '../pages/user/user.tsx';
 
 const ProtectedRoute = ({ children }: PropsWithChildren) => {
     const { isLogin } = useAuthContext();
@@ -66,6 +67,14 @@ const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <ProtectedPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'user/:userId',
+                element: (
+                    <ProtectedRoute>
+                        <User />
                     </ProtectedRoute>
                 ),
             },

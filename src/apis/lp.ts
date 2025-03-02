@@ -5,6 +5,8 @@ import {
     TGetCommentsRequest,
     TGetLPsRequest,
     TGetLPsResponse,
+    TGetOtherUserLikeLPRequest,
+    TGetPageWithUserId,
     TLPComments,
     TLpDelete,
     TLpDetail,
@@ -72,6 +74,23 @@ const getLPWithTag = async ({
     return data;
 };
 
+const getSomeUsersLPs = async ({
+    cursor,
+    limit,
+    search,
+    order,
+    userId,
+}: TGetPageWithUserId): Promise<TGetLPsResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`v1/lps/user/${userId}`, {
+        params: { cursor, limit, search, order },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
+
 const getLikesMeLPs = async ({
     cursor,
     limit,
@@ -80,6 +99,23 @@ const getLikesMeLPs = async ({
 }: TGetLPsRequest): Promise<TGetLPsResponse> => {
     const accessToken = localStorage.getItem('accessToken') || '';
     const { data } = await axiosInstance.get(`v1/lps/likes/me`, {
+        params: { cursor, limit, search, order },
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
+
+const getOtherUserLikesMeLPs = async ({
+    cursor,
+    limit,
+    search,
+    order,
+    userId,
+}: TGetOtherUserLikeLPRequest): Promise<TGetLPsResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`v1/lps/likes/${userId}`, {
         params: { cursor, limit, search, order },
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -242,4 +278,6 @@ export {
     getTags,
     postComment,
     deleteComment,
+    getOtherUserLikesMeLPs,
+    getSomeUsersLPs,
 };

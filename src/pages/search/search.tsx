@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
 import useGetLps from '../../hooks/queries/useGetLps';
 import Order from '../../components/common/order/order';
-import { TOrder, TSearchEnum } from '../../constants/enum';
+import { TOrder, TOrderLabel, TSearchEnum } from '../../constants/enum';
 import LpCard from '../../components/LpCard/LpCard';
 import { TLp } from '../../types/lp';
 import PaginationBar from '../../components/common/paginationBar/paginationBar';
@@ -21,11 +21,13 @@ const Search = () => {
         () => new URLSearchParams(location.search),
         [location.search]
     );
-    const [currentPage, setCurretpage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const keyword = searchParams.get('keyword') || '';
     const type = localStorage.getItem('type') || TSearchEnum.TITLE;
     const dispatch = useDispatch();
-    const [order, setOrder] = useState<TOrder>(TOrder.오래된순);
+    const [order, setOrder] = useState<keyof typeof TOrderLabel>(
+        TOrder.NEWEST_FIRST
+    );
     const [cursor, setCursor] = useState<number | null>(0);
     const [nextCursor, setNextCursor] = useState<number | null>(0);
 
@@ -46,7 +48,7 @@ const Search = () => {
     });
     useEffect(() => {
         setCursor(null);
-        setCurretpage(0);
+        setCurrentPage(0);
     }, [order]);
 
     useEffect(() => {
@@ -114,7 +116,7 @@ const Search = () => {
             <div className="w-full mb-4">
                 <PaginationBar
                     currentPage={currentPage}
-                    setCurrentPage={setCurretpage}
+                    setCurrentPage={setCurrentPage}
                     hasNextPage={
                         tagData?.data.hasNext || titleData?.data.hasNext
                     }

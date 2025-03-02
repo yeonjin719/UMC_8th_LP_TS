@@ -21,6 +21,14 @@ export type TGetLPsRequest = {
     tagName?: string;
 };
 
+export type TGetPageWithUserId = Omit<TGetLPsRequest, 'userId'> & {
+    userId: number;
+};
+
+export type TGetOtherUserLikeLPRequest = Omit<TGetLPsRequest, 'userId'> & {
+    userId: number;
+};
+
 export type TGetLPsResponse = TCommonResponse<{
     data: TLp[];
     nextCursor: number;

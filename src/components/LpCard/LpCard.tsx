@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import LP from '../../../public/lp.png';
+import LP from '../../images/lp.png';
 import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 // import Profile from '../common/profile/profile';

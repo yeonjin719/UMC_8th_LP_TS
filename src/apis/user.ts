@@ -1,4 +1,4 @@
-import { TMyInfoResponse } from '../types/user';
+import { TMyInfoResponse, TUserInfoResponse } from '../types/user';
 import { axiosInstance } from './axios-instance';
 
 const getMyInfo = async (): Promise<TMyInfoResponse> => {
@@ -12,4 +12,18 @@ const getMyInfo = async (): Promise<TMyInfoResponse> => {
     return data;
 };
 
-export { getMyInfo };
+const getOtherUserInfo = async ({
+    userId,
+}: {
+    userId: number;
+}): Promise<TUserInfoResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.get(`/v1/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return data;
+};
+
+export { getMyInfo, getOtherUserInfo };

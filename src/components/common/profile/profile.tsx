@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import defaultProfile from '../../../images/default_profile.png';
 interface CreditMember {
     id: number | undefined;
@@ -5,9 +6,13 @@ interface CreditMember {
     name?: string | undefined;
 }
 
-function Profile({ profile_path, name }: CreditMember) {
+function Profile({ profile_path, name, id }: CreditMember) {
+    const navigate = useNavigate();
     return (
-        <div className="flex items-center gap-[10px] relative min-w-fit">
+        <div
+            className="flex items-center gap-[10px] relative min-w-fit"
+            onClick={() => navigate(`/user/${id}`)}
+        >
             {profile_path ? (
                 <img
                     src={profile_path}

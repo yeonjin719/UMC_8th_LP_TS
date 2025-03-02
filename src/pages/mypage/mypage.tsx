@@ -4,7 +4,6 @@ import defaultImage from '../../images/default_profile.png';
 import LikeLps from '../../components/likeLps/likeLps';
 
 import MadeByMeLP from '../../components/madeByMeLP/madeByMeLP';
-import WriteByMeComment from '../../components/writeByMeComment/writeByMeComment';
 import { useAuthContext } from '../../context/LogInContext';
 function MyPage() {
     const { isLogin } = useAuthContext();
@@ -123,11 +122,9 @@ function MyPage() {
                 )}
             </div>
             {info === 0 ? (
-                <LikeLps />
-            ) : info === 1 ? (
-                <MadeByMeLP />
+                <LikeLps userType={'me'} />
             ) : (
-                <WriteByMeComment />
+                <MadeByMeLP userId={userData?.data.id as number} />
             )}
         </div>
     );

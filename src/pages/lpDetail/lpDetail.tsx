@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetLPDetails from '../../hooks/queries/useGetLPDetails';
-import Profile from '../common/profile/profile';
+import Profile from '../../components/common/profile/profile';
 import { formatRelativeTime } from '../../utils/transformDate';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import Comments from '../comments/comments';
+import Comments from '../../components/comments/comments';
 import { useRef, useState } from 'react';
 import { GoPencil } from 'react-icons/go';
 import { FaCheck } from 'react-icons/fa';
