@@ -235,7 +235,7 @@ const LpDetailEdit = ({
 
                     <button
                         type="button"
-                        className="w-[80px] h-[40px] bg-pink-500 rounded-md p-2 disabled:bg-gray-400"
+                        className="w-[80px] h-[40px] bg-pink-500 text-white rounded-md p-2 disabled:bg-gray-400"
                         onClick={() => handleAddTag(null)}
                         disabled={!tagInput.trim()}
                     >
