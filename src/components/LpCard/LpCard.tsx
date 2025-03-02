@@ -4,11 +4,24 @@ import LP from '../../images/lp.png';
 import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 import { TLp } from '../../types/lp';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { checkThumbnail } from '../../utils/isValidImageUrl';
 
 const LpCard = (data: TLp | undefined) => {
     const navigate = useNavigate();
-    const [imageSrc, setImageSrc] = useState(data?.thumbnail || LPCover);
+    const [imageSrc, setImageSrc] = useState(LPCover);
+    useEffect(() => {
+        const validateThumbnail = async () => {
+            if (data?.thumbnail) {
+                const isValid = await checkThumbnail(data.thumbnail);
+                if (isValid) {
+                    setImageSrc(data.thumbnail);
+                }
+            }
+        };
+
+        validateThumbnail();
+    }, [data?.thumbnail]);
     return (
         <div
             className="flex relative max-w-[800px] w-[70%] min-w-[400px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] py-[15px] px-[20px] justify-between gap-2"
