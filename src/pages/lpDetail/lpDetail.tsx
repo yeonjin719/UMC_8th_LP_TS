@@ -11,7 +11,7 @@ import Comments from '../../components/comments/comments';
 import LpDetailEdit from './lpDetailEdit';
 
 import { formatRelativeTime } from '../../utils/transformDate';
-import { isWriter } from '../../utils/isWriter';
+
 import { hasLiked } from '../../utils/hasLiked';
 
 import { FaHeart, FaRegTrashAlt, FaRegHeart } from 'react-icons/fa';
@@ -19,6 +19,7 @@ import { GoPencil } from 'react-icons/go';
 
 import { useAuthContext } from '../../context/LogInContext';
 import { queryClient } from '../../main';
+import { isWriter } from '../../utils/isWriter';
 
 const LpDetail = () => {
     const { lpId } = useParams();

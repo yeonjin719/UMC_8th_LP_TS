@@ -45,6 +45,11 @@ const LogIn = () => {
         });
     };
 
+    const handleGoogleLogin = () => {
+        // 구글 로그인 페이지로 리다이렉트합니다.
+        window.location.href = 'http://localhost:8000/v1/auth/google/login';
+    };
+
     return (
         <div className="flex flex-col items-center gap-2 mt-36 w-full ">
             <div className="w-[300px] items-center flex flex-col relative">
@@ -65,7 +70,7 @@ const LogIn = () => {
                     <button
                         type="button"
                         className="w-full h-[45px] border-[0.5px] border-white text-white mt-[20px] rounded-[10px] relative"
-                        onClick={() => navigate('/loginRedirect')}
+                        onClick={handleGoogleLogin}
                     >
                         <img
                             src={googleLogo}

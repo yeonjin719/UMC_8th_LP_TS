@@ -94,7 +94,7 @@ const router = createBrowserRouter([
                 element: <SignUp />,
             },
             {
-                path: 'loginRedirect',
+                path: 'v1/auth/google/callback',
                 element: <LoginRedirect />,
             },
         ],
