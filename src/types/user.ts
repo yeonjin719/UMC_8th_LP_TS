@@ -44,10 +44,14 @@ export type TSignupUserInfo = {
     updatedAt: string;
 };
 
-export type TRefreshResponse = {
+export type TRefresh = {
     refreshToken: string;
     accessToken: string;
+    id: string;
+    name: string;
 };
+
+export type TRefreshResponse = TCommonResponse<TRefresh>;
 
 export type TGoogleLoginResponse = {
     isSuccess: boolean;

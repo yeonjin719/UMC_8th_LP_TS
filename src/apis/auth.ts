@@ -40,7 +40,7 @@ const Refresh = async (): Promise<TRefreshResponse> => {
     const refreshToken = localStorage.getItem('refreshToken') || '';
     const { data } = await axiosInstance.post<TRefreshResponse>(
         '/v1/auth/refresh',
-        { refreshToken },
+        { refresh: refreshToken },
         {
             headers: {
                 Authorization: `Bearer ${accessToken}`,

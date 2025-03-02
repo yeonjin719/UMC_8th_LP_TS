@@ -40,16 +40,15 @@ axiosInstance.interceptors.response.use(
         }
 
         try {
-            const { accessToken, refreshToken: newRefreshToken } =
-                await Refresh();
+            const { data } = await Refresh();
 
-            if (!accessToken) {
+            if (!data.accessToken) {
                 throw new Error('알 수 없는 오류 발생');
             }
 
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', newRefreshToken);
-            error.config.headers.Authorization = `Bearer ${accessToken}`;
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('refreshToken', data.refreshToken);
+            error.config.headers.Authorization = `Bearer ${data.accessToken}`;
             queryClient.invalidateQueries({ queryKey: ['myInfo'] });
             isRedirecting = false;
 
