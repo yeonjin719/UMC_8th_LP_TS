@@ -1,24 +1,29 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getOtherUserLikesMeLPs } from '../../apis/lp';
-import { TGetLPsResponse, TGetOtherUserLikeLPRequest } from '../../types/lp';
-import { useCoreQuery } from '../common/customQuery';
-type TUseGetLikesMeLpsProps = Omit<TGetOtherUserLikeLPRequest, 'userType'> & {
-    userType?: 'me' | number;
-};
+import { TGetLPsResponse, TGetPageWithUserId } from '../../types/lp';
 
 function useGetOtherUserLikeLP({
-    cursor,
     search,
     order,
     userType,
     userId,
-}: TUseGetLikesMeLpsProps) {
-    return useCoreQuery<TGetLPsResponse>(
-        ['getLikesLps', cursor, search, order, userId],
-        () => getOtherUserLikesMeLPs({ cursor, search, order, userId }),
-        {
-            enabled: typeof userType === 'number',
-        }
-    );
+}: Omit<TGetPageWithUserId, 'cursor' | 'userType'> & {
+    userType?: 'me' | number;
+}) {
+    return useInfiniteQuery({
+        queryKey: ['getOtherUserLikesLps', search, order, userId],
+        queryFn: ({ pageParam = 0 }): Promise<TGetLPsResponse> =>
+            getOtherUserLikesMeLPs({
+                cursor: pageParam,
+                search,
+                order,
+                userId,
+            }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) =>
+            lastPage.data.hasNext ? lastPage.data.nextCursor : undefined,
+        enabled: typeof userType === 'number',
+    });
 }
 
 export default useGetOtherUserLikeLP;

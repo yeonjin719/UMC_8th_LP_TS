@@ -1,6 +1,29 @@
 import { TOrder, TSearchEnum } from '../constants/enum';
 import { TCommonResponse } from './common';
 
+// 공통 타입 정의
+export type TAuthor = {
+    id: number;
+    email: string;
+    name: string;
+    bio: string | null;
+    avatar: string | null;
+    createdAt: string;
+    updatedAt: string;
+};
+
+export type TTags = {
+    id: number;
+    name: string;
+};
+
+export type TLikes = {
+    id: number;
+    userId: number;
+    lpId: number;
+};
+
+// LP 관련 타입
 export type TLp = {
     id: number;
     title: string;
@@ -8,35 +31,8 @@ export type TLp = {
     authorId: number;
     createdAt: string;
     updatedAt: string;
-    thumbnail: string;
+    thumbnail: string | null;
     published: boolean;
-};
-
-export type TGetLPsRequest = {
-    cursor?: number | null;
-    limit?: number;
-    search?: string;
-    order: TOrder;
-    type?: TSearchEnum;
-    tagName?: string;
-};
-
-export type TGetPageWithUserId = Omit<TGetLPsRequest, 'userId'> & {
-    userId: number;
-};
-
-export type TGetOtherUserLikeLPRequest = Omit<TGetLPsRequest, 'userId'> & {
-    userId: number;
-};
-
-export type TGetLPsResponse = TCommonResponse<{
-    data: TLp[];
-    nextCursor: number;
-    hasNext: boolean;
-}>;
-
-export type TPatchLPRequest = Omit<TPostLP, 'lpsId'> & {
-    lpsId: number;
 };
 
 export type TLpDetail = TCommonResponse<{
@@ -52,29 +48,69 @@ export type TLpDetail = TCommonResponse<{
     tags: TTags[];
     likes: TLikes[];
 }>;
-type TLikes = {
-    id: number;
-    userId: number;
-    lpId: number;
-};
+
 export type TCreateLp = {
     title: string;
     description: string;
     categoryId: number;
 };
 
-export type TLpDelete = {
-    status: boolean;
-    statusCode: number;
-    message: string;
-    data: null;
+export type TPostLP = {
+    title: string;
+    content: string;
+    thumbnail: string; // 오타 수정
+    tags: string[];
+    published: boolean;
 };
+
+export type TPatchLPRequest = Omit<TPostLP, 'lpsId'> & {
+    lpsId: number;
+};
+
+export type TLpDelete = TCommonResponse<null>;
+
+// 검색 및 페이지네이션 관련 타입
+export type TGetLPsRequest = {
+    cursor?: number | null;
+    limit?: number;
+    search?: string;
+    order: TOrder;
+    type?: TSearchEnum;
+    tagName?: string;
+};
+
+export type TGetPageWithUserId = TGetLPsRequest & {
+    userId: number;
+};
+
+export type TGetLPsResponse = TCommonResponse<{
+    data: TLp[];
+    nextCursor: number;
+    hasNext: boolean;
+}>;
 
 export type TTagList = {
     cursor?: number;
     limit?: number;
     search?: string;
     order?: TOrder;
+};
+
+export type TTagsListResponse = TCommonResponse<{
+    data: TTags[];
+    nextCursor: number;
+    hasNext: boolean;
+}>;
+
+// 댓글 관련 타입
+export type TComment = {
+    id: number;
+    content: string;
+    lpId: number;
+    authorId: number;
+    createdAt: string;
+    updatedAt: string;
+    author: TAuthor;
 };
 
 export type TLPComments = TCommonResponse<{
@@ -89,65 +125,15 @@ export type TGetCommentsRequest = {
     limit?: number;
 };
 
-export type TComment = {
-    id: number;
-    content: string;
-    lpId: number;
-    authorId: number;
-    createdAt: string;
-    updatedAt: string;
-    author: TAuthor;
-};
+export type TPostComment = Omit<TComment, 'author'>;
 
-export type TPostLP = {
-    title: string;
-    content: string;
-    thumnail: string;
-    tags: string[];
-    published: boolean;
-};
+export type TCommentResponse = TCommonResponse<TPostComment>;
 
-type TAuthor = {
-    id: number;
-    email: string;
-    name: string;
-    bio: string | null;
-    avatar: string | null;
-    createdAt: string;
-    updatedAt: string;
-};
+export type TDeleteCommentResponse = TCommonResponse<{ message: string }>;
 
-export type TTagsListResponse = TCommonResponse<{
-    data: TTags[];
-    nextCursor: number;
-    hasNext: boolean;
-}>;
-
-type TTags = {
-    id: number;
-    name: string;
-};
+// 좋아요 및 북마크 타입
+export type TLikesResponse = TCommonResponse<TLikes>;
 
 export type TBookmark = {
     userId: number;
 };
-export type TPostComment = {
-    id: number;
-    content: string;
-    lpId: number;
-    authorId: number;
-    createdAt: string;
-    updatedAt: string;
-};
-
-export type TCommentResponse = TCommonResponse<TPostComment>;
-
-export type TDeleteCommentResponse = TCommonResponse<{
-    message: string;
-}>;
-
-export type TLikesResponse = TCommonResponse<{
-    id: number;
-    userId: number;
-    lpId: number;
-}>;

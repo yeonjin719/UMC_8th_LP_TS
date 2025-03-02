@@ -1,14 +1,21 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getSomeUsersLPs } from '../../apis/lp';
 import { TGetLPsResponse, TGetPageWithUserId } from '../../types/lp';
-import { useCoreQuery } from '../common/customQuery';
-function useGetUsersLP({ cursor, search, order, userId }: TGetPageWithUserId) {
-    return useCoreQuery<TGetLPsResponse>(
-        ['getLikesLps', cursor, search, order, userId],
-        () => getSomeUsersLPs({ cursor, search, order, userId }),
-        {
-            enabled: !!userId,
-        }
-    );
+
+function useGetUsersLP({
+    search,
+    order,
+    userId,
+}: Omit<TGetPageWithUserId, 'cursor'>) {
+    return useInfiniteQuery({
+        queryKey: ['getLikesLps', search, order, userId],
+        queryFn: ({ pageParam = 0 }): Promise<TGetLPsResponse> =>
+            getSomeUsersLPs({ cursor: pageParam, search, order, userId }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) =>
+            lastPage.data.hasNext ? lastPage.data.nextCursor : undefined,
+        enabled: !!userId,
+    });
 }
 
 export default useGetUsersLP;

@@ -1,22 +1,20 @@
+import { queryOptions, useInfiniteQuery } from '@tanstack/react-query';
 import { getLPWithTag } from '../../apis/lp';
 import { TSearchEnum } from '../../constants/enum';
 import { TGetLPsRequest, TGetLPsResponse } from '../../types/lp';
-import { useCoreQuery } from '../common/customQuery';
 
-function useGetLPWithTag({
-    cursor,
-    search,
-    order,
-    tagName,
-    type,
-}: TGetLPsRequest) {
-    return useCoreQuery<TGetLPsResponse>(
-        ['getLpsWithTag', cursor, search, order, tagName],
-        () => getLPWithTag({ cursor, search, order, tagName }),
-        {
-            enabled: type === TSearchEnum.TAG,
-        }
-    );
+function useGetLPWithTag({ search, order, tagName, type }: TGetLPsRequest) {
+    return useInfiniteQuery({
+        queryKey: ['getLpsWithTag', search, order, tagName],
+        queryFn: ({ pageParam = 0 }): Promise<TGetLPsResponse> =>
+            getLPWithTag({ cursor: pageParam, search, order, tagName }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) => {
+            return lastPage.data.hasNext ? lastPage.data.nextCursor : undefined;
+        },
+        enabled: type === TSearchEnum.TAG,
+        ...queryOptions,
+    });
 }
 
 export default useGetLPWithTag;

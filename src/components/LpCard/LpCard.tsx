@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import LP from '../../images/lp.png';
 import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
-// import Profile from '../common/profile/profile';
 import { TLp } from '../../types/lp';
+import { useState } from 'react';
 
 const LpCard = (data: TLp | undefined) => {
     const navigate = useNavigate();
-
+    const [imageSrc, setImageSrc] = useState(data?.thumbnail || LPCover);
     return (
         <div
             className="flex relative max-w-[800px] w-[70%] min-w-[400px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] py-[15px] px-[20px] justify-between gap-2"
@@ -17,12 +17,10 @@ const LpCard = (data: TLp | undefined) => {
             {data?.thumbnail ? (
                 <div className={`relative h-[90px] min-w-[130px]`}>
                     <img
-                        src={data?.thumbnail}
+                        src={imageSrc}
                         alt="lp 커버 이미지"
                         className="absolute h-full object-cover z-1 max-w-[90px] min-w-[90px]"
-                        onError={(e) =>
-                            ((e.target as HTMLImageElement).src = LPCover)
-                        }
+                        onError={() => setImageSrc(LPCover)}
                     />
                     <img
                         src={LP}
@@ -48,31 +46,6 @@ const LpCard = (data: TLp | undefined) => {
                         {data?.content}
                     </div>
                 </div>
-                {/* {data?.comment ? (
-                    <div className="flex text-white pt-2 w-full justify-between ">
-                        <div className="text-white flex w-[80%] min-w-[60%]">
-                            "
-                            <span className="overflow-hidden w-[90%] text-ellipsis whitespace-nowrap">
-                                {data.comment}
-                            </span>
-                            "
-                        </div>
-
-                        <Profile
-                            profile_path={data?.author.profileImageUrl}
-                            name={data?.author.name}
-                            id={data?.authorId}
-                        ></Profile>
-                    </div>
-                ) : (
-                    <div className="flex text-white pt-2 justify-end ">
-                        <Profile
-                            profile_path={data?.author.profileImageUrl}
-                            name={data?.author.name}
-                            id={data?.authorId}
-                        ></Profile>
-                    </div>
-                )} */}
             </div>
         </div>
     );

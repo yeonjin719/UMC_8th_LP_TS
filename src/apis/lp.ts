@@ -5,7 +5,6 @@ import {
     TGetCommentsRequest,
     TGetLPsRequest,
     TGetLPsResponse,
-    TGetOtherUserLikeLPRequest,
     TGetPageWithUserId,
     TLikesResponse,
     TLPComments,
@@ -115,7 +114,7 @@ const getOtherUserLikesMeLPs = async ({
     search,
     order,
     userId,
-}: TGetOtherUserLikeLPRequest): Promise<TGetLPsResponse> => {
+}: TGetPageWithUserId): Promise<TGetLPsResponse> => {
     const accessToken = localStorage.getItem('accessToken') || '';
     const { data } = await axiosInstance.get(`v1/lps/likes/${userId}`, {
         params: { cursor, limit, search, order },
@@ -165,7 +164,7 @@ const getComments = async ({
 const postLP = async ({
     title,
     content,
-    thumnail,
+    thumbnail,
     tags,
     published,
 }: TPostLP) => {
@@ -175,7 +174,7 @@ const postLP = async ({
         {
             title,
             content,
-            thumnail,
+            thumbnail,
             tags,
             published,
         },
@@ -295,14 +294,14 @@ const patchLP = async ({
     lpsId,
     title,
     content,
-    thumnail,
+    thumbnail,
     tags,
     published,
 }: TPatchLPRequest): Promise<TLikesResponse> => {
     const accessToken = localStorage.getItem('accessToken') || '';
     const { data } = await axiosInstance.patch(
         `/v1/lps/${lpsId}`,
-        { title, content, thumnail, tags, published },
+        { title, content, thumbnail, tags, published },
         {
             headers: {
                 Authorization: `Bearer ${accessToken}`,

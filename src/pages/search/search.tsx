@@ -3,6 +3,7 @@
 import { FaSearch } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal, selectModal } from '../../slices/modalSlice';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import { MODAL_TYPES } from '../../components/common/modal/modalProvider';
 import { useLocation } from 'react-router-dom';
@@ -11,9 +12,9 @@ import useGetLps from '../../hooks/queries/useGetLps';
 import Order from '../../components/common/order/order';
 import { TOrder, TOrderLabel, TSearchEnum } from '../../constants/enum';
 import LpCard from '../../components/LpCard/LpCard';
-import { TLp } from '../../types/lp';
-import PaginationBar from '../../components/common/paginationBar/paginationBar';
+
 import useGetLPWithTag from '../../hooks/queries/useGetLPWithTag';
+import { useInView } from 'react-intersection-observer';
 
 const Search = () => {
     const location = useLocation();
@@ -21,54 +22,63 @@ const Search = () => {
         () => new URLSearchParams(location.search),
         [location.search]
     );
-    const [currentPage, setCurrentPage] = useState(0);
     const keyword = searchParams.get('keyword') || '';
     const type = localStorage.getItem('type') || TSearchEnum.TITLE;
     const dispatch = useDispatch();
+
     const [order, setOrder] = useState<keyof typeof TOrderLabel>(
         TOrder.NEWEST_FIRST
     );
-    const [cursor, setCursor] = useState<number | null>(0);
-    const [nextCursor, setNextCursor] = useState<number | null>(0);
 
     const { isOpen } = useSelector(selectModal);
 
-    const { data: titleData } = useGetLps({
+    const {
+        data: titleData,
+        fetchNextPage: fetchNextPageTitle,
+        hasNextPage: hasNextPageTitle,
+        isFetching: isFetchingTitle,
+    } = useGetLps({
         order,
-        cursor: cursor,
         search: keyword,
         type: type as TSearchEnum,
     });
 
-    const { data: tagData } = useGetLPWithTag({
+    const {
+        data: tagData,
+        fetchNextPage: fetchNextPageTag,
+        hasNextPage: hasNextPageTag,
+        isFetching: isFetchingTag,
+    } = useGetLPWithTag({
         order,
         tagName: keyword,
-        cursor: cursor,
         type: type as TSearchEnum,
     });
-    useEffect(() => {
-        setCursor(null);
-        setCurrentPage(0);
-    }, [order]);
 
+    const { ref, inView } = useInView({
+        threshold: 0,
+    });
     useEffect(() => {
-        setCursor(nextCursor);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
-
-    useEffect(() => {
-        if (tagData?.data.nextCursor && tagData?.data.hasNext) {
-            setNextCursor(tagData?.data.nextCursor || null);
+        if (inView) {
+            if (type === 'tag') {
+                if (!isFetchingTag && hasNextPageTag) {
+                    fetchNextPageTag();
+                }
+            } else {
+                if (!isFetchingTitle && hasNextPageTitle) {
+                    fetchNextPageTitle();
+                }
+            }
         }
-        if (titleData?.data.nextCursor && titleData?.data.hasNext) {
-            setNextCursor(titleData?.data.nextCursor || null);
-        }
-    }, [titleData, tagData]);
-
-    // if (keyword) {
-    //     console.log('데이터가 없습니다');
-    //     return <Error />;
-    // }
+    }, [
+        inView,
+        isFetchingTag,
+        hasNextPageTag,
+        fetchNextPageTag,
+        isFetchingTitle,
+        hasNextPageTitle,
+        fetchNextPageTitle,
+        type,
+    ]);
 
     return (
         <div className="flex flex-col w-full items-center relative mt-[16px]">
@@ -103,24 +113,21 @@ const Search = () => {
                 <div className="flex w-full justify-end">
                     <Order setOrder={setOrder} order={order} />
                 </div>
-                {/* {(isLoading || isPending) && keyword && (
-                    <CardListSkeleton number={20}></CardListSkeleton>
-                )} */}
-                {titleData?.data.data.map((lp: TLp) => (
-                    <LpCard {...lp} />
-                ))}
-                {tagData?.data.data.map((lp: TLp) => (
-                    <LpCard {...lp} />
-                ))}
-            </div>
-            <div className="w-full mb-4">
-                <PaginationBar
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    hasNextPage={
-                        tagData?.data.hasNext || titleData?.data.hasNext
-                    }
-                />
+                {tagData?.pages.map((datalist) =>
+                    datalist.data.data.map((lp) => (
+                        <LpCard {...lp} key={lp.id}></LpCard>
+                    ))
+                )}
+                {titleData?.pages.map((datalist) =>
+                    datalist.data.data.map((lp) => (
+                        <LpCard {...lp} key={lp.id}></LpCard>
+                    ))
+                )}
+                <div ref={ref} className="flex w-full justify-center h-auto">
+                    {(isFetchingTag || isFetchingTitle) && (
+                        <ClipLoader color={'#fff'} />
+                    )}
+                </div>
             </div>
         </div>
     );
