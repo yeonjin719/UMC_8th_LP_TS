@@ -53,7 +53,7 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
     };
 
     return (
-        <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-[80%] h-auto ">
+        <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-[80%] min-w-[470px] h-auto ">
             <div className="flex flex-col text-white h-full w-full p-5 gap-4">
                 <div className="flex justify-between">
                     <div className="text-[18px]">댓글</div>

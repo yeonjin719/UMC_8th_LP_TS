@@ -92,7 +92,7 @@ const LpDetail = () => {
                         handleDeleteLP={handleDeleteLP}
                     ></LpDetailEdit>
                 ) : (
-                    <div className="flex flex-col w-[80%] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+                    <div className="flex flex-col w-[80%] min-w-[470px] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                         <div className="flex gap-[40px] w-[80%] justify-between">
                             <Profile
                                 profile_path={data?.data.author?.avatar}

@@ -151,7 +151,7 @@ const LpDetailEdit = ({
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col w-full h-full items-center"
         >
-            <div className="flex flex-col w-[80%] gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+            <div className="flex flex-col w-[80%] min-w-[470px] gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                 <div className="flex gap-[40px] w-[80%] justify-between">
                     <Profile
                         profile_path={data?.data.author?.avatar}
@@ -162,13 +162,13 @@ const LpDetailEdit = ({
                         {formatRelativeTime(data?.data.createdAt)}
                     </div>
                 </div>
-                <div className="relative w-[80%]">
+                <div className="relative w-[80%] flex items-center">
                     <input
                         type="text"
                         {...register('title')}
                         className="text-white text-[25px] border-1 border-white w-[80%] rounded-md px-5"
                     />
-                    <div className="absolute flex gap-[15px] right-0 top-[10px]">
+                    <div className=" flex gap-[15px] ml-2 top-[10px]">
                         <FaImage
                             color="white"
                             size={20}
