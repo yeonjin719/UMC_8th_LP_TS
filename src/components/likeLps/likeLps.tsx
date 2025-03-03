@@ -61,11 +61,11 @@ const LikeLps = ({ userType }: TLikeLpsProps) => {
         userType,
     ]);
     return (
-        <div className="flex flex-col items-center border-t border-gray-800 py-5 w-full">
+        <div className="flex flex-col items-center py-5 w-full">
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
-            <div className="flex flex-col w-full gap-2 items-center min-h-[50vh] h-fit-content mt-[20px]">
+            <div className="flex flex-wrap justify-center w-full gap-2 items-center min-h-[50vh] h-fit-content mt-[20px]">
                 {meLikeData?.pages.map((datalist) =>
                     datalist.data.data.map((lp) => (
                         <LpCard {...lp} key={lp.id}></LpCard>

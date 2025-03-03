@@ -77,7 +77,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                     navigate('/');
                     setIsSidebarOpen(false);
                 }}
-                className="flex hover:cursor-pointer max-w-[300px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center "
+                className="flex whitespace-nowrap hover:cursor-pointer max-w-[300px] min-w-[50px] text-[#FF1E9D] text-[1.7rem] font-bold mr-[30px] items-center justify-center "
             >
                 돌려돌려LP판
             </div>
@@ -97,7 +97,7 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
                 {accessToken ? (
                     <>
                         <div
-                            className="text-white text-[15px] flex items-center"
+                            className="text-white text-[15px] flex items-center max-sm:hidden"
                             onClick={() => navigate('/mypage')}
                         >
                             {userData?.data.name}님 반갑습니다.

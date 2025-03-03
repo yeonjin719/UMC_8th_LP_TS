@@ -5,59 +5,43 @@ import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 import { TLp } from '../../types/lp';
 import { useEffect, useState } from 'react';
-import { checkThumbnail } from '../../utils/isValidImageUrl';
 
 const LpCard = (data: TLp | undefined) => {
     const navigate = useNavigate();
     const [imageSrc, setImageSrc] = useState(LPCover);
     useEffect(() => {
-        const validateThumbnail = async () => {
-            if (data?.thumbnail) {
-                const isValid = await checkThumbnail(data.thumbnail);
-                if (isValid) {
-                    setImageSrc(data.thumbnail);
-                }
-            }
-        };
-
-        validateThumbnail();
-    }, [data?.thumbnail]);
+        if (data?.thumbnail) {
+            setImageSrc(data?.thumbnail);
+        }
+    }, [data]);
     return (
         <div
-            className="flex relative max-w-[800px] w-[70%] min-w-[400px] h-[120px] bg-[rgba(40,41,46)] rounded-[10px] py-[15px] px-[20px] justify-between gap-2"
+            className="flex relative group hover:transition-transform hover:scale-120 hover:z-2 duration-150 ease-in-out"
             onClick={() => navigate(`/lp/${data?.id}`)}
         >
-            {data?.thumbnail ? (
-                <div className={`relative h-[90px] min-w-[130px]`}>
-                    <img
-                        src={imageSrc}
-                        alt="lp 커버 이미지"
-                        className="absolute h-full object-cover z-1 max-w-[90px] min-w-[90px]"
-                        onError={() => setImageSrc(LPCover)}
-                    />
-                    <img
-                        src={LP}
-                        alt="lp 이미지"
-                        className={`absolute h-full w-[90px] right-[0px]`}
-                    />
-                </div>
-            ) : (
-                <img src={LP} alt="" className="h-full" />
-            )}
+            <div
+                className={`relative w-[200px] h-[200px] group-hover:w-[250px]`}
+            >
+                <div className="group-hover:bg-gradient-to-b from-black/40 to-black absolute group-hover:z-3 w-[200px] h-[200px] top-0 left-0 "></div>
+                <img
+                    src={imageSrc}
+                    alt="lp 커버 이미지"
+                    className="absolute h-full object-cover z-1 max-w-[200px] min-w-[200px] group-hover:left-0"
+                    onError={() => setImageSrc(LPCover)}
+                />
+                <img
+                    src={LP}
+                    alt=""
+                    className="absolute h-full max-w-[200px] min-w-[200px] object-cover group-hover:right-0"
+                />
+            </div>
 
-            <div className="flex min-w-[60%] w-[80%] flex-col">
-                <div className="flex justify-between">
-                    <div className="text-white font-bold text-[20px] text-ellipsis whitespace-nowrap max-w-[80%] overflow-hidden">
-                        {data?.title}
-                    </div>
-                    <div className="text-white justify-end">
-                        {formatRelativeTime(data?.createdAt)}
-                    </div>
+            <div className="hidden group-hover:flex w-[200px] flex-col absolute bottom-0 z-4 p-4">
+                <div className="text-white font-bold text-[14px] max-w-[80%]">
+                    {data?.title}
                 </div>
-                <div>
-                    <div className="text-white text-ellipsis whitespace-nowrap max-w-full overflow-hidden">
-                        {data?.content}
-                    </div>
+                <div className="text-white justify-end whitespace-nowrap text-[15px]">
+                    {formatRelativeTime(data?.createdAt)}
                 </div>
             </div>
         </div>

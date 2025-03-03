@@ -32,7 +32,7 @@ const HomePage = () => {
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
-            <div className="flex flex-col w-full gap-2 mt-4 items-center min-h-[75vh] h-fit-content justify-center">
+            <div className="flex flex-wrap w-full gap-2 mt-4 items-center min-h-[75vh] h-fit-content justify-center">
                 {data?.pages.map((datalist) =>
                     datalist.data.data.map((lp) => (
                         <LpCard {...lp} key={lp.id}></LpCard>

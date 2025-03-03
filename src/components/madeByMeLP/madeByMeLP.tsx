@@ -27,14 +27,14 @@ export default function MadeByMeLP({ userId }: { userId: number }) {
         }
     }, [inView, isFetching, hasNextPage, fetchNextPage]);
     return (
-        <div className="flex flex-col items-center border-t border-gray-800 py-5 w-full">
+        <div className="flex flex-col items-center py-5 w-full">
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
-            <div className="flex flex-col w-full gap-2 items-center min-h-[75vh] h-fit-content mt-[20px]">
+            <div className="flex flex-wrap w-full gap-2 items-center min-h-[75vh] h-fit-content mt-[20px] justify-center">
                 {data?.pages.map((datalist) =>
                     datalist.data.data.map((lp) => <LpCard {...lp}></LpCard>)
-                )}{' '}
+                )}
                 <div ref={ref} className="flex w-full justify-center h-auto">
                     {isFetching && <ClipLoader color={'#fff'} />}
                 </div>

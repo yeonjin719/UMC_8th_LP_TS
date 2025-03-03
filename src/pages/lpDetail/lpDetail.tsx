@@ -52,6 +52,10 @@ const LpDetail = () => {
                 onSuccess: () => {
                     navigate('/');
                 },
+                onError: () => {
+                    console.log(lpId);
+                    alert('삭제 중 오류가 발생하였습니다');
+                },
             }
         );
     };

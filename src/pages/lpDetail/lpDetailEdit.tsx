@@ -107,6 +107,12 @@ const LpDetailEdit = ({
         };
     }, []);
 
+    useEffect(() => {
+        if (data?.data.thumbnail) {
+            setImageSrc(data?.data.thumbnail);
+        }
+    }, [data]);
+
     const handleImageClick = () => {
         fileInputRef.current?.click();
     };
@@ -123,7 +129,7 @@ const LpDetailEdit = ({
             {
                 title: submitData.title,
                 content: submitData.content,
-                thumnail: imageSrc,
+                thumbnail: imageSrc,
                 tags: addTag,
                 published: true,
                 lpsId: Number(lpId),
@@ -193,7 +199,7 @@ const LpDetailEdit = ({
                         src={imageSrc}
                         alt=""
                         onClick={handleImageClick}
-                        className="w-[80%] hover:cursor-pointer hover:opacity-70"
+                        className="w-[80%] hover:cursor-pointer hover:opacity-50"
                     />
                 )}
 
