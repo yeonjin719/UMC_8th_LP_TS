@@ -65,7 +65,7 @@ const LikeLps = ({ userType }: TLikeLpsProps) => {
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
-            <div className="flex flex-wrap justify-center w-full gap-2 items-center min-h-[50vh] h-fit-content mt-[20px]">
+            <div className="flex flex-wrap gap-2 justify-center max-w-[95%] h-fit-content mt-[20px]">
                 {meLikeData?.pages.map((datalist) =>
                     datalist.data.data.map((lp) => (
                         <LpCard {...lp} key={lp.id}></LpCard>
