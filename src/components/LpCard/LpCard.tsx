@@ -17,11 +17,11 @@ const LpCard = (data: TLp | undefined) => {
     }, [data]);
     return (
         <div
-            className="flex relative group hover:transition-transform hover:scale-120 hover:z-2 duration-150 ease-in-out"
+            className="flex relative max-w-[200px] max-h-[200px]"
             onClick={() => navigate(`/lp/${data?.id}`)}
         >
             <div
-                className={`relative w-[200px] h-[200px] group-hover:w-[250px]`}
+                className={`relative w-[200px] h-[200px] group hover:transition-transform hover:scale-120 hover:z-2 duration-150 ease-in-out hover:w-[250px]`}
             >
                 <div className="group-hover:bg-gradient-to-b from-black/40 to-black absolute group-hover:z-3 w-[200px] h-[200px] top-0 left-0 "></div>
                 <img
@@ -35,19 +35,18 @@ const LpCard = (data: TLp | undefined) => {
                     alt=""
                     className="absolute h-full max-w-[200px] min-w-[200px] object-cover group-hover:right-0"
                 />
-            </div>
-
-            <div className="hidden group-hover:flex w-[200px] flex-col absolute bottom-0 z-4 p-4">
-                <div className="text-white font-bold text-[14px] max-w-[80%]">
-                    {data?.title}
-                </div>
-                <div className="text-white justify-end whitespace-nowrap text-[15px]">
-                    {formatRelativeTime(data?.createdAt)}
-                </div>
-                <div className="absolute right-5 bottom-4 flex justify-center items-center gap-1 ">
-                    <FaHeart size={10} color="white"></FaHeart>
-                    <div className="text-white text-[13px]">
-                        {data?.likes.length}
+                <div className="hidden group-hover:flex w-[200px] flex-col absolute bottom-0 z-4 p-4">
+                    <div className="text-white font-bold text-[14px] max-w-[80%]">
+                        {data?.title}
+                    </div>
+                    <div className="text-white justify-end whitespace-nowrap text-[15px]">
+                        {formatRelativeTime(data?.createdAt)}
+                    </div>
+                    <div className="absolute right-5 bottom-4 flex justify-center items-center gap-1 ">
+                        <FaHeart size={10} color="white"></FaHeart>
+                        <div className="text-white text-[13px]">
+                            {data?.likes.length}
+                        </div>
                     </div>
                 </div>
             </div>
