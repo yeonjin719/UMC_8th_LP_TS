@@ -33,6 +33,8 @@ export type TLp = {
     updatedAt: string;
     thumbnail: string | null;
     published: boolean;
+    tags: TTags[];
+    likes: TLikes[];
 };
 
 export type TLpDetail = TCommonResponse<{

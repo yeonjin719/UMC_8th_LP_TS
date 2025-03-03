@@ -5,6 +5,7 @@ import LPCover from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 import { TLp } from '../../types/lp';
 import { useEffect, useState } from 'react';
+import { FaHeart } from 'react-icons/fa';
 
 const LpCard = (data: TLp | undefined) => {
     const navigate = useNavigate();
@@ -42,6 +43,12 @@ const LpCard = (data: TLp | undefined) => {
                 </div>
                 <div className="text-white justify-end whitespace-nowrap text-[15px]">
                     {formatRelativeTime(data?.createdAt)}
+                </div>
+                <div className="absolute right-5 bottom-4 flex justify-center items-center gap-1 ">
+                    <FaHeart size={10} color="white"></FaHeart>
+                    <div className="text-white text-[13px]">
+                        {data?.likes.length}
+                    </div>
                 </div>
             </div>
         </div>

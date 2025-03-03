@@ -32,7 +32,11 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
         search: debouncedTagInput,
         limit: 5,
     });
-    const { register, handleSubmit } = useForm<TPostLP>({
+    const {
+        register,
+        handleSubmit,
+        formState: { isValid },
+    } = useForm<TPostLP>({
         mode: 'onChange',
         resolver: zodResolver(addLpSchema),
     });
@@ -101,7 +105,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
             {
                 title: submitData.title,
                 content: submitData.content,
-                thumnail: imageSrc,
+                thumbnail: imageSrc,
                 tags: addTag,
                 published: true,
             },
@@ -218,7 +222,8 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                         {/* 추가 버튼 */}
                         <button
                             type="submit"
-                            className="w-full h-10 bg-pink-500 rounded-md p-2 mt-4"
+                            disabled={!isValid}
+                            className="w-full h-10 bg-pink-500 rounded-md p-2 mt-4 disabled:cursor-not-allowed disabled:bg-gray-400"
                         >
                             Add LP
                         </button>
