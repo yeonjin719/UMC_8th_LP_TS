@@ -60,3 +60,9 @@ export type TGoogleLoginResponse = {
 };
 
 export type TUserInfoResponse = TCommonResponse<TUserInfo>;
+
+export type TUserEdit = {
+    avatar: string | null;
+    bio: string | null;
+    name: string;
+};

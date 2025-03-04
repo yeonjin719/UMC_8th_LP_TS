@@ -48,4 +48,10 @@ const addLpSchema = z.object({
     content: z.string().nonempty(),
 });
 
-export { signUpSchema, addLpSchema, loginSchema };
+const editProfileSchema = z.object({
+    avatar: z.string().url().nullable(),
+    bio: z.string().nullable(),
+    name: z.string().min(1).nonempty(),
+});
+
+export { signUpSchema, addLpSchema, loginSchema, editProfileSchema };

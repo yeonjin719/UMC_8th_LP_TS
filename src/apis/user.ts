@@ -1,4 +1,4 @@
-import { TMyInfoResponse, TUserInfoResponse } from '../types/user';
+import { TMyInfoResponse, TUserEdit, TUserInfoResponse } from '../types/user';
 import { axiosInstance } from './axios-instance';
 
 const getMyInfo = async (): Promise<TMyInfoResponse> => {
@@ -26,4 +26,21 @@ const getOtherUserInfo = async ({
     return data;
 };
 
-export { getMyInfo, getOtherUserInfo };
+const patchUserInfo = async ({ name, bio, avatar }: TUserEdit) => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const { data } = await axiosInstance.patch(
+        `/v1/users`,
+        {
+            name,
+            bio,
+            avatar,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
+    return data;
+};
+export { getMyInfo, getOtherUserInfo, patchUserInfo };
