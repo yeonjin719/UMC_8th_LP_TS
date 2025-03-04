@@ -113,20 +113,25 @@ const Search = () => {
                 <div className="flex w-full justify-end">
                     <Order setOrder={setOrder} order={order} />
                 </div>
-                {tagData?.pages.map((datalist) =>
-                    datalist.data.data.map((lp) => (
-                        <LpCard {...lp} key={lp.id}></LpCard>
-                    ))
-                )}
-                {titleData?.pages.map((datalist) =>
-                    datalist.data.data.map((lp) => (
-                        <LpCard {...lp} key={lp.id}></LpCard>
-                    ))
-                )}
-                <div ref={ref} className="flex w-full justify-center h-auto">
-                    {(isFetchingTag || isFetchingTitle) && (
-                        <ClipLoader color={'#fff'} />
+                <div className="grid gap-2 justify-center max-w-[95%] h-fit-content mt-[20px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))]">
+                    {tagData?.pages.map((datalist) =>
+                        datalist.data.data.map((lp) => (
+                            <LpCard {...lp} key={lp.id}></LpCard>
+                        ))
                     )}
+                    {titleData?.pages.map((datalist) =>
+                        datalist.data.data.map((lp) => (
+                            <LpCard {...lp} key={lp.id}></LpCard>
+                        ))
+                    )}
+                    <div
+                        ref={ref}
+                        className="flex w-full justify-center h-auto"
+                    >
+                        {(isFetchingTag || isFetchingTitle) && (
+                            <ClipLoader color={'#fff'} />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

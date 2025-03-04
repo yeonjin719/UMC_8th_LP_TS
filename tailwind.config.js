@@ -14,6 +14,9 @@ module.exports = {
                     '100%': { opacity: '1' },
                 },
             },
+            gridTemplateColumns: {
+                'my-columns': 'auto 1fr',
+            },
         },
     },
     plugins: [],
