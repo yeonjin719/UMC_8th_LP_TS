@@ -12,7 +12,7 @@ function useGetLPWithTag({ search, order, tagName, type }: TGetLPsRequest) {
         getNextPageParam: (lastPage) => {
             return lastPage.data.hasNext ? lastPage.data.nextCursor : undefined;
         },
-        enabled: type === TSearchEnum.TAG && !!search,
+        enabled: type === TSearchEnum.TAG && !!tagName,
         ...queryOptions,
     });
 }
