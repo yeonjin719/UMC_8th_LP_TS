@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../utils/validate';
 import useAuth from '../../hooks/queries/useAuth';
 import { IoIosArrowBack } from 'react-icons/io';
+import { queryClient } from '../../main';
 
 type TLoginForm = {
     email: string;
@@ -37,6 +38,9 @@ const LogIn = () => {
                 setUserId(data.data.id);
                 setNickname(data.data.name);
                 console.log('로그인 성공');
+                queryClient.invalidateQueries({
+                    queryKey: ['myInfo'],
+                });
                 navigate('/');
             },
             onError: () => {

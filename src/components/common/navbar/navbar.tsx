@@ -37,19 +37,19 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     }, [userData]);
 
     const handleLogout = () => {
+        setIsLogin(false);
+        setUserId(-1);
+        setNickname('');
+        localStorage.removeItem('isLogin');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        alert('로그아웃 되었습니다');
         logoutMutate(accessToken, {
             onSuccess: () => {
-                localStorage.removeItem('isLogin');
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                setIsLogin(false);
-                setUserId(-1);
-                setNickname('');
-                alert('로그아웃 되었습니다');
                 navigate('/');
             },
             onError: () => {
-                alert('로그아웃 과정에서 에러가 발생했습니다');
+                navigate('/');
             },
         });
     };
