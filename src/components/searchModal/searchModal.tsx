@@ -41,6 +41,7 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (!searchValue.trim()) return;
         const type = englishType[searchType];
         if (type === 'title') {
             localStorage.setItem('type', 'title');
@@ -64,6 +65,7 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
     };
 
     const handleSearchMovie = () => {
+        if (!searchValue.trim() || keyword === searchValue) return;
         if (keyword === searchValue) return;
         const type = englishType[searchType];
         localStorage.setItem('type', searchType);
@@ -74,7 +76,7 @@ const SearchModal = ({ onClose }: TSearchModalProps) => {
     const handleSearchMovieWithKeyboard = (
         e: React.KeyboardEvent<HTMLInputElement>
     ) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && searchValue.trim()) {
             handleSearchMovie();
             dispatch(addSearchRecord(searchValue));
             onClose();

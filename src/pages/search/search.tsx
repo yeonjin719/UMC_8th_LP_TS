@@ -99,7 +99,7 @@ const Search = () => {
                             {keyword}
                         </div>
                         <div className="text-white flex ml-[5px] relative self-end items-center w-[120px] justify-center border-[1px] h-[35px] rounded-[10px] pt-[3px] pb-[3px]">
-                            {type}
+                            {type === TSearchEnum.TAG ? '태그' : '제목'}
                         </div>
                     </div>
                 </div>
