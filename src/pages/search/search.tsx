@@ -8,13 +8,13 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { MODAL_TYPES } from '../../components/common/modal/modalProvider';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-import useGetLps from '../../hooks/queries/useGetLps';
 import Order from '../../components/common/order/order';
 import { TOrder, TOrderLabel, TSearchEnum } from '../../constants/enum';
 import LpCard from '../../components/LpCard/LpCard';
 
 import useGetLPWithTag from '../../hooks/queries/useGetLPWithTag';
 import { useInView } from 'react-intersection-observer';
+import useGetSearchLps from '../../hooks/queries/useGetSearchLP';
 
 const Search = () => {
     const location = useLocation();
@@ -37,7 +37,7 @@ const Search = () => {
         fetchNextPage: fetchNextPageTitle,
         hasNextPage: hasNextPageTitle,
         isFetching: isFetchingTitle,
-    } = useGetLps({
+    } = useGetSearchLps({
         order,
         search: keyword,
         type: type as TSearchEnum,
