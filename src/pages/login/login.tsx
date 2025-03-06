@@ -51,11 +51,13 @@ const LogIn = () => {
 
     const handleGoogleLogin = () => {
         // 구글 로그인 페이지로 리다이렉트합니다.
-        window.location.href = 'http://localhost:8000/v1/auth/google/login';
+        window.location.href = `${
+            import.meta.env.VITE_USER_API_URL
+        }/v1/auth/google/login`;
     };
 
     return (
-        <div className="flex flex-col items-center gap-2 mt-36 w-full ">
+        <div className="flex flex-col items-center gap-2 mt-[10%] w-full ">
             <div className="w-[300px] items-center flex flex-col relative">
                 <IoIosArrowBack
                     size={25}

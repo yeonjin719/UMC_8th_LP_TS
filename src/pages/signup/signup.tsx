@@ -93,7 +93,7 @@ const MainSignup = () => {
 
     return (
         <FormProvider {...methods}>
-            <div className="flex flex-col items-center gap-2 mt-36 w-full">
+            <div className="flex flex-col items-center gap-2 mt-[10%] w-full">
                 <div className="w-[340px] h-fit justify-center relative p-[20px] rounded-[20px]">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
