@@ -6,12 +6,13 @@ import MadeByMeLP from '../../components/madeByMeLP/madeByMeLP';
 import { useAuthContext } from '../../context/LogInContext';
 import { IoIosSettings } from 'react-icons/io';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { editProfileSchema } from '../../utils/validate';
 import { TUserEdit } from '../../types/user';
 import { FaCheck } from 'react-icons/fa';
 import useEditUserInfo from '../../hooks/queries/useEditUserInfo';
 import { queryClient } from '../../main';
+import useUploadImage from '../../hooks/queries/useUploadImage';
 function MyPage() {
     const { isLogin, userId } = useAuthContext();
     const { useGetMyInfo } = useUserInfo(isLogin, userId);
@@ -19,14 +20,17 @@ function MyPage() {
     const [info, setInfo] = useState(0);
     const [isEdit, setIsEdit] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const [imageSrc, setImageSrc] = useState(
-        userData?.data.avatar || defaultImage
+    const [imageSrc, setImageSrc] = useState<null | undefined | string>(
+        defaultImage
     );
     const { mutate: patchUserMutate } = useEditUserInfo();
+    const { mutate: postImgMutate } = useUploadImage();
+
     const {
         register,
         handleSubmit,
         setValue,
+        control,
         formState: { errors },
     } = useForm<TUserEdit>({
         mode: 'onChange',
@@ -39,39 +43,55 @@ function MyPage() {
     });
 
     useEffect(() => {
+        setImageSrc(userData?.data.avatar);
+    }, [userData]);
+
+    const watchedName = useWatch({
+        control,
+        name: 'name',
+    });
+
+    const watchedBio = useWatch({
+        control,
+        name: 'bio',
+    });
+
+    useEffect(() => {
         setValue('avatar', userData?.data.avatar as null | string);
         setValue('name', userData?.data.name as string);
         setValue('bio', userData?.data.bio as null | string);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userData]);
+    }, [userData, setValue]);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
+    const handleFileChange = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = event.target.files?.[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                if (event.target?.result) {
-                    setImageSrc(event.target.result as string);
-                }
-            };
-            reader.readAsDataURL(file);
+            postImgMutate(file, {
+                onSuccess: (data) => {
+                    setImageSrc(data.data.imageUrl || null);
+                },
+            });
+        } else {
+            alert('Please upload a valid PNG file.');
         }
     };
 
-    const onSubmit: SubmitHandler<TUserEdit> = (submitData) => {
-        setIsEdit(false);
+    const onSubmit: SubmitHandler<TUserEdit> = () => {
         patchUserMutate(
             {
-                bio: submitData.bio,
-                name: submitData.name,
-                avatar: imageSrc,
+                bio: watchedBio,
+                name: watchedName,
+                avatar: imageSrc || null,
             },
             {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ['myInfo'] });
+                    setIsEdit(false);
                 },
                 onError: () => {
                     alert('사용자 정보 수정 중 에러가 발생하였습니다');
+                    setIsEdit(false);
                 },
             }
         );
@@ -86,10 +106,10 @@ function MyPage() {
                         ref={fileInputRef}
                         className="hidden"
                         accept="image/*"
-                        onChange={handleImageChange}
+                        onChange={handleFileChange}
                     />
                     <img
-                        src={imageSrc}
+                        src={imageSrc || defaultImage}
                         onClick={() => fileInputRef.current?.click()}
                         alt="프로필 이미지"
                         className="w-[130px] h-[130px] rounded-[50%] object-cover hover:cursor-pointer"
@@ -106,7 +126,7 @@ function MyPage() {
                                 {...register('name')}
                             />
                             <button
-                                onClick={handleSubmit(onSubmit)}
+                                type="submit"
                                 disabled={!!errors.name?.message}
                             >
                                 <FaCheck size={15} color="white" />

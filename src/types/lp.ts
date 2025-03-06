@@ -140,3 +140,7 @@ export type TLikesResponse = TCommonResponse<TLikes>;
 export type TBookmark = {
     userId: number;
 };
+
+export type TUploadImageResponse = TCommonResponse<{
+    imageUrl: string;
+}>;

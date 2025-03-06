@@ -14,6 +14,7 @@ import {
     TPostLP,
     TTagList,
     TTagsListResponse,
+    TUploadImageResponse,
 } from '../types/lp';
 import { axiosInstance } from './axios-instance';
 
@@ -312,8 +313,28 @@ const patchLP = async ({
     return data;
 };
 
+const uploadImage = async (img: File): Promise<TUploadImageResponse> => {
+    const accessToken = localStorage.getItem('accessToken') || '';
+    const formData = new FormData();
+    formData.append('file', img);
+
+    try {
+        const { data } = await axiosInstance.post('/v1/uploads', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return data;
+    } catch (error) {
+        console.error('File upload failed:', error);
+        throw error;
+    }
+};
+
 export {
     CreateLp,
+    uploadImage,
     patchLP,
     deleteLikeLP,
     postLikeLP,

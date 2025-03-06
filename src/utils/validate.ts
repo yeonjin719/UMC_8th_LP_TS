@@ -49,7 +49,6 @@ const addLpSchema = z.object({
 });
 
 const editProfileSchema = z.object({
-    avatar: z.string().url().nullable(),
     bio: z.string().nullable(),
     name: z.string().min(1).nonempty(),
 });

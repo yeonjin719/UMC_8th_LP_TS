@@ -35,6 +35,7 @@ const MainSignup = () => {
     const { useSignup } = useAuth();
     const { mutate: signupMutate } = useSignup;
     const [errorMessage, setErrorMessage] = useState('');
+    const [imageSrc, setImageSrc] = useState<null | undefined | string>(null);
     const methods = useForm<SignupForm>({
         mode: 'onChange',
         resolver: zodResolver(signUpSchema),
@@ -62,7 +63,7 @@ const MainSignup = () => {
                 password: data.passwordGroup.password,
                 name: data.name,
                 bio: data.bio,
-                avatar: data.avatar,
+                avatar: imageSrc ?? null,
             },
             {
                 onSuccess: () => {
@@ -114,7 +115,7 @@ const MainSignup = () => {
                             <Step2 nextStep={nextStep2} />
                         ) : (
                             <>
-                                <Step3 />
+                                <Step3 setImageSrc={setImageSrc} />
                                 {errorMessage && (
                                     <div className="text-red-500 text-sm w-full mt-2">
                                         {errorMessage}
