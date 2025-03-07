@@ -28,20 +28,24 @@ const User = () => {
                 </div>
             </div>
 
-            <div className="mt-5 flex w-full items-center justify-center relative">
+            <div className="mt-5 flex w-full items-center justify-center border-t border-[rgba(40,41,46)]">
                 <button
                     onClick={() => setInfo(0)}
-                    className={`${
-                        info === 0 ? 'underline' : ''
-                    } text-white bg-black py-2 px-4 text-[17px]`}
+                    className={`py-2 px-4 text-[17px] h-full whitespace-nowrap ${
+                        info === 0
+                            ? 'border-t border-white text-white'
+                            : 'text-[#38393f]'
+                    }`}
                 >
                     좋아요 한 LP
                 </button>
                 <button
                     onClick={() => setInfo(1)}
-                    className={`${
-                        info === 1 ? 'underline' : ''
-                    } text-white bg-black py-2 px-4 text-[17px]`}
+                    className={`py-2 px-4 text-[17px] whitespace-nowrap ${
+                        info === 1
+                            ? 'border-t border-white text-white'
+                            : 'text-[#38393f]'
+                    }`}
                 >
                     작성한 LP
                 </button>

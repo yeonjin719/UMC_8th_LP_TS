@@ -162,7 +162,7 @@ const LpDetailEdit = ({
                         {formatRelativeTime(data?.data.createdAt)}
                     </div>
                 </div>
-                <div className="relative w-[80%] flex items-center">
+                <div className="relative w-[80%] flex items-center justify-between">
                     <input
                         type="text"
                         {...register('title')}

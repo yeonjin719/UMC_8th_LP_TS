@@ -332,6 +332,27 @@ const uploadImage = async (img: File): Promise<TUploadImageResponse> => {
     }
 };
 
+const uploadNoAuthImage = async (img: File): Promise<TUploadImageResponse> => {
+    const formData = new FormData();
+    formData.append('file', img);
+
+    try {
+        const { data } = await axiosInstance.post(
+            '/v1/uploads/public',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error('File upload failed:', error);
+        throw error;
+    }
+};
+
 export {
     CreateLp,
     uploadImage,
@@ -351,4 +372,5 @@ export {
     deleteComment,
     getOtherUserLikesMeLPs,
     getSomeUsersLPs,
+    uploadNoAuthImage,
 };
