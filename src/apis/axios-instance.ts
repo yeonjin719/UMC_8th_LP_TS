@@ -20,12 +20,14 @@ axiosInstance.interceptors.response.use(
 
         if (isRedirecting) {
             window.location.replace('/login');
+            localStorage.setItem('isLogin', 'false');
             return Promise.reject(error);
         }
 
         if (response.data.message !== 'Unauthorized') {
             isRedirecting = false;
             window.location.replace('/login');
+            localStorage.setItem('isLogin', 'false');
             return Promise.reject(error);
         }
 
@@ -35,6 +37,7 @@ axiosInstance.interceptors.response.use(
         if (!refreshToken) {
             localStorage.clear();
             window.location.replace('/login');
+            localStorage.setItem('isLogin', 'false');
             isRedirecting = false;
             return Promise.reject(error);
         }

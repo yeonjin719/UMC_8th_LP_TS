@@ -38,9 +38,12 @@ const HomePage = () => {
                         <LpCard {...lp} key={lp.id}></LpCard>
                     ))
                 )}
-                <div ref={ref} className="flex w-full justify-center h-auto">
-                    {isFetching && <ClipLoader color={'#fff'} />}
-                </div>
+            </div>
+            <div
+                ref={ref}
+                className="flex w-full justify-center h-auto mt-[10px]"
+            >
+                {isFetching && <ClipLoader color={'#fff'} />}
             </div>
         </div>
     );

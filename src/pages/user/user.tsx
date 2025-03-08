@@ -13,18 +13,20 @@ const User = () => {
 
     return (
         <div className="w-full h-full flex flex-col p-[20px] items-center">
-            <div className="flex gap-5 justify-center items-center mt-[30px] ">
+            <div className="flex gap-5 justify-center items-center mt-[30px]">
                 <img
                     src={userData?.data.avatar || defaultImage}
-                    alt="임시 이미지"
-                    className="w-[100px] h-[100px] rounded-[50%] object-cover"
+                    alt="프로필 이미지"
+                    className="w-[130px] h-[130px] rounded-[50%] object-cover"
                 />
-                <div className="flex flex-col ">
-                    <div className="text-white text-[30px]">
+                <div className="flex flex-col w-[250px] h-[110px]">
+                    <div className="flex justify-between items-center text-white text-[30px]">
                         {userData?.data.name}
                     </div>
+                    <div className="text-white h-[30.5px]">
+                        {userData?.data.bio}
+                    </div>
                     <div className="text-white">{userData?.data.email}</div>
-                    <div>{userData?.data.avatar}</div>
                 </div>
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import ClipLoader from 'react-spinners/ClipLoader';
 import { useAuthContext } from '../../context/LogInContext.tsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,12 +16,15 @@ const LoginRedirect: React.FC = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             setIsLogin(true);
-            // 로그인 성공 후 메인 페이지로 이동
             navigate('/');
         }
     }, [navigate, setIsLogin]);
 
-    return <div>Redirecting...</div>;
+    return (
+        <div className="flex w-full h-full justify-center items-center">
+            <ClipLoader color={'#fff'} />
+        </div>
+    );
 };
 
 export default LoginRedirect;
