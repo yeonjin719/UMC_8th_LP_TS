@@ -6,7 +6,7 @@ import { TOrder, TOrderLabel } from '../../constants/enum';
 import useGetComments from '../../hooks/queries/useGetComments';
 import usePostComment from '../../hooks/queries/usePostComment';
 import { queryClient } from '../../main';
-import CommentsSkeleton from './commensSkeleton';
+import CommentsSkeleton from './commentsSkeleton';
 
 const Comments = ({ lpsId }: { lpsId: number }) => {
     const [comment, setComment] = useState('');
