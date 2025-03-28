@@ -1,6 +1,6 @@
 const LpCardSkeleton = () => {
     return (
-        <div className="flex max-w-[200px] max-h-[200px] bg-gray-400 animate-pulse"></div>
+        <div className="flex w-[200px] h-[200px] bg-gray-400 animate-pulse"></div>
     );
 };
 

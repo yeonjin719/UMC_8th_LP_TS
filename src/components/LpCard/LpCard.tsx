@@ -28,7 +28,6 @@ const LpCard = (data: TLp | undefined) => {
                     src={imageSrc}
                     alt="lp 커버 이미지"
                     className="absolute h-full object-cover z-1 max-w-[200px] min-w-[200px] group-hover:left-0"
-                    onError={() => setImageSrc(LPCover)}
                 />
                 <img
                     src={LP}
@@ -42,7 +41,7 @@ const LpCard = (data: TLp | undefined) => {
                     <div className="text-white justify-end whitespace-nowrap text-[15px]">
                         {formatRelativeTime(data?.createdAt)}
                     </div>
-                    <div className="absolute right-5 bottom-4 flex justify-center items-center gap-1 ">
+                    <div className="absolute flex items-center justify-center gap-1 right-5 bottom-4 ">
                         <FaHeart size={10} color="white"></FaHeart>
                         <div className="text-white text-[13px]">
                             {data?.likes.length}
