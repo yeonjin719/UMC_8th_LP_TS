@@ -82,7 +82,7 @@ const LpDetail = () => {
 
     return (
         <div className="flex flex-col items-center w-full p-[30px] gap-[30px]">
-            <div className="flex w-full items-center flex-col ">
+            <div className="flex flex-col items-center w-full ">
                 {edit ? (
                     <LpDetailEdit
                         setEdit={setEdit}
@@ -138,7 +138,7 @@ const LpDetail = () => {
                                 return (
                                     <div
                                         key={tag.id}
-                                        className="bg-gray-700 text-white px-3 py-1 rounded-full"
+                                        className="px-3 py-1 text-white bg-gray-700 rounded-full"
                                     >
                                         # {tag.name}
                                     </div>

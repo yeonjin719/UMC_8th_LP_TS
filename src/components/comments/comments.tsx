@@ -3,10 +3,11 @@ import Comment from '../comment/comment';
 import { useInView } from 'react-intersection-observer';
 import Order from '../common/order/order';
 import { TOrder, TOrderLabel } from '../../constants/enum';
-import ClipLoader from 'react-spinners/ClipLoader';
 import useGetComments from '../../hooks/queries/useGetComments';
 import usePostComment from '../../hooks/queries/usePostComment';
 import { queryClient } from '../../main';
+import CommentsSkeleton from './commensSkeleton';
+
 const Comments = ({ lpsId }: { lpsId: number }) => {
     const [comment, setComment] = useState('');
     const [order, setOrder] = useState<keyof typeof TOrderLabel>(
@@ -54,13 +55,13 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
 
     return (
         <div className="bg-[rgba(40,41,46)] flex rounded-[15px] w-[80%] min-w-[470px] h-auto ">
-            <div className="flex flex-col text-white h-full w-full p-5 gap-4">
+            <div className="flex flex-col w-full h-full gap-4 p-5 text-white">
                 <div className="flex justify-between">
                     <div className="text-[18px]">댓글</div>
                     <Order setOrder={setOrder} order={order}></Order>
                 </div>
 
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                     <input
                         type="text"
                         value={comment}
@@ -81,9 +82,10 @@ const Comments = ({ lpsId }: { lpsId: number }) => {
                         <Comment key={comment.id} {...comment}></Comment>
                     ))
                 )}
-
-                <div ref={ref} className="flex w-full justify-center h-auto">
-                    {isFetching && <ClipLoader color={'#fff'} />}
+                <div ref={ref} className="flex w-full h-auto">
+                    {isFetching && hasNextPage && (
+                        <CommentsSkeleton></CommentsSkeleton>
+                    )}
                 </div>
             </div>
         </div>
