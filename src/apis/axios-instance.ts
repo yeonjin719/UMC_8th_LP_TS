@@ -12,9 +12,13 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         console.log(error);
-        const { response } = error;
+        const { response, config } = error;
 
-        if (response?.data?.statusCode !== 401) {
+        if (!config || config._retry) {
+            return Promise.reject(error);
+        }
+
+        if (response?.status !== 401) {
             return Promise.reject(error);
         }
 
@@ -24,7 +28,7 @@ axiosInstance.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        if (response.data.message !== 'Unauthorized') {
+        if (response.data?.message !== 'Unauthorized') {
             isRedirecting = false;
             window.location.replace('/login');
             localStorage.setItem('isLogin', 'false');
@@ -51,11 +55,13 @@ axiosInstance.interceptors.response.use(
 
             localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('refreshToken', data.refreshToken);
-            error.config.headers.Authorization = `Bearer ${data.accessToken}`;
-            queryClient.invalidateQueries({ queryKey: ['myInfo'] });
+            config.headers.Authorization = `Bearer ${data.accessToken}`;
+            config._retry = true;
             isRedirecting = false;
 
-            return axiosInstance(error.config);
+            queryClient.invalidateQueries({ queryKey: ['myInfo'] });
+
+            return axiosInstance(config);
         } catch (refreshError) {
             console.log('알 수 없는 오류가 발생했습니다.', refreshError);
             localStorage.clear();
