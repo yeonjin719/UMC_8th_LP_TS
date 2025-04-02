@@ -149,7 +149,7 @@ const LpDetailEdit = ({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col w-full h-full items-center"
+            className="flex flex-col items-center w-full h-full"
         >
             <div className="flex flex-col w-[80%] min-w-[470px] gap-[15px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                 <div className="flex gap-[40px] w-[80%] justify-between">
@@ -162,13 +162,13 @@ const LpDetailEdit = ({
                         {formatRelativeTime(data?.data.createdAt)}
                     </div>
                 </div>
-                <div className="relative w-[80%] flex items-center">
+                <div className="relative w-[80%] flex items-center justify-between">
                     <input
                         type="text"
                         {...register('title')}
                         className="text-white text-[25px] border-1 border-white w-[80%] rounded-md px-5"
                     />
-                    <div className=" flex gap-[15px] ml-2 top-[10px]">
+                    <div className="flex gap-[15px] ml-2 top-[10px]">
                         <FaImage
                             color="white"
                             size={20}
@@ -234,7 +234,7 @@ const LpDetailEdit = ({
                             )}
                             <div
                                 ref={ref}
-                                className="flex w-full justify-center h-auto"
+                                className="flex justify-center w-full h-auto"
                             ></div>
                         </div>
                     )}
@@ -253,7 +253,7 @@ const LpDetailEdit = ({
                         return (
                             <div
                                 key={idx}
-                                className="bg-gray-700 text-white px-3 py-1 rounded-full flex items-center gap-2"
+                                className="flex items-center gap-2 px-3 py-1 text-white bg-gray-700 rounded-full"
                             >
                                 #{tag}
                                 <button

@@ -124,15 +124,15 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
 
     return (
         <Portal>
-            <div className="flex flex-col w-full items-center absolute left-0 top-0 h-full overflow-hidden text-white">
+            <div className="absolute top-0 left-0 flex flex-col items-center w-full h-full overflow-hidden text-white">
                 <form
                     className="flex flex-col items-center justify-center w-full h-full "
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl px-5 py-10 gap-2 items-center z-8 relative">
+                    <div className="flex flex-col w-[400px] bg-[rgba(40,41,46)] rounded-2xl px-5 py-10 gap-2 items-center z-11 relative">
                         {/* 이미지 업로드 */}
                         <IoMdClose
-                            className="absolute top-6 z-2 right-6 cursor-pointer"
+                            className="absolute cursor-pointer top-6 z-2 right-6"
                             onClick={onClose}
                             size={20}
                         />
@@ -151,17 +151,17 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                         </div>
 
                         <input
-                            className="w-full h-10 border-gray-500 border rounded-md p-2 mb-2 mt-5"
+                            className="w-full h-10 p-2 mt-5 mb-2 border border-gray-500 rounded-md"
                             placeholder="LP Name"
                             {...register('title')}
                         />
                         <input
-                            className="w-full h-10 border-gray-500 border rounded-md p-2 mb-2"
+                            className="w-full h-10 p-2 mb-2 border border-gray-500 rounded-md"
                             placeholder="LP Content"
                             {...register('content')}
                         />
 
-                        <div className="flex gap-2 w-full items-center mb-2 relative">
+                        <div className="relative flex items-center w-full gap-2 mb-2">
                             <input
                                 className="w-full h-[40px] border-gray-500 border rounded-md p-2"
                                 placeholder="LP Tag"
@@ -189,7 +189,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                                     )}
                                     <div
                                         ref={ref}
-                                        className="flex w-full justify-center h-auto"
+                                        className="flex justify-center w-full h-auto"
                                     ></div>
                                 </div>
                             )}
@@ -203,7 +203,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                                 Add
                             </button>
                         </div>
-                        <div className="flex gap-2 flex-wrap w-full">
+                        <div className="flex flex-wrap w-full gap-2">
                             {addTag.map((tag) => (
                                 <span
                                     key={tag}
@@ -223,7 +223,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                         <button
                             type="submit"
                             disabled={!isValid}
-                            className="w-full h-10 bg-pink-500 rounded-md p-2 mt-4 disabled:cursor-not-allowed disabled:bg-gray-400"
+                            className="w-full h-10 p-2 mt-4 bg-pink-500 rounded-md disabled:cursor-not-allowed disabled:bg-gray-400"
                         >
                             Add LP
                         </button>
@@ -231,7 +231,7 @@ const AddLPModal = ({ onClose }: TSearchModalProps) => {
                 </form>
             </div>
             <div
-                className="absolute w-screen h-full bg-black opacity-50 z-6 left-0 top-0"
+                className="absolute top-0 left-0 w-screen h-full bg-black opacity-50 z-6"
                 onClick={onClose}
             ></div>
         </Portal>

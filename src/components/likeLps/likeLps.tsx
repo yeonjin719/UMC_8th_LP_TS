@@ -61,7 +61,7 @@ const LikeLps = ({ userType }: TLikeLpsProps) => {
         userType,
     ]);
     return (
-        <div className="flex flex-col items-center py-5 w-full">
+        <div className="flex flex-col items-center w-full py-5">
             <div className="flex w-[80%] justify-end">
                 <Order setOrder={setOrder} order={order} />
             </div>
@@ -76,11 +76,11 @@ const LikeLps = ({ userType }: TLikeLpsProps) => {
                         <LpCard {...lp} key={lp.id}></LpCard>
                     ))
                 )}
-                <div ref={ref} className="flex w-full justify-center h-auto">
-                    {(isFetchingMe || isFetchingOther) && (
-                        <ClipLoader color={'#fff'} />
-                    )}
-                </div>
+            </div>
+            <div ref={ref} className="flex justify-center w-full h-auto">
+                {(isFetchingMe || isFetchingOther) && (
+                    <ClipLoader color={'#fff'} />
+                )}
             </div>
         </div>
     );
