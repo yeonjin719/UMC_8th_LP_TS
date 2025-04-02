@@ -2,18 +2,19 @@ import { useFormContext } from 'react-hook-form';
 import { SignupForm } from '../../pages/signup/signup';
 
 import defaultProfile from '../../images/default_profile.png';
-import useUploadImage from '../../hooks/queries/useUploadImage';
+import useUploadImageNoAuth from '../../hooks/queries/useUploadImageNoAuth';
 
 type TStep3Props = {
     setImageSrc: (imageSrc: string | null | undefined) => void;
+    imageSrc: string | null | undefined;
 };
 
-export default function Step3({ setImageSrc }: TStep3Props) {
+export default function Step3({ setImageSrc, imageSrc }: TStep3Props) {
     const {
         register,
         formState: { errors },
     } = useFormContext<SignupForm>();
-    const { mutate: postImgMutate } = useUploadImage();
+    const { mutate: postImgMutate } = useUploadImageNoAuth();
 
     const handleProfileClick = () => {
         const inputFile = document.getElementById(
@@ -21,10 +22,6 @@ export default function Step3({ setImageSrc }: TStep3Props) {
         ) as HTMLInputElement;
         inputFile?.click();
     };
-
-    // useEffect(() => {
-    //     setImageSrc(userData?.data.avatar);
-    // }, [userData]);
 
     const handleFileChange = async (
         event: React.ChangeEvent<HTMLInputElement>
@@ -40,12 +37,13 @@ export default function Step3({ setImageSrc }: TStep3Props) {
             alert('Please upload a valid PNG file.');
         }
     };
+
     return (
         <div className="w-full flex flex-col items-center gap-3 h-full">
             <img
-                src={defaultProfile}
+                src={imageSrc || defaultProfile}
                 alt=""
-                className="rounded-[50%] mb-[20px]"
+                className="rounded-[50%] mb-[20px] max-w-[150px] max-h-[150px] min-w-[150px] min-h-[150px] object-cover"
                 onClick={handleProfileClick}
             />
             <input

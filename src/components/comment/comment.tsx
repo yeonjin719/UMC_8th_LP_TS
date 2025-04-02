@@ -8,7 +8,8 @@ import useDeleteComment from '../../hooks/queries/useDeleteComment';
 import { queryClient } from '../../main';
 import { FaCheck } from 'react-icons/fa';
 import useChangeComment from '../../hooks/queries/useChangeComment';
-
+import { useAuthContext } from '../../context/LogInContext';
+import TextareaAutosize from 'react-textarea-autosize';
 const Comment = ({ id, author, content, lpId }: TComment) => {
     const [openOptions, setOpenOptions] = useState(false);
     const optionsRef = useRef<HTMLDivElement>(null);
@@ -16,8 +17,8 @@ const Comment = ({ id, author, content, lpId }: TComment) => {
     const [comment, setComment] = useState(content);
     const { mutate: deleteCommentMutate } = useDeleteComment();
     const { mutate: patchCommentMutate } = useChangeComment();
-
-    const handleChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { userId } = useAuthContext();
+    const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setComment(e.target.value);
     };
 
@@ -82,27 +83,37 @@ const Comment = ({ id, author, content, lpId }: TComment) => {
     };
 
     return (
-        <div className="flex items-center w-full justify-between relative">
-            <div className="flex flex-1">
-                <Profile id={id} profile_path={author.avatar}></Profile>
+        <div className="relative flex items-start justify-between w-full">
+            <div className="flex items-start flex-1">
+                <div className="pt-1">
+                    <Profile id={id} profile_path={author.avatar}></Profile>
+                </div>
+
                 <div className="flex flex-col flex-1">
                     <div className="text-white text-[18px]">{author.name}</div>
                     {edit ? (
-                        <input
-                            className="text-white w-[90%] border-1 border-white px-2 py-1 rounded-[5px]"
+                        <TextareaAutosize
+                            className="text-white w-[90%] border-1 border-white px-2 py-1 rounded-[5px] resize-none"
                             value={comment}
                             onChange={handleChangeComment}
-                        ></input>
+                        ></TextareaAutosize>
                     ) : (
                         <div className="text-white">{content}</div>
                     )}
                 </div>
             </div>
-            {edit ? (
-                <FaCheck onClick={submitChangeComment} />
-            ) : (
-                <HiDotsVertical onClick={() => setOpenOptions(!openOptions)} />
-            )}
+            {author.id === userId &&
+                (edit ? (
+                    <div className="pt-2">
+                        <FaCheck onClick={submitChangeComment} />
+                    </div>
+                ) : (
+                    <div className="pt-1">
+                        <HiDotsVertical
+                            onClick={() => setOpenOptions(!openOptions)}
+                        />
+                    </div>
+                ))}
 
             {openOptions && !edit && (
                 <div

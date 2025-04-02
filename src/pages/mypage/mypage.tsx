@@ -122,12 +122,19 @@ function MyPage() {
                             <input
                                 type="text"
                                 placeholder="닉네임을 입력해주세요"
-                                className="text-white w-[220px] px-2 py-1 text-[20px] border border-white rounded-md"
+                                className={`text-white w-[220px] px-2 py-1 text-[20px] border outline-none rounded-md
+                                    ${
+                                        errors.name
+                                            ? 'border-red-500'
+                                            : 'border-white'
+                                    }
+                                    `}
                                 {...register('name')}
                             />
                             <button
                                 type="submit"
                                 disabled={!!errors.name?.message}
+                                className="disabled:cursor-not-allowed h-[40px]"
                             >
                                 <FaCheck size={15} color="white" />
                             </button>
@@ -136,7 +143,7 @@ function MyPage() {
                         <input
                             type="text"
                             placeholder="자기소개를 입력해주세요"
-                            className="text-white w-[250px] px-2 py-1 text-[15px] border border-white rounded-md"
+                            className="text-white outline-none w-[250px] px-2 py-1 text-[15px] border border-white rounded-md"
                             {...register('bio')}
                         />
                         <div className="text-white flex w-[250px] justify-between pr-1">

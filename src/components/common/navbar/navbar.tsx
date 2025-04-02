@@ -31,8 +31,10 @@ const Navbar = ({ setIsSidebarOpen, isSidebarOpen }: TNavbarProps) => {
     const { data: userData } = useGetMyInfo;
 
     useEffect(() => {
-        setUserId(userData?.data.id as number);
-        setIsLogin(true);
+        if (userData) {
+            setUserId(userData?.data.id as number);
+            setIsLogin(true);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userData]);
 

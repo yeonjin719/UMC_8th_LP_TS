@@ -11,7 +11,7 @@ function useGetTags({ limit, search }: TTagList) {
                 cursor: pageParam,
                 limit: limit,
                 search,
-                order: TOrder.최신순,
+                order: TOrder.NEWEST_FIRST,
             }),
         initialPageParam: 0,
         getNextPageParam: (lastPage) => {

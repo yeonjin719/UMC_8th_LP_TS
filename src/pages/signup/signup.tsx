@@ -34,6 +34,7 @@ const MainSignup = () => {
     const [step, setStep] = useState(1);
     const { useSignup } = useAuth();
     const { mutate: signupMutate } = useSignup;
+
     const [errorMessage, setErrorMessage] = useState('');
     const [imageSrc, setImageSrc] = useState<null | undefined | string>(null);
     const methods = useForm<SignupForm>({
@@ -115,7 +116,10 @@ const MainSignup = () => {
                             <Step2 nextStep={nextStep2} />
                         ) : (
                             <>
-                                <Step3 setImageSrc={setImageSrc} />
+                                <Step3
+                                    setImageSrc={setImageSrc}
+                                    imageSrc={imageSrc}
+                                />
                                 {errorMessage && (
                                     <div className="text-red-500 text-sm w-full mt-2">
                                         {errorMessage}
