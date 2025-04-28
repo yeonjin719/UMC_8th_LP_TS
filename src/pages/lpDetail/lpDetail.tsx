@@ -92,7 +92,7 @@ const LpDetail = () => {
                         handleDeleteLP={handleDeleteLP}
                     ></LpDetailEdit>
                 ) : (
-                    <div className="flex flex-col w-[80%] min-w-[470px] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
+                    <div className="flex flex-col w-[80%] max-w-[800px] min-w-[470px] gap-[30px] justify-center items-center bg-[rgba(40,41,46)] rounded-[15px] p-[30px] relative">
                         <div className="flex gap-[40px] w-[80%] justify-between">
                             <Profile
                                 profile_path={data?.data.author?.avatar}
@@ -123,14 +123,14 @@ const LpDetail = () => {
                             )}
                         </div>
                         {data?.data.thumbnail && (
-                            <div className="relative flex justify-center items-center w-[500px] h-[500px] shadow-lg shadow-black rounded-sm">
+                            <div className="relative flex justify-center items-center w-[90%] h-[90%] shadow-lg shadow-black rounded-sm p-3">
                                 <img
                                     src={data?.data.thumbnail}
                                     alt=""
-                                    className="w-[90%] object-fit mt-4 rounded-[50%] transform origin-center animate-spin border-black border-1"
+                                    className="w-[90%] object-fit m-4 rounded-[50%] transform origin-center animate-spin border-black border-1 self-center"
                                     style={{ animationDuration: '5s' }}
                                 />
-                                <div className="bg-white w-[90px] h-[90px] rounded-[50%] absolute z-1 "></div>
+                                <div className="bg-white w-[20%] h-[20%] rounded-[50%] absolute z-1 "></div>
                             </div>
                         )}
 
