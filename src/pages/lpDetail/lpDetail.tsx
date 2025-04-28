@@ -123,11 +123,15 @@ const LpDetail = () => {
                             )}
                         </div>
                         {data?.data.thumbnail && (
-                            <img
-                                src={data?.data.thumbnail}
-                                alt=""
-                                className="w-[80%] mt-4"
-                            />
+                            <div className="relative flex justify-center items-center w-[500px] h-[500px] shadow-lg shadow-black rounded-sm">
+                                <img
+                                    src={data?.data.thumbnail}
+                                    alt=""
+                                    className="w-[90%] object-fit mt-4 rounded-[50%] transform origin-center animate-spin border-black border-1"
+                                    style={{ animationDuration: '5s' }}
+                                />
+                                <div className="bg-white w-[90px] h-[90px] rounded-[50%] absolute z-1 "></div>
+                            </div>
                         )}
 
                         <div className="text-white w-[80%]">

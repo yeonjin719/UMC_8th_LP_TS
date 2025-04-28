@@ -32,10 +32,10 @@ const passwordGroupSchema = z
 // 회원가입 폼 스키마
 const signUpSchema = z.object({
     name: nameSchema,
-    email: emailSchema,
     passwordGroup: passwordGroupSchema,
     avatar: avartarSchema,
     bio: bioSchema,
+    email: emailSchema,
 });
 
 const loginSchema = z.object({

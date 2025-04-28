@@ -121,7 +121,7 @@ const MainSignup = () => {
                                     imageSrc={imageSrc}
                                 />
                                 {errorMessage && (
-                                    <div className="text-red-500 text-sm w-full mt-2">
+                                    <div className="w-full mt-2 text-sm text-red-500">
                                         {errorMessage}
                                     </div>
                                 )}
