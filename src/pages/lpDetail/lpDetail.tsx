@@ -9,7 +9,7 @@ import useDeleteLikeLP from '../../hooks/queries/useDeleteLikeLP';
 import Profile from '../../components/common/profile/profile';
 import Comments from '../../components/comments/comments';
 import LpDetailEdit from './lpDetailEdit';
-
+import defaultImg from '../../images/lp_default.svg';
 import { formatRelativeTime } from '../../utils/transformDate';
 
 import { hasLiked } from '../../utils/hasLiked';
@@ -124,12 +124,15 @@ const LpDetail = () => {
                         </div>
                         {data?.data.thumbnail && (
                             <div className="relative flex justify-center items-center w-[90%] h-[90%] shadow-lg shadow-black rounded-sm p-3">
-                                <img
-                                    src={data?.data.thumbnail}
-                                    alt=""
-                                    className="w-[90%] object-fit m-4 rounded-[50%] transform origin-center animate-spin border-black border-1 self-center"
-                                    style={{ animationDuration: '5s' }}
-                                />
+                                {data?.data.thumbnail && (
+                                    <img
+                                        src={data?.data.thumbnail || defaultImg}
+                                        alt=""
+                                        className="w-[90%] object-fit m-4 rounded-[50%] transform origin-center animate-spin border-black border-1 self-center"
+                                        style={{ animationDuration: '5s' }}
+                                    />
+                                )}
+
                                 <div className="bg-white w-[20%] h-[20%] rounded-[50%] absolute z-1 "></div>
                             </div>
                         )}
