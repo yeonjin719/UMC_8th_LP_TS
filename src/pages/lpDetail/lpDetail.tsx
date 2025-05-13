@@ -128,7 +128,7 @@ const LpDetail = () => {
                                     <img
                                         src={data?.data.thumbnail || defaultImg}
                                         alt=""
-                                        className="w-[90%] object-fit m-4 rounded-[50%] transform origin-center animate-spin border-black border-1 self-center"
+                                        className="w-[90%] object-fit m-4 rounded-[50%] transform origin-center animate-spin border-black border-1 self-center aspect-[1/1]"
                                         style={{ animationDuration: '5s' }}
                                     />
                                 )}
